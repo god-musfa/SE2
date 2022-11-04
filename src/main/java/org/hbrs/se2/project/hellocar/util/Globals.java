@@ -27,4 +27,12 @@ public class Globals {
         public static final String DATABASE = "database";
     }
 
+    public static class ScreenSizes {
+        public static final String SMARTPHONE_PORTRAIT = "320px";
+        public static final String SMARTPHONE_LANDSCAPE = "480px";
+        public static final String TABLET_PORTRAIT = "768px";
+        public static final String TABLET_LANDSCAPE = "1024px";
+        public static final String WORKSTATION = "1200px";
+    }
+
 }
