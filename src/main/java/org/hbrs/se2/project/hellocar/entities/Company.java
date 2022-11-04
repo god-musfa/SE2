@@ -14,23 +14,18 @@ public class Company {
     @JoinColumn(name = "id", nullable = false)
     private User user;
 
-    @Lob
     @Column(name = "name")
     private String name;
 
-    @Lob
     @Column(name = "phone_number")
     private String phoneNumber;
 
-    @Lob
     @Column(name = "website")
     private String website;
 
-    @Lob
     @Column(name = "field")
     private String field;
 
-    @Lob
     @Column(name = "size")
     private String size;
 

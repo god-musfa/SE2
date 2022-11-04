@@ -11,6 +11,7 @@ public class Globals {
 
         public static final String LOGIN_VIEW = "login";
         public static final String MAIN_VIEW = "";
+        public static final String SHOW_ADDRESS = "address";
     }
 
     public static class Roles {

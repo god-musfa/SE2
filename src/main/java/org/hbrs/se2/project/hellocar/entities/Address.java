@@ -10,19 +10,15 @@ public class Address {
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @Lob
     @Column(name = "street")
     private String street;
 
-    @Lob
     @Column(name = "number")
     private String number;
 
-    @Lob
     @Column(name = "city")
     private String city;
 
-    @Lob
     @Column(name = "postal_code")
     private String postalCode;
 

@@ -15,11 +15,9 @@ public class Student {
     @JoinColumn(name = "id", nullable = false)
     private User user;
 
-    @Lob
     @Column(name = "first_name")
     private String firstName;
 
-    @Lob
     @Column(name = "last_name")
     private String lastName;
 
