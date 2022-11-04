@@ -1,0 +1,8 @@
+/** Softwaree custom class definitions and some style-optimization **/
+
+.softwaree_avatar {
+    border-style: none;
+    border-radius: 100%;
+    height: 3em;
+    width: 3em;
+}
