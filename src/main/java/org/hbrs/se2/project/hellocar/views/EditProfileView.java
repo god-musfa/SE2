@@ -28,6 +28,7 @@ import org.hbrs.se2.project.hellocar.control.EditProfileControl;
 import org.hbrs.se2.project.hellocar.dtos.StudentDTO;
 import org.hbrs.se2.project.hellocar.dtos.UserDTO;
 import org.hbrs.se2.project.hellocar.util.Globals;
+import org.springframework.beans.factory.annotation.Autowired;
 
 
 /**
@@ -80,10 +81,8 @@ public class EditProfileView extends Div {
     final ComboBox<String> brancheField = new ComboBox<>("Branche");
     final RadioButtonGroup<String> companySizeRadioGroup = new RadioButtonGroup<>();
     final TextField companyWebsiteField = new TextField("Webseite");
-
-    EditProfileControl pc = new EditProfileControl();
     UserDTO userDTO = (UserDTO) UI.getCurrent().getSession().getAttribute(Globals.CURRENT_USER);
-
+    EditProfileControl pc;
 
     // Methods to setup components:
 
@@ -216,6 +215,7 @@ public class EditProfileView extends Div {
 
         Binder<StudentDTO> binder = new Binder<>(StudentDTO.class);
         binder.bindInstanceFields(this);
+
         binder.readBean(pc.getStudentFromUser(userDTO));
 
 
@@ -288,7 +288,8 @@ public class EditProfileView extends Div {
     }
 
 
-    public EditProfileView() {          //ToDO: Later on, use DTO as parameter!
+    public EditProfileView(EditProfileControl pc) {//ToDO: Later on, use DTO as parameter!
+        this.pc = pc;
         addClassName("edit-profile-view");
 
         String userType = "student";    //ToDo: Remove if DTO is used!
