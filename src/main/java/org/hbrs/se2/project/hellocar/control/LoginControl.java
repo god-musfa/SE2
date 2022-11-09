@@ -1,7 +1,6 @@
 package org.hbrs.se2.project.hellocar.control;
 
 import org.hbrs.se2.project.hellocar.control.exception.DatabaseUserException;
-import org.hbrs.se2.project.hellocar.dao.UserDAO;
 import org.hbrs.se2.project.hellocar.dtos.UserDTO;
 import org.hbrs.se2.project.hellocar.repository.UserRepository;
 import org.hbrs.se2.project.hellocar.services.db.exceptions.DatabaseLayerException;
@@ -18,9 +17,9 @@ public class LoginControl {
 
     private UserDTO userDTO = null;
 
-    public boolean authentificate(String username, String password ) throws DatabaseUserException {
+    public boolean authentificate(String email, String password ) throws DatabaseUserException {
         // Standard: User wird mit Spring JPA ausgelesen (Was sind die Vorteile?)
-        UserDTO tmpUser = this.getUserWithJPA( username , password );
+        UserDTO tmpUser = this.getUserWithJPA( email , password );
 
         // Alternative: Auslesen des Users mit JDBC (Was sind die Vorteile bzw. Nachteile?)
         // UserDTO tmpUser = this.getUserWithJDBC( username , password );
@@ -38,11 +37,11 @@ public class LoginControl {
 
     }
 
-    private UserDTO getUserWithJDBC( String username , String password ) throws DatabaseUserException {
+   /* private UserDTO getUserWithJDBC( String username , String password ) throws DatabaseUserException {
         UserDTO userTmp = null;
         UserDAO dao = new UserDAO();
         try {
-            userDTO = dao.findUserByUseridAndPassword( username , password );
+            userDTO = dao.findUserByIdAndPassword( username , password );
         }
         catch ( DatabaseLayerException e) {
 
@@ -68,11 +67,11 @@ public class LoginControl {
         }
         return userDTO;
     }
-
-    private UserDTO getUserWithJPA( String username , String password ) throws DatabaseUserException {
+*/
+    private UserDTO getUserWithJPA( String email , String password ) throws DatabaseUserException {
         UserDTO userTmp;
         try {
-            userTmp = repository.findUserByUseridAndPassword(username, password);
+            userTmp = repository.findUserByEmailAndPassword(email, password);
         } catch ( org.springframework.dao.DataAccessResourceFailureException e ) {
             // Analyse und Umwandlung der technischen Errors in 'lesbaren' Darstellungen (ToDo!)
            throw new DatabaseUserException("A failure occured while trying to connect to database with JPA");

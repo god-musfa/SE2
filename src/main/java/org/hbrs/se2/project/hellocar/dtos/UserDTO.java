@@ -1,12 +1,41 @@
 package org.hbrs.se2.project.hellocar.dtos;
 
-import org.hbrs.se2.project.hellocar.entities.Rolle;
+import org.hbrs.se2.project.hellocar.entities.User;
 
-import java.util.List;
+import java.io.Serializable;
 
-public interface UserDTO {
-    public int getId();
-    public String getFirstName();
-    public String getLastName();
-    public List<RolleDTO> getRoles();
+/**
+ * A DTO for the {@link User} entity
+ */
+public class UserDTO implements Serializable {
+
+    private String email;
+    private String password;
+
+
+    public UserDTO() {
+    }
+
+    public UserDTO( String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+
 }

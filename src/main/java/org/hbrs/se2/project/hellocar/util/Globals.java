@@ -13,6 +13,7 @@ public class Globals {
         public static final String MAIN_VIEW = "";
 
         public static final String EDIT_PROFILE = "editProfile";
+        public static final String SHOW_ADDRESS = "address";
     }
 
     public static class Roles {
