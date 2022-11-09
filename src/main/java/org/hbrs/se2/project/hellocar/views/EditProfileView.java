@@ -3,21 +3,30 @@ package org.hbrs.se2.project.hellocar.views;
 
 import java.time.LocalDate;
 import java.util.Locale;
+
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.accordion.Accordion;
+import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
 import com.vaadin.flow.component.radiobutton.RadioGroupVariant;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.IntegerField;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.hbrs.se2.project.hellocar.components.SoftwareeAvatar;
+import org.hbrs.se2.project.hellocar.control.EditProfileControl;
+import org.hbrs.se2.project.hellocar.dtos.StudentDTO;
+import org.hbrs.se2.project.hellocar.dtos.UserDTO;
 import org.hbrs.se2.project.hellocar.util.Globals;
 
 
@@ -41,6 +50,10 @@ public class EditProfileView extends Div {
     private TextField addressCityField = new TextField("Ort");
     private EmailField emailField = new EmailField("E-Mail");
 
+    private Button saveButton = new Button( "Save");
+    private Button cancelButton = new Button( "Cancel");
+
+
 
     // Profile picture layout
     private final SoftwareeAvatar profileAvatar = new SoftwareeAvatar(true);
@@ -51,8 +64,8 @@ public class EditProfileView extends Div {
 
 
     // Components for students:
-    private final TextField firstNameField = new TextField("Vorname");
-    private final TextField lastNameField = new TextField("Nachname");
+    private final TextField firstName = new TextField("Vorname");
+    private final TextField lastName = new TextField("Nachname");
     private final Locale germanLocale = new Locale("de", "DE");
     private final DatePicker birthdayPicker = new DatePicker("Geburtsdatum");
     private final IntegerField semesterField = new IntegerField();
@@ -68,6 +81,9 @@ public class EditProfileView extends Div {
     final RadioButtonGroup<String> companySizeRadioGroup = new RadioButtonGroup<>();
     final TextField companyWebsiteField = new TextField("Webseite");
 
+    EditProfileControl pc = new EditProfileControl();
+    UserDTO userDTO = (UserDTO) UI.getCurrent().getSession().getAttribute(Globals.CURRENT_USER);
+
 
     // Methods to setup components:
 
@@ -75,6 +91,8 @@ public class EditProfileView extends Div {
      * Sets up all components needed by student user and adds them to the main Accordion.
      */
     private void setupStudentComponents() {
+
+
 
         // Responsive layout specification:
         publicInfoForm.setResponsiveSteps(
@@ -123,11 +141,12 @@ public class EditProfileView extends Div {
         Div universityInfoPlaceholder = new Div();
         Div profilePicturePlaceholder = new Div();
 
+
         // Add all components to publicInfoForm container:
         publicInfoForm.add(profileAvatar);
         publicInfoForm.add(profilePicturePlaceholder);
-        publicInfoForm.add(firstNameField);
-        publicInfoForm.add(lastNameField);
+        publicInfoForm.add(firstName);
+        publicInfoForm.add(lastName);
         publicInfoForm.add(namePlaceholder);
 
         publicInfoForm.add(addressStreetField);
@@ -155,8 +174,8 @@ public class EditProfileView extends Div {
         publicInfoForm.setColspan(profileAvatar, 2);
         publicInfoForm.setColspan(profilePicturePlaceholder, 7);
 
-        publicInfoForm.setColspan(firstNameField, 2);
-        publicInfoForm.setColspan(lastNameField, 2);
+        publicInfoForm.setColspan(firstName, 2);
+        publicInfoForm.setColspan(lastName, 2);
         publicInfoForm.setColspan(namePlaceholder, 4);
 
         publicInfoForm.setColspan(addressStreetField, 2);
@@ -181,13 +200,24 @@ public class EditProfileView extends Div {
 
 
         // Second outter container to implement padding - (padding is sexy!):
-        HorizontalLayout publicProfilePaddingContainer = new HorizontalLayout();
+        VerticalLayout publicProfilePaddingContainer = new VerticalLayout();
         publicProfilePaddingContainer.add(publicInfoForm);
         publicProfilePaddingContainer.setPadding(true);
 
 
-        // Add the two type components to accordion:
+
+        // Button design
+        saveButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        HorizontalLayout buttonLayout = new HorizontalLayout(saveButton,
+                cancelButton);
+
         profileSettingsAccordion.add("Profilangaben", publicProfilePaddingContainer);
+        publicProfilePaddingContainer.add(buttonLayout);
+
+        Binder<StudentDTO> binder = new Binder<>(StudentDTO.class);
+        binder.bindInstanceFields(this);
+        binder.readBean(pc.getStudentFromUser(userDTO));
+
 
     }
 
@@ -241,13 +271,19 @@ public class EditProfileView extends Div {
         publicInfoForm.add(phoneNumberField);
 
         // Container to implement padding
-        HorizontalLayout publicProfilePaddingContainer = new HorizontalLayout();
+        VerticalLayout publicProfilePaddingContainer = new VerticalLayout();
         publicProfilePaddingContainer.add(publicInfoForm);
         publicProfilePaddingContainer.setPadding(true);
+
+        // Button design
+        saveButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        HorizontalLayout buttonLayout = new HorizontalLayout(saveButton,
+                cancelButton);
 
 
         // Add the two type components to accordion:
         profileSettingsAccordion.add("Profilangaben", publicProfilePaddingContainer);
+        publicProfilePaddingContainer.add(buttonLayout);
 
     }
 
