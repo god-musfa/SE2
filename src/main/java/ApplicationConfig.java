@@ -18,9 +18,9 @@ import java.util.Properties;
 
 @Configuration
 @PropertySource("classpath:persistence.properties")
-@ComponentScan("org.hbrs.se2.project.hellocar.repository")
+@ComponentScan("org.hbrs.se2.project.softwaree.repository")
 @EnableTransactionManagement
-@EnableJpaRepositories(basePackages = "org.hbrs.se2.project.hellocar.repository")
+@EnableJpaRepositories(basePackages = "org.hbrs.se2.project.softwaree.repository")
 public class ApplicationConfig {
 
     @Autowired
