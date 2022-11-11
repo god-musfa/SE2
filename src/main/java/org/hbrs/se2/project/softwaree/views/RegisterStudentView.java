@@ -1,5 +1,5 @@
 package org.hbrs.se2.project.softwaree.views;
-import com.vaadin.*;
+//import com.vaadin.*;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.select.Select;
@@ -11,7 +11,6 @@ public class RegisterStudentView {
   public void initializeANR() {
     anr.setLabel("Anrede");
     anr.setItems("Herr","Frau");
-    anr.setRequired(true);
   }
   //Vorname - Textfeld
   TextField vn = new TextField("Vorname");
@@ -37,14 +36,13 @@ public class RegisterStudentView {
   public void initializePLZ() {
     plz.setMaxLength(20);
     plz.setRequired(true);
-    plz.setPattern("\d\d\d\d\d");
+    plz.setPattern("[0-9][0-9][0-9][0-9][0-9]");
   }
   // Abschluss - Textfeld
   Select abs = new Select<>();
   public void initializeABS() {
     abs.setLabel("Abschluss");
-    abs.setItems("Bachelor","Master","Doktor");
-    abs.setRequired(true);
+    abs.setItems("Keinen","Bachelor","Master","Doktor");
   }
   // Universität - Textfeld
   TextField uni = new TextField("Universität");
