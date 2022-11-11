@@ -20,6 +20,11 @@ public class StudentDTO {
     public StudentDTO() {
     }
 
+    public StudentDTO(String firstName, String lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
     public StudentDTO(Integer id, String firstName, String lastName, Integer semester, LocalDate birthday, String email, String password, String profilePic) {
         this.id = id;
         this.firstName = firstName;

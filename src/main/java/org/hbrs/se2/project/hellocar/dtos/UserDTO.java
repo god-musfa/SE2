@@ -12,13 +12,20 @@ public class UserDTO implements Serializable {
     private String email;
     private String password;
 
+    private int id;
+
+    public int getId(){
+        return id;
+    }
+
 
     public UserDTO() {
     }
 
-    public UserDTO( String email, String password) {
+    public UserDTO( int id ,String email, String password) {
         this.email = email;
         this.password = password;
+        this.id = id;
     }
 
     public String getEmail() {

@@ -18,13 +18,13 @@ public class RoundTripTest {
     @Autowired
     private UserRepository userRepository;
 
-    @Test
+   /* @Test
     /**
      * Round Triping Test mit einer einfachen Strecke (C-R-Ass-D).
      * Dieses Muster für Unit-Tests wird in der Vorlesung SE-2 eingeführt (Kapitel 6).
      *
      */
-    void createReadAndDeleteAUser() {
+   /* void createReadAndDeleteAUser() {
 
         // Schritt 1: C = Create (hier: Erzeugung und Abspeicherung mit der Method save()
         // Anlegen eines Users. Eine ID wird automatisch erzeugt durch JPA
@@ -63,6 +63,7 @@ public class RoundTripTest {
     public void deleteUser(){
         // Hier könnte man nach einem RoundTrip die DB noch weiter bereinigen
     }
+    */
 
 
 }
