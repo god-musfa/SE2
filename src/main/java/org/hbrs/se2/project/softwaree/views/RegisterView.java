@@ -10,8 +10,10 @@ import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.router.Route;
 //import javax.validation.constraints.Email;
 
+@Route(value = "register")
 public class RegisterView extends VerticalLayout {
   //Benutzername - Textfeld
   TextField un = new TextField();
