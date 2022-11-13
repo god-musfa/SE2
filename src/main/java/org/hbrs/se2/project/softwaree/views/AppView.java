@@ -168,7 +168,12 @@ public class AppView extends AppLayout implements BeforeEnterObserver {
         // Value: Die UI-Component, die nach dem Klick auf das Menuitem angezeigt wird.
        Tab[] tabs = new Tab[]{ createTab( "Show Addresses", ShowAddressView.class) };
        tabs = Utils.append(tabs,createTab("Edit Profile",EditProfileView.class ));
-
+       if(this.getCurrentUser().getUserType().equals("student")){
+           tabs = Utils.append(tabs,createTab("Contact",ContactView.class));
+       }
+       if(this.getCurrentUser().getUserType().equals("company")){
+           //tabs = Utils.append(tabs,createTab())
+       }
        // Falls er Admin-Rechte hat, sollte der User auch Autos hinzufügen können
        // (Alternative: Verwendung der Methode 'isUserisAllowedToAccessThisFeature')
 

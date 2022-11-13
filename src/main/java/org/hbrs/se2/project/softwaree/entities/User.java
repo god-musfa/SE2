@@ -1,5 +1,7 @@
 package org.hbrs.se2.project.softwaree.entities;
 
+import org.hibernate.annotations.Type;
+
 import javax.persistence.*;
 
 @Entity
@@ -22,6 +24,17 @@ public class User {
 
     @Column(name = "profile_pic")
     private String profilePic;
+
+    @Column(name = "user_type")
+    private String userType;
+
+    public String getUserType() {
+        return userType;
+    }
+
+    public void setUserType(String userType) {
+        this.userType = userType;
+    }
 
     public Integer getId() {
         return id;

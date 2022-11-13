@@ -287,11 +287,11 @@ public class EditProfileView extends Div {
     }
 
 
-    public EditProfileView(EditProfileControl pc) {//ToDO: Later on, use DTO as parameter!
+    public EditProfileView(EditProfileControl pc) {
         this.pc = pc;
         addClassName("edit-profile-view");
-
-        String userType = "student";    //ToDo: Remove if DTO is used!
+        UserDTO userdto = (UserDTO) UI.getCurrent().getSession().getAttribute(Globals.CURRENT_USER);
+        String userType = userDTO.getUserType();
 
         // Check account type to show corresponding content:
         switch (userType) {
