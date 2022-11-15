@@ -13,11 +13,13 @@ public class StudentDTO {
     private String lastName;
     private Integer semester;
     private LocalDate birthday;
-    private String email;
-    private String password;
     private String profilePic;
 
-    public StudentDTO() {
+    public StudentDTO(String firstName, String lastName, Integer semester, LocalDate birthday) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.semester = semester;
+        this.birthday = birthday;
     }
 
     public StudentDTO(String firstName, String lastName) {
@@ -25,16 +27,6 @@ public class StudentDTO {
         this.lastName = lastName;
     }
 
-    public StudentDTO(Integer id, String firstName, String lastName, Integer semester, LocalDate birthday, String email, String password, String profilePic) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.semester = semester;
-        this.birthday = birthday;
-        this.email = email;
-        this.password = password;
-        this.profilePic = profilePic;
-    }
 
     public Integer getId() {
         return id;
@@ -74,22 +66,6 @@ public class StudentDTO {
 
     public void setBirthday(LocalDate birthday) {
         this.birthday = birthday;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getProfilePic() {

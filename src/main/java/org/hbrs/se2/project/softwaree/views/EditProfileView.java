@@ -25,6 +25,8 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.hbrs.se2.project.softwaree.components.SoftwareeAvatar;
 import org.hbrs.se2.project.softwaree.control.EditProfileControl;
+import org.hbrs.se2.project.softwaree.dtos.AddressDTO;
+import org.hbrs.se2.project.softwaree.dtos.CompanyDTO;
 import org.hbrs.se2.project.softwaree.dtos.StudentDTO;
 import org.hbrs.se2.project.softwaree.dtos.UserDTO;
 import org.hbrs.se2.project.softwaree.util.Globals;
@@ -44,11 +46,11 @@ public class EditProfileView extends Div {
     private final Accordion profileSettingsAccordion = new Accordion();
 
     // Base components for both user types
-    private TextField addressStreetField = new TextField("Straße");
-    private TextField addressHouseField = new TextField("Hausnummer");
-    private TextField addressPostalCodeField = new TextField("Postleitzahl");
-    private TextField addressCityField = new TextField("Ort");
-    private EmailField emailField = new EmailField("E-Mail");
+    private TextField street = new TextField("Straße");
+    private TextField number = new TextField("Hausnummer");
+    private TextField postalCode = new TextField("Postleitzahl");
+    private TextField city = new TextField("Ort");
+    private EmailField email = new EmailField("E-Mail");
 
     private Button saveButton = new Button( "Save");
     private Button cancelButton = new Button( "Cancel");
@@ -67,19 +69,19 @@ public class EditProfileView extends Div {
     private final TextField firstName = new TextField("Vorname");
     private final TextField lastName = new TextField("Nachname");
     private final Locale germanLocale = new Locale("de", "DE");
-    private final DatePicker birthdayPicker = new DatePicker("Geburtsdatum");
-    private final IntegerField semesterField = new IntegerField();
-    private final ComboBox<String> studyGraduationField = new ComboBox<String>("Abschluss");
-    private final TextField universityField = new TextField("Hochschule");
-    private final TextField studyDegreeField = new TextField("Studiengang");
+    private final DatePicker birthday = new DatePicker("Geburtsdatum");
+    private final IntegerField semester = new IntegerField();
+    private final ComboBox<String> degree = new ComboBox<String>("Abschluss");
+    private final TextField university = new TextField("Hochschule");
+    private final TextField subject = new TextField("Studiengang");
 
 
     // Components for companies:
-    final TextField contactPersonField = new TextField("Kontaktperson");
-    final TextField phoneNumberField = new TextField("Telefonnummer");
-    final ComboBox<String> brancheField = new ComboBox<>("Branche");
-    final RadioButtonGroup<String> companySizeRadioGroup = new RadioButtonGroup<>();
-    final TextField companyWebsiteField = new TextField("Webseite");
+    final TextField contactPerson = new TextField("Kontaktperson");
+    final TextField phoneNumber = new TextField("Telefonnummer");
+    final ComboBox<String> field = new ComboBox<>("Branche");
+    final RadioButtonGroup<String> size = new RadioButtonGroup<>();
+    final TextField website = new TextField("Webseite");
     UserDTO userDTO = (UserDTO) UI.getCurrent().getSession().getAttribute(Globals.CURRENT_USER);
     EditProfileControl pc;
 
@@ -100,35 +102,35 @@ public class EditProfileView extends Div {
         );
 
         // Patterns and rules for input validation:
-        addressHouseField.setPattern("^[0-9]*[A-Za-z]{0,1}$");
-        addressHouseField.setErrorMessage("Diese Hausnummer ist ungültig!");
-        addressPostalCodeField.setPattern("^[0-9]{5}$");
-        addressPostalCodeField.setErrorMessage("Diese Postleitzahl ist ungültig!");
-        birthdayPicker.setMax(LocalDate.now());
-        studyGraduationField.setAllowCustomValue(false);
+        number.setPattern("^[0-9]*[A-Za-z]{0,1}$");
+        number.setErrorMessage("Diese Hausnummer ist ungültig!");
+        postalCode.setPattern("^[0-9]{5}$");
+        postalCode.setErrorMessage("Diese Postleitzahl ist ungültig!");
+        birthday.setMax(LocalDate.now());
+        degree.setAllowCustomValue(false);
 
         // E-Mail field settings:
-        emailField.setLabel("E-Mail Adresse");
-        emailField.setPlaceholder("username@example.com");
-        emailField.setErrorMessage("Bitte geben Sie eine gültige E-Mail Adresse ein!");
-        emailField.setClearButtonVisible(true);
+        email.setLabel("E-Mail Adresse");
+        email.setPlaceholder("username@example.com");
+        email.setErrorMessage("Bitte geben Sie eine gültige E-Mail Adresse ein!");
+        email.setClearButtonVisible(true);
 
         // Locale settings (for birthday picker):
-        birthdayPicker.setLocale(germanLocale);
+        birthday.setLocale(germanLocale);
 
         // Set Settings for semester value:
-        semesterField.setLabel("Semester");
-        semesterField.setHelperText("Ihr aktuelles Semester");
-        semesterField.setMin(1);
-        semesterField.setMax(50);
-        semesterField.setHasControls(true);
+        semester.setLabel("Semester");
+        semester.setHelperText("Ihr aktuelles Semester");
+        semester.setMin(1);
+        semester.setMax(50);
+        semester.setHasControls(true);
 
         // Profile picture section:
         profileAvatar.setSize("6rem");
 
         // Graduation dropdown settings:
         String[] studyGraduations = {"B. Sc.", "M. Sc.", "Diplom", "Magister", "Dr.", "Langzeitstudent"};
-        studyGraduationField.setItems(studyGraduations);
+        degree.setItems(studyGraduations);
 
         // Placeholders for arrangement of form fields:
         Div namePlaceholder = new Div();
@@ -147,24 +149,24 @@ public class EditProfileView extends Div {
         publicInfoForm.add(lastName);
         publicInfoForm.add(namePlaceholder);
 
-        publicInfoForm.add(addressStreetField);
-        publicInfoForm.add(addressHouseField);
+        publicInfoForm.add(street);
+        publicInfoForm.add(number);
         publicInfoForm.add(streetPlaceholder);
 
-        publicInfoForm.add(addressPostalCodeField);
-        publicInfoForm.add(addressCityField);
+        publicInfoForm.add(postalCode);
+        publicInfoForm.add(city);
         publicInfoForm.add(cityPlaceholder);
 
-        publicInfoForm.add(emailField);
-        publicInfoForm.add(birthdayPicker);
+        publicInfoForm.add(email);
+        publicInfoForm.add(birthday);
         publicInfoForm.add(mailBirthdayPlaceholder);
 
-        publicInfoForm.add(studyDegreeField);
-        publicInfoForm.add(semesterField);
+        publicInfoForm.add(subject);
+        publicInfoForm.add(semester);
         publicInfoForm.add(studyInfoPlaceholder);
 
-        publicInfoForm.add(universityField);
-        publicInfoForm.add(studyGraduationField);
+        publicInfoForm.add(university);
+        publicInfoForm.add(degree);
         publicInfoForm.add(universityInfoPlaceholder);
 
 
@@ -176,24 +178,24 @@ public class EditProfileView extends Div {
         publicInfoForm.setColspan(lastName, 2);
         publicInfoForm.setColspan(namePlaceholder, 4);
 
-        publicInfoForm.setColspan(addressStreetField, 2);
-        publicInfoForm.setColspan(addressHouseField, 1);
+        publicInfoForm.setColspan(street, 2);
+        publicInfoForm.setColspan(number, 1);
         publicInfoForm.setColspan(streetPlaceholder, 5);
 
-        publicInfoForm.setColspan(addressCityField, 3);
-        publicInfoForm.setColspan(addressPostalCodeField, 1);
+        publicInfoForm.setColspan(city, 3);
+        publicInfoForm.setColspan(postalCode, 1);
         publicInfoForm.setColspan(cityPlaceholder, 4);
 
-        publicInfoForm.setColspan(emailField, 2);
-        publicInfoForm.setColspan(birthdayPicker, 2);
+        publicInfoForm.setColspan(email, 2);
+        publicInfoForm.setColspan(birthday, 2);
         publicInfoForm.setColspan(mailBirthdayPlaceholder, 4);
 
-        publicInfoForm.setColspan(semesterField, 1);
-        publicInfoForm.setColspan(studyDegreeField, 2);
+        publicInfoForm.setColspan(semester, 1);
+        publicInfoForm.setColspan(subject, 2);
         publicInfoForm.setColspan(studyInfoPlaceholder, 5);
 
-        publicInfoForm.setColspan(studyGraduationField, 2);
-        publicInfoForm.setColspan(universityField, 2);
+        publicInfoForm.setColspan(degree, 2);
+        publicInfoForm.setColspan(university, 2);
         publicInfoForm.setColspan(universityInfoPlaceholder, 4);
 
 
@@ -214,8 +216,25 @@ public class EditProfileView extends Div {
 
         Binder<StudentDTO> binder = new Binder<>(StudentDTO.class);
         binder.bindInstanceFields(this);
-
         binder.readBean(pc.getStudentFromUser(userDTO));
+
+        Binder<AddressDTO> binderAdress = new Binder<>(AddressDTO.class);
+        binderAdress.bindInstanceFields(this);
+        binderAdress.readBean(pc.getAdressFromUser(userDTO));
+
+        Binder<UserDTO> binderEmail = new Binder<>(UserDTO.class);
+        binderEmail.bindInstanceFields(this);
+        binderEmail.readBean(userDTO);
+
+
+
+
+
+
+
+
+
+
 
 
     }
@@ -224,10 +243,10 @@ public class EditProfileView extends Div {
     private void setupCompanyComponents() {
 
         // E-Mail field:
-        emailField.setLabel("E-Mail Adresse");
-        emailField.setPlaceholder("username@example.com");
-        emailField.setErrorMessage("Bitte geben Sie eine gültige E-Mail Adresse ein!");
-        emailField.setClearButtonVisible(true);
+        email.setLabel("E-Mail Adresse");
+        email.setPlaceholder("username@example.com");
+        email.setErrorMessage("Bitte geben Sie eine gültige E-Mail Adresse ein!");
+        email.setClearButtonVisible(true);
 
         // Public information form layout:
         publicInfoForm.setResponsiveSteps(
@@ -236,38 +255,38 @@ public class EditProfileView extends Div {
         );
 
         // Add input components to form for public info:
-        publicInfoForm.add(addressStreetField);
-        publicInfoForm.add(addressHouseField);
-        publicInfoForm.add(addressCityField);
-        publicInfoForm.add(addressPostalCodeField);
-        publicInfoForm.add(emailField);
+        publicInfoForm.add(street);
+        publicInfoForm.add(number);
+        publicInfoForm.add(city);
+        publicInfoForm.add(postalCode);
+        publicInfoForm.add(email);
 
 
-        companyWebsiteField.setPattern("^https?:\\/\\/(?:www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b(?:[-a-zA-Z0-9()@:%_\\+.~#?&\\/=]*)$");
-        phoneNumberField.setHelperText("Format: +4915776534993");
-        phoneNumberField.setLabel("Telefonnummer");
-        phoneNumberField.setPattern("\\(?\\+\\(?49\\)?[ ()]?([- ()]?\\d[- ()]?){10}");
-        contactPersonField.setLabel("Kontaktperson");
+        website.setPattern("^https?:\\/\\/(?:www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b(?:[-a-zA-Z0-9()@:%_\\+.~#?&\\/=]*)$");
+        phoneNumber.setHelperText("Format: +4915776534993");
+        phoneNumber.setLabel("Telefonnummer");
+        phoneNumber.setPattern("\\(?\\+\\(?49\\)?[ ()]?([- ()]?\\d[- ()]?){10}");
+        contactPerson.setLabel("Kontaktperson");
 
-        brancheField.setAllowCustomValue(true);
+        field.setAllowCustomValue(true);
 
         String[] brancheCollection = {"Informatik", "Chemie", "Biologie"};
         ComboBox.ItemFilter<String> brancheFilter = (String branche, String filterString) -> branche.startsWith(filterString);
-        brancheField.setItems(brancheFilter, brancheCollection);
+        field.setItems(brancheFilter, brancheCollection);
 
-        companySizeRadioGroup.addThemeVariants(RadioGroupVariant.LUMO_VERTICAL);
-        companySizeRadioGroup.setLabel("Firmengröße");
-        companySizeRadioGroup.setItems(
+        size.addThemeVariants(RadioGroupVariant.LUMO_VERTICAL);
+        size.setLabel("Firmengröße");
+        size.setItems(
                 "kleines Unternehmen (weniger als 49 Mitarbeiter)",
                 "mittelständisches Unternehmen (weniger als 249 Mitarbeiter)",
                 "Großunternehmen (ab 250 Mitarbeiter)"
         );
 
-        publicInfoForm.add(contactPersonField);
-        publicInfoForm.add(brancheField);
-        publicInfoForm.add(companySizeRadioGroup);
-        publicInfoForm.add(companyWebsiteField);
-        publicInfoForm.add(phoneNumberField);
+        publicInfoForm.add(contactPerson);
+        publicInfoForm.add(field);
+        publicInfoForm.add(size);
+        publicInfoForm.add(website);
+        publicInfoForm.add(phoneNumber);
 
         // Container to implement padding
         VerticalLayout publicProfilePaddingContainer = new VerticalLayout();
@@ -283,6 +302,19 @@ public class EditProfileView extends Div {
         // Add the two type components to accordion:
         profileSettingsAccordion.add("Profilangaben", publicProfilePaddingContainer);
         publicProfilePaddingContainer.add(buttonLayout);
+
+        Binder<CompanyDTO> binder = new Binder<>(CompanyDTO.class);
+        binder.bindInstanceFields(this);
+        binder.readBean(pc.getCompanyFromUser(userDTO));
+
+        Binder<AddressDTO> binderAdress = new Binder<>(AddressDTO.class);
+        binderAdress.bindInstanceFields(this);
+        binderAdress.readBean(pc.getAdressFromUser(userDTO));
+
+        Binder<UserDTO> binderEmail = new Binder<>(UserDTO.class);
+        binderEmail.bindInstanceFields(this);
+        binderEmail.readBean(userDTO);
+
 
     }
 

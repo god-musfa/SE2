@@ -12,22 +12,16 @@ public class CompanyDTO {
     private String website;
     private String field;
     private String size;
-    private String email;
-    private String password;
     private String profilePic;
 
-    public CompanyDTO() {
-    }
 
-    public CompanyDTO(Integer id, String name, String phoneNumber, String website, String field, String size, String email, String password, String profilePic) {
-        this.id = id;
+
+    public CompanyDTO(String name, String phoneNumber, String website, String field, String size) {
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.website = website;
         this.field = field;
         this.size = size;
-        this.email = email;
-        this.password = password;
         this.profilePic = profilePic;
     }
 
@@ -77,22 +71,6 @@ public class CompanyDTO {
 
     public void setSize(String size) {
         this.size = size;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getProfilePic() {
