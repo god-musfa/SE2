@@ -3,6 +3,22 @@ package org.hbrs.se2.project.softwaree.entities;
 import javax.persistence.*;
 import java.time.LocalDate;
 
+@NamedNativeQuery(name="Job.findAllJobsNative",
+                    query = "SELECT * FROM coll.job_listing j WHERE j.id = 1 ",
+                    resultSetMapping = "Mapping.JobDTO")
+
+@SqlResultSetMapping(name = "Mapping.JobDTO",
+                    classes = @ConstructorResult(targetClass = org.hbrs.se2.project.softwaree.dtos.JobDTO.class,
+                                columns = {@ColumnResult(name = "id", type = Integer.class),
+                                    @ColumnResult(name = "title", type=String.class),
+                                    @ColumnResult(name = "creation_date", type = LocalDate.class),
+                                    @ColumnResult(name = "last_edit", type = LocalDate.class),
+                                    @ColumnResult(name = "deadline", type = LocalDate.class),
+                                    @ColumnResult(name = "description", type = String.class),
+                                    @ColumnResult(name = "location", type = String.class),
+                                    @ColumnResult(name = "views", type = Integer.class)
+                                }
+                                ))
 @Entity
 @Table(name = "job_listing", schema = "coll")
 public class Job {

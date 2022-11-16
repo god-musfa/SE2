@@ -5,6 +5,7 @@ import org.hbrs.se2.project.softwaree.entities.Job;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import javax.persistence.NamedNativeQuery;
 import java.util.List;
 
 public interface JobRepository extends JpaRepository<Job, Integer> {
@@ -12,4 +13,7 @@ public interface JobRepository extends JpaRepository<Job, Integer> {
     @Query("  SELECT new org.hbrs.se2.project.softwaree.dtos.JobDTO(j.id, j.title, j.creation_date, j.last_edit, j.deadline, j.description, j.location, j.views)" +
             " FROM Job j")
     List<JobDTO> findAllJobs();
+
+    @Query(nativeQuery = true)
+    List<JobDTO> findAllJobsNative();
 }

@@ -37,7 +37,7 @@ public class JobView extends Div  {
         addClassName("show-address-view");
 
         // Auslesen alle abgespeicherten Autos aus der DB (über das Control)
-        personList = jobsControl.readAllJobs();
+        personList = jobsControl.readAllJobsNative();
 
         // Titel überhalb der Tabelle
         add(this.createTitle());

@@ -19,4 +19,7 @@ public class ManageJobsControl {
     public List<JobDTO> readAllJobs() {
         return repository.findAllJobs();
     }
+    public  List<JobDTO> readAllJobsNative() {
+        return repository.findAllJobsNative();
+    }
 }
