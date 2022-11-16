@@ -14,15 +14,20 @@ public class CompanyDTO {
     private String size;
     private String profilePic;
 
+    private String contactPerson;
 
 
-    public CompanyDTO(String name, String phoneNumber, String website, String field, String size) {
+
+
+    public CompanyDTO(int id, String name, String phoneNumber, String website, String field, String size, String contactPerson) {
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.website = website;
         this.field = field;
         this.size = size;
         this.profilePic = profilePic;
+        this.id = id;
+        this.contactPerson = contactPerson;
     }
 
     public Integer getId() {
@@ -80,4 +85,12 @@ public class CompanyDTO {
     public void setProfilePic(String profilePic) {
         this.profilePic = profilePic;
     }
+    public String getContactPerson() {
+        return contactPerson;
+    }
+
+    public void setContactPerson(String contactPerson) {
+        this.contactPerson = contactPerson;
+    }
+
 }

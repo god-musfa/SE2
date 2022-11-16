@@ -7,6 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 public interface CompanyRepository extends JpaRepository<Company, Integer> {
-    @Query("  SELECT new org.hbrs.se2.project.softwaree.dtos.CompanyDTO(name,phoneNumber,website,field,size) FROM Company WHERE id = ?1")
+    @Query("  SELECT new org.hbrs.se2.project.softwaree.dtos.CompanyDTO(id,name,phoneNumber,website,field,size,contactPerson) FROM Company WHERE id = ?1")
     CompanyDTO findCompany(Integer id);
 }

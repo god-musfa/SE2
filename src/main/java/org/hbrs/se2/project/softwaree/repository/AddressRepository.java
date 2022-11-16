@@ -14,7 +14,7 @@ public interface AddressRepository extends JpaRepository<Address, Integer> {
             " FROM Address a")
     List<AddressDTO> findAllAddress();
 
-    @Query("  SELECT new org.hbrs.se2.project.softwaree.dtos.AddressDTO(a.id,a.street, a.number, a.postalCode, a.city)" +
+    @Query("  SELECT new org.hbrs.se2.project.softwaree.dtos.AddressDTO(a.id,a.street, a.number, a.city,a.postalCode)" +
                     " FROM Address a WHERE a.id = ?1" )
     AddressDTO findAdress(int userid);
 }

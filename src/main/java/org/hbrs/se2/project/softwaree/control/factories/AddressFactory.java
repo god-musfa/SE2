@@ -8,8 +8,10 @@ public class AddressFactory {
         Address address = new Address();
         address.setCity(addressDTO.getCity());
         address.setNumber(addressDTO.getNumber());
-        address.setStreet(addressDTO.getStreet());
+
         address.setPostalCode(addressDTO.getPostalCode());
+        address.setStreet(addressDTO.getStreet());
+        address.setId(addressDTO.getId());
         return address;
     }
 }

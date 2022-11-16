@@ -13,6 +13,7 @@ import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
@@ -30,6 +31,8 @@ import org.hbrs.se2.project.softwaree.dtos.CompanyDTO;
 import org.hbrs.se2.project.softwaree.dtos.StudentDTO;
 import org.hbrs.se2.project.softwaree.dtos.UserDTO;
 import org.hbrs.se2.project.softwaree.util.Globals;
+import com.vaadin.flow.component.notification.Notification;
+
 
 
 /**
@@ -84,6 +87,7 @@ public class EditProfileView extends Div {
     final TextField website = new TextField("Webseite");
     UserDTO userDTO = (UserDTO) UI.getCurrent().getSession().getAttribute(Globals.CURRENT_USER);
     EditProfileControl pc;
+    private Binder<StudentDTO> binder2 = new Binder(StudentDTO.class);
 
     // Methods to setup components:
 
@@ -214,30 +218,37 @@ public class EditProfileView extends Div {
         profileSettingsAccordion.add("Profilangaben", publicProfilePaddingContainer);
         publicProfilePaddingContainer.add(buttonLayout);
 
-        Binder<StudentDTO> binder = new Binder<>(StudentDTO.class);
+        //prefill
+        Binder<StudentDTO> binder = new Binder(StudentDTO.class);
         binder.bindInstanceFields(this);
-        binder.readBean(pc.getStudentFromUser(userDTO));
+        binder.setBean(pc.getStudentFromUser(userDTO));
 
         Binder<AddressDTO> binderAdress = new Binder<>(AddressDTO.class);
         binderAdress.bindInstanceFields(this);
-        binderAdress.readBean(pc.getAdressFromUser(userDTO));
+        binderAdress.setBean(pc.getAdressFromUser(userDTO));
 
         Binder<UserDTO> binderEmail = new Binder<>(UserDTO.class);
         binderEmail.bindInstanceFields(this);
         binderEmail.readBean(userDTO);
 
 
+        saveButton.addClickListener(e -> {
+            UserDTO userDTO = (UserDTO) UI.getCurrent().getSession().getAttribute(Globals.CURRENT_USER);
 
+            pc.createStudent(binder.getBean());
+            pc.createAddress(binderAdress.getBean(), userDTO);
 
+            Notification notification = Notification
+                    .show("Daten gespeichert!");
+            notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
 
-
-
-
-
-
+        } );
 
 
     }
+
+
+
 
 
     private void setupCompanyComponents() {
@@ -305,15 +316,28 @@ public class EditProfileView extends Div {
 
         Binder<CompanyDTO> binder = new Binder<>(CompanyDTO.class);
         binder.bindInstanceFields(this);
-        binder.readBean(pc.getCompanyFromUser(userDTO));
+        binder.setBean(pc.getCompanyFromUser(userDTO));
 
         Binder<AddressDTO> binderAdress = new Binder<>(AddressDTO.class);
         binderAdress.bindInstanceFields(this);
-        binderAdress.readBean(pc.getAdressFromUser(userDTO));
+        binderAdress.setBean(pc.getAdressFromUser(userDTO));
 
         Binder<UserDTO> binderEmail = new Binder<>(UserDTO.class);
         binderEmail.bindInstanceFields(this);
-        binderEmail.readBean(userDTO);
+        binderEmail.setBean(userDTO);
+
+        saveButton.addClickListener(e -> {
+            UserDTO userDTO = (UserDTO) UI.getCurrent().getSession().getAttribute(Globals.CURRENT_USER);
+
+            pc.createCompany(binder.getBean());
+            pc.createAddress(binderAdress.getBean(), userDTO);
+
+            Notification notification = Notification
+                    .show("Daten gespeichert!");
+            notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+
+        } );
+
 
 
     }
