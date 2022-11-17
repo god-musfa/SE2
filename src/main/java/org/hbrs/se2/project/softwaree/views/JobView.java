@@ -12,12 +12,15 @@ import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.apache.commons.lang3.StringUtils;
-import org.hbrs.se2.project.softwaree.control.ManageAddressControl;
 import org.hbrs.se2.project.softwaree.control.ManageJobsControl;
 import org.hbrs.se2.project.softwaree.dtos.JobDTO;
+import org.hbrs.se2.project.softwaree.entities.Company;
+import org.hbrs.se2.project.softwaree.entities.Job;
 import org.hbrs.se2.project.softwaree.util.Globals;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Darstellung einer Tabelle (bei Vaadin: ein Grid) zur Anzeige von Autos.
@@ -26,18 +29,18 @@ import java.util.List;
  * https://vaadin.com/components/vaadin-grid/java-examples/header-and-footer
  *
  */
-@Route(value = "jobs", layout = AppView.class)
+@Route(value = Globals.Pages.SHOW_JOBS, layout = NavBar.class)
 @PageTitle("show jobs")
 @CssImport("./styles/views/showcars/show-cars-view.css")
 public class JobView extends Div  {
 
-    private List<JobDTO> personList;
+    private List<Job> personList;
 
     public JobView(ManageJobsControl jobsControl) {
-        addClassName("show-address-view");
+        addClassName("jobs");
 
         // Auslesen alle abgespeicherten Autos aus der DB (über das Control)
-        personList = jobsControl.readAllJobsNative();
+        personList = jobsControl.readAllJobs();
 
         // Titel überhalb der Tabelle
         add(this.createTitle());
@@ -47,22 +50,22 @@ public class JobView extends Div  {
     }
 
     private Component createGridTable() {
-        Grid<JobDTO> grid = new Grid<>();
+        Grid<Job> grid = new Grid<>();
 
         // Befüllen der Tabelle mit den zuvor ausgelesenen Autos
-        ListDataProvider<JobDTO> dataProvider = new ListDataProvider<>(
+        ListDataProvider<Job> dataProvider = new ListDataProvider<>(
                 personList);
         grid.setDataProvider(dataProvider);
 
-        Grid.Column<JobDTO> streetColumn = grid
-                .addColumn(JobDTO::getTitle).setHeader("Street");
-        Grid.Column<JobDTO> numberColumn = grid.addColumn(JobDTO::getViews)
-                .setHeader("Views");
-        Grid.Column<JobDTO> postalColumn = grid
-                .addColumn(JobDTO::getCreation_date)
+        Grid.Column<Job> streetColumn = grid
+                .addColumn(Job::getTitle).setHeader("Jobtitle");
+        Grid.Column<Job> numberColumn = grid.addColumn(Job::getAllCompanyNames)
+                .setHeader("Company Names");
+        Grid.Column<Job> postalColumn = grid
+                .addColumn(Job::getCreation_date)
                 .setHeader("Creation Date");
-        Grid.Column<JobDTO> cityColumn = grid
-                .addColumn(JobDTO::getLocation)
+        Grid.Column<Job> cityColumn = grid
+                .addColumn(Job::getLocation)
                 .setHeader("City");
 
         HeaderRow filterRow = grid.appendHeaderRow();
@@ -95,8 +98,8 @@ public class JobView extends Div  {
     }
 
     private Component createTitle() {
-        return new H3("Search for Addresses");
+        return new H3("Search for Jobs");
     }
 
 
-};
+}

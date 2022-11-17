@@ -2,12 +2,13 @@ package org.hbrs.se2.project.softwaree.views;
 //import com.vaadin.*;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
 
-@Route(value = "register/student")
-public class RegisterStudentView {
+@Route(value = "register/student", layout = NavBar.class)
+public class RegisterStudentView extends VerticalLayout {
   //Anrede - TextfeldS
   Select anr = new Select<>();
   public void initializeANR() {

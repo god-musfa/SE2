@@ -1,7 +1,9 @@
 package org.hbrs.se2.project.softwaree.dtos;
 
+import org.hbrs.se2.project.softwaree.entities.Company;
+
 import java.io.Serializable;
-import java.util.Objects;
+import java.util.*;
 import java.time.LocalDate;
 
 
@@ -18,8 +20,11 @@ public class JobDTO implements Serializable {
     private final String location;
     private final Integer views;
 
+    public final Set<Company> company;
 
-    public JobDTO(Integer id, String title, LocalDate creation_date, LocalDate last_edit, LocalDate deadline, String description, String location, Integer views) {
+
+    public JobDTO(Integer id, String title, LocalDate creation_date, LocalDate last_edit, LocalDate deadline,
+                  String description, String location, Integer views, Set<Company> company) {
         this.id = id;
         this.title = title;
         this.creation_date = creation_date;
@@ -28,7 +33,9 @@ public class JobDTO implements Serializable {
         this.description = description;
         this.location = location;
         this.views = views;
+        this.company = company;
     }
+
 
     public String getTitle() {
         return title;
@@ -58,12 +65,17 @@ public class JobDTO implements Serializable {
         return views;
     }
 
+    public Set<Company> getCompany(){
+        return company;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         JobDTO entity = (JobDTO) o;
-        return Objects.equals(this.title, entity.title) &&
+        return Objects.equals(this.id, entity.id) &&
+                Objects.equals(this.title, entity.title) &&
                 Objects.equals(this.creation_date, entity.creation_date) &&
                 Objects.equals(this.last_edit, entity.last_edit) &&
                 Objects.equals(this.deadline, entity.deadline) &&
@@ -74,6 +86,6 @@ public class JobDTO implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(title, creation_date, last_edit, deadline, description, location, views);
+        return Objects.hash(id, title, creation_date, last_edit, deadline, description, location, views, company);
     }
 }

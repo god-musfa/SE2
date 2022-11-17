@@ -12,6 +12,8 @@ public class Globals {
 
         public static final String EDIT_PROFILE = "editProfile";
         public static final String SHOW_ADDRESS = "address";
+
+        public static final String SHOW_JOBS = "jobs";
     }
 
     public static class Roles {

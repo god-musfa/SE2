@@ -36,7 +36,7 @@ import org.hbrs.se2.project.softwaree.util.Globals;
  * This AppView handles both, students and universities.
  **/
 
-@Route(value = Globals.Pages.EDIT_PROFILE, layout = AppView.class)
+@Route(value = Globals.Pages.EDIT_PROFILE, layout = NavBar.class)
 @PageTitle("Profil bearbeiten")
 @CssImport("./styles/views/main/main-view.css")
 public class EditProfileView extends Div {

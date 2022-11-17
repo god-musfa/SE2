@@ -1,24 +1,30 @@
 package org.hbrs.se2.project.softwaree.entities;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+import org.springframework.web.bind.annotation.GetMapping;
+
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Iterator;
+import java.util.Set;
 
-@NamedNativeQuery(name="Job.findAllJobsNative",
-                    query = "SELECT * FROM coll.job_listing j WHERE j.id = 1 ",
+/*@NamedNativeQuery(name="Job.findAllJobsNative",
+                    query = "SELECT j.title, j.creation_date, j.description, j.location  FROM coll.job_listing j WHERE j.id = 1",
                     resultSetMapping = "Mapping.JobDTO")
 
-@SqlResultSetMapping(name = "Mapping.JobDTO",
+@SqlResultSetMapping(name = "Mapping.JoDTO",
                     classes = @ConstructorResult(targetClass = org.hbrs.se2.project.softwaree.dtos.JobDTO.class,
-                                columns = {@ColumnResult(name = "id", type = Integer.class),
-                                    @ColumnResult(name = "title", type=String.class),
-                                    @ColumnResult(name = "creation_date", type = LocalDate.class),
-                                    @ColumnResult(name = "last_edit", type = LocalDate.class),
-                                    @ColumnResult(name = "deadline", type = LocalDate.class),
-                                    @ColumnResult(name = "description", type = String.class),
-                                    @ColumnResult(name = "location", type = String.class),
-                                    @ColumnResult(name = "views", type = Integer.class)
+                                columns = {
+                                        @ColumnResult(name = "title", type=String.class),
+                                        @ColumnResult(name = "creation_date", type = LocalDate.class),
+                                        //@ColumnResult(name = "last_edit", type = LocalDate.class),
+                                        //@ColumnResult(name = "deadline", type = LocalDate.class),
+                                        @ColumnResult(name = "description", type = String.class),
+                                        @ColumnResult(name = "location", type = String.class)
+                                        //@ColumnResult(name = "views", type = Integer.class),
                                 }
-                                ))
+                                ))*/
 @Entity
 @Table(name = "job_listing", schema = "coll")
 public class Job {
@@ -46,6 +52,14 @@ public class Job {
 
     @Column(name = "views", nullable = false)
     private Integer views;
+
+    @ManyToMany(mappedBy = "ownedJobs")
+    @Fetch(FetchMode.JOIN)
+    Set<Company> company = new java.util.LinkedHashSet<>();
+
+    public void setCompany(Set<Company> company) {
+        this.company = company;
+    }
 
 
     public Integer getId() {
@@ -76,6 +90,17 @@ public class Job {
 
     public Integer getViews() {
         return views;
+    }
+
+    public Set<Company> getCompany() { return  company; }
+
+    public String getAllCompanyNames() {
+        String names = "";
+        Iterator<Company> it = this.getCompany().iterator();
+        while(it.hasNext()) {
+            names += it.next().getName() + ", ";
+        }
+        return names;
     }
 
 
