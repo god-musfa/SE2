@@ -2,9 +2,9 @@ package org.hbrs.se2.project.softwaree.entities;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.Iterator;
 import java.util.Set;
@@ -57,6 +57,19 @@ public class Job {
     @Fetch(FetchMode.JOIN)
     Set<Company> company = new java.util.LinkedHashSet<>();
 
+    @NotNull
+    @ManyToMany
+    @JoinTable(name = "job_requirement", schema = "coll",
+            joinColumns = @JoinColumn(name = "job_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "requirement_id", referencedColumnName = "id")
+    )
+    @Fetch(FetchMode.JOIN)
+    private  Set<Requirement> requirements = new java.util.LinkedHashSet<>();
+
+    public void setRequirements(Set<Requirement> requirements) {
+        this.requirements = requirements;
+    }
+
     public void setCompany(Set<Company> company) {
         this.company = company;
     }
@@ -98,10 +111,22 @@ public class Job {
         String names = "";
         Iterator<Company> it = this.getCompany().iterator();
         while(it.hasNext()) {
-            names += it.next().getName() + ", ";
+            names += it.next().getName() + "\n";
         }
         return names;
     }
 
 
+    public Set<Requirement> getRequirements() {
+        return requirements;
+    }
+
+    public String getRequirementDescription() {
+        String description = "";
+        Iterator<Requirement> it = this.getRequirements().iterator();
+        while(it.hasNext()) {
+            description+= it.next().getDescription() + "\n";
+        }
+        return description;
+    }
 }

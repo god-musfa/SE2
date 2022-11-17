@@ -14,6 +14,7 @@ public class Globals {
         public static final String SHOW_ADDRESS = "address";
 
         public static final String SHOW_JOBS = "jobs";
+        public static final String SHOW_JOB_DETAILS = "job";
     }
 
     public static class Roles {

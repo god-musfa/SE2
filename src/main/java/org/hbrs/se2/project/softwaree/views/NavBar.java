@@ -42,7 +42,7 @@ import org.hbrs.se2.project.softwaree.util.Globals;
         }
 
         public void setUpUI() {
-            H1 title = new H1("MyApp");
+            H1 title = new H1("Collab@HBRS");
             title.getStyle().set("font-size", "var(--lumo-font-size-l)")
                     .set("margin", "var(--lumo-space-m) var(--lumo-space-l)");
 
