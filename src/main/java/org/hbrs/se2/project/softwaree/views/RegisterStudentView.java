@@ -59,10 +59,10 @@ public class RegisterStudentView extends VerticalLayout {
     registerButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
   }
 
-  public RegisterView() {
-    addClassName("RegisterView");
+  public RegisterStudentView() {
+    addClassName("RegisterStudentView");
 
-    setId("registerView");
+    setId("registerStudentView");
     initializeANR();
     initializeVN();
     initializeNN();
