@@ -13,7 +13,7 @@ public class CompanyFactory {
         company.setWebsite(companyDTO.getWebsite());
         company.setField(companyDTO.getField());
         company.setSize(companyDTO.getSize());
-        company.setContactPerson(companyDTO.getContactPerson());
+        //company.setContactPerson(companyDTO.getContactPerson());
 
             return company;
     }
