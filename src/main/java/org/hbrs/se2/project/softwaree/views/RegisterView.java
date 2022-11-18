@@ -6,6 +6,7 @@ import com.vaadin.flow.component.checkbox.Checkbox;
 //import com.vaadin.flow.component.formlayout.FormLayout;
 //import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
@@ -16,7 +17,7 @@ import com.vaadin.flow.router.Route;
 @Route(value = "register")
 public class RegisterView extends VerticalLayout {
   //Benutzername - Textfeld
-  TextField un = new TextField();
+  TextField un = new TextField("Benutzername");
   public void initializeUN() {
     un.setMaxLength(20);
     un.setRequired(true);
@@ -26,6 +27,7 @@ public class RegisterView extends VerticalLayout {
   EmailField em = new EmailField("E-Mail");
   public void initializeEM() {
     em.setMaxLength(32);
+    em.setErrorMessage("Keine valide E-Mail-Addresse");
     //em.setRequired(true);
   }
 
@@ -43,12 +45,15 @@ public class RegisterView extends VerticalLayout {
   //Passwort wiederholen - Passwort Textfeld
   PasswordField pw2 = new PasswordField("Passwort wiederholen");
   public void initializePW2() {
-    pw2.setRevealButtonVisible(false);
     pw2.setMaxLength(32);
     pw2.setMinLength(12);
     pw2.setRequired(true);
   }
-
+  Select kat = new Select<>();
+  public void initializeKAT() {
+    kat.setLabel("Benutzerkategorie");
+    kat.setItems("Student","Unternehmen");
+  }
   //Ich stimme der AGB und der Datenschutzbestimmung zu: - Checkmark
   Checkbox agb = new Checkbox("Ich stimme der AGB und der Datenschutzbestimmung zu.");
 
@@ -67,10 +72,11 @@ public class RegisterView extends VerticalLayout {
     initializeUN();
     initializePW();
     initializePW2();
+    initializeKAT();
     initializeButton();
 
     VerticalLayout layout = new VerticalLayout();
-    layout.add(em,un,pw,pw2,agb,registerButton);
+    layout.add(em,un,pw,pw2,agb,kat,registerButton);
     add(layout);
 
   }
