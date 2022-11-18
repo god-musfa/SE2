@@ -14,11 +14,6 @@ public class Company {
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @MapsId
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "id", nullable = false)
-    private User user;
-
     @Column(name = "name")
     private String name;
 
@@ -49,16 +44,16 @@ public class Company {
         return id;
     }
 
+    public void setContactPerson(String contactPerson) {
+        this.contactPerson = contactPerson;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 
     public String getName() {

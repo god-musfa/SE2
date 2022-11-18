@@ -15,8 +15,6 @@ public class CompanyDTO {
     private String website;
     private String field;
     private String size;
-    private String email;
-    private String password;
     private String profilePic;
 
     private Set<Job> owJobList;
@@ -31,8 +29,6 @@ public class CompanyDTO {
         this.website = website;
         this.field = field;
         this.size = size;
-        this.email = email;
-        this.password = password;
         this.profilePic = profilePic;
         this.owJobList = owJobList;
     }
@@ -83,22 +79,6 @@ public class CompanyDTO {
 
     public void setSize(String size) {
         this.size = size;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getProfilePic() {

@@ -1,39 +1,33 @@
 package org.hbrs.se2.project.softwaree.dtos;
 
-import org.hbrs.se2.project.softwaree.entities.Student;
-
+import java.io.Serializable;
 import java.time.LocalDate;
 
 /**
  * A DTO for the {@link Student} entity
  */
-public class StudentDTO {
+public class StudentDTO implements Serializable {
     private Integer id;
     private String firstName;
     private String lastName;
     private Integer semester;
     private LocalDate birthday;
-    private String email;
-    private String password;
-    private String profilePic;
+    private String degree;
+    private String university;
+    private String subject;
 
     public StudentDTO() {
     }
 
-    public StudentDTO(String firstName, String lastName) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-    }
-
-    public StudentDTO(Integer id, String firstName, String lastName, Integer semester, LocalDate birthday, String email, String password, String profilePic) {
+    public StudentDTO(Integer id, String firstName, String lastName, Integer semester, LocalDate birthday, String degree, String university, String subject) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.semester = semester;
         this.birthday = birthday;
-        this.email = email;
-        this.password = password;
-        this.profilePic = profilePic;
+        this.degree = degree;
+        this.university = university;
+        this.subject = subject;
     }
 
     public Integer getId() {
@@ -76,27 +70,27 @@ public class StudentDTO {
         this.birthday = birthday;
     }
 
-    public String getEmail() {
-        return email;
+    public String getDegree() {
+        return degree;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setDegree(String degree) {
+        this.degree = degree;
     }
 
-    public String getPassword() {
-        return password;
+    public String getUniversity() {
+        return university;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setUniversity(String university) {
+        this.university = university;
     }
 
-    public String getProfilePic() {
-        return profilePic;
+    public String getSubject() {
+        return subject;
     }
 
-    public void setProfilePic(String profilePic) {
-        this.profilePic = profilePic;
+    public void setSubject(String subject) {
+        this.subject = subject;
     }
 }

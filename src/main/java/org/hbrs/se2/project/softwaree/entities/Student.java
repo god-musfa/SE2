@@ -3,17 +3,12 @@ package org.hbrs.se2.project.softwaree.entities;
 import javax.persistence.*;
 import java.time.LocalDate;
 
-@Entity
+@Entity(name = "Student")
 @Table(name = "student", schema = "coll")
 public class Student {
     @Id
     @Column(name = "id", nullable = false)
     private Integer id;
-
-    @MapsId
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "id", nullable = false)
-    private User user;
 
     @Column(name = "first_name")
     private String firstName;
@@ -27,20 +22,22 @@ public class Student {
     @Column(name = "birthday")
     private LocalDate birthday;
 
+    @Column(name = "degree")
+    private String degree;
+
+
+    @Column(name = "university")
+    private String university;
+
+    @Column(name = "subject")
+    private String subject;
+
     public Integer getId() {
         return id;
     }
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 
     public String getFirstName() {
@@ -73,6 +70,30 @@ public class Student {
 
     public void setBirthday(LocalDate birthday) {
         this.birthday = birthday;
+    }
+
+    public String getDegree() {
+        return degree;
+    }
+
+    public void setDegree(String degree) {
+        this.degree = degree;
+    }
+
+    public String getUniversity() {
+        return university;
+    }
+
+    public void setUniversity(String university) {
+        this.university = university;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
     }
 
 }
