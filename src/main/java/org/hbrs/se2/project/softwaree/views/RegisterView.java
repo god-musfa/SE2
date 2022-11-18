@@ -6,6 +6,7 @@ import com.vaadin.flow.component.checkbox.Checkbox;
 //import com.vaadin.flow.component.formlayout.FormLayout;
 //import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
@@ -48,7 +49,11 @@ public class RegisterView extends VerticalLayout {
     pw2.setMinLength(12);
     pw2.setRequired(true);
   }
-
+  Select kat = new Select<>();
+  public void initializeKAT() {
+    kat.setLabel("Benutzerkategorie");
+    kat.setItems("Student","Unternehmen");
+  }
   //Ich stimme der AGB und der Datenschutzbestimmung zu: - Checkmark
   Checkbox agb = new Checkbox("Ich stimme der AGB und der Datenschutzbestimmung zu.");
 
@@ -67,10 +72,11 @@ public class RegisterView extends VerticalLayout {
     initializeUN();
     initializePW();
     initializePW2();
+    initializeKAT();
     initializeButton();
 
     VerticalLayout layout = new VerticalLayout();
-    layout.add(em,un,pw,pw2,agb,registerButton);
+    layout.add(em,un,pw,pw2,agb,kat,registerButton);
     add(layout);
 
   }
