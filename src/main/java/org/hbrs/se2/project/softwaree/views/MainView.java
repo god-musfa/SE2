@@ -7,6 +7,7 @@ import com.vaadin.flow.component.login.LoginForm;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteAlias;
+import com.vaadin.flow.router.RouterLink;
 import org.hbrs.se2.project.softwaree.control.LoginControl;
 import org.hbrs.se2.project.softwaree.control.exception.DatabaseUserException;
 import org.hbrs.se2.project.softwaree.dtos.UserDTO;
@@ -51,8 +52,16 @@ public class MainView extends VerticalLayout {
             }
         });
 
-        add(component);
-        this.setAlignItems( Alignment.CENTER );
+        RouterLink toRegister = new RouterLink("Registrieren", RegisterView.class);
+        //Styling Register same as forgot password phrase
+        toRegister.getStyle().set("margin", "0");
+        toRegister.getStyle().set("font-family", "var(--lumo-font-family)");
+        toRegister.getStyle().set("font-size", "var(--lumo-font-size,var(--lumo-font-size-m))");
+        toRegister.getStyle().set("line-height", "var(--lumo-line-height-m)");
+        toRegister.getStyle().set("font-weight", "600");
+        add(component, toRegister);
+        setAlignItems(Alignment.CENTER);
+
     }
 
     private void grabAndSetUserIntoSession() {
