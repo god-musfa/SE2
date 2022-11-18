@@ -44,9 +44,6 @@ public class Company {
         return id;
     }
 
-    public void setContactPerson(String contactPerson) {
-        this.contactPerson = contactPerson;
-    }
 
     public void setId(Integer id) {
         this.id = id;
