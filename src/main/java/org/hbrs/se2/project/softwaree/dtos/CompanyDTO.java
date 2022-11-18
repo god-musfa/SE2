@@ -1,6 +1,9 @@
 package org.hbrs.se2.project.softwaree.dtos;
 
 import org.hbrs.se2.project.softwaree.entities.Company;
+import org.hbrs.se2.project.softwaree.entities.Job;
+
+import java.util.Set;
 
 /**
  * A DTO for the {@link Company} entity
@@ -14,20 +17,20 @@ public class CompanyDTO {
     private String size;
     private String profilePic;
 
-    private String contactPerson;
+    private Set<Job> owJobList;
 
+    public CompanyDTO() {
+    }
 
-
-
-    public CompanyDTO(int id, String name, String phoneNumber, String website, String field, String size, String contactPerson) {
+    public CompanyDTO(Integer id, String name, String phoneNumber, String website, String field, String size, String email, String password, String profilePic, Set<Job> owJobList) {
+        this.id = id;
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.website = website;
         this.field = field;
         this.size = size;
         this.profilePic = profilePic;
-        this.id = id;
-        this.contactPerson = contactPerson;
+        this.owJobList = owJobList;
     }
 
     public Integer getId() {
@@ -85,12 +88,8 @@ public class CompanyDTO {
     public void setProfilePic(String profilePic) {
         this.profilePic = profilePic;
     }
-    public String getContactPerson() {
-        return contactPerson;
-    }
 
-    public void setContactPerson(String contactPerson) {
-        this.contactPerson = contactPerson;
+    public Set<Job> getOwJobList() {
+        return owJobList;
     }
-
 }

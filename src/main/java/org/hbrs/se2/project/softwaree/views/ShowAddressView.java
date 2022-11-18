@@ -14,6 +14,7 @@ import com.vaadin.flow.router.Route;
 import org.apache.commons.lang3.StringUtils;
 import org.hbrs.se2.project.softwaree.control.ManageAddressControl;
 import org.hbrs.se2.project.softwaree.dtos.AddressDTO;
+import org.hbrs.se2.project.softwaree.dtos.CompanyDTO;
 import org.hbrs.se2.project.softwaree.util.Globals;
 
 import java.util.List;
@@ -25,18 +26,20 @@ import java.util.List;
  * https://vaadin.com/components/vaadin-grid/java-examples/header-and-footer
  *
  */
-@Route(value = Globals.Pages.SHOW_ADDRESS, layout = AppView.class)
+@Route(value = Globals.Pages.SHOW_ADDRESS, layout = NavBar.class)
 @PageTitle("Show Addresses")
 @CssImport("./styles/views/showcars/show-cars-view.css")
 public class ShowAddressView extends Div  {
 
     private List<AddressDTO> personList;
+    private List<CompanyDTO> companyList;
 
     public ShowAddressView(ManageAddressControl addressControl) {
             addClassName("show-address-view");
 
             // Auslesen alle abgespeicherten Autos aus der DB (über das Control)
             personList = addressControl.readAllAddress();
+
 
             // Titel überhalb der Tabelle
             add(this.createTitle());

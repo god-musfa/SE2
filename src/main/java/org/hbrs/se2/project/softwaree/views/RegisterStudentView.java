@@ -7,7 +7,7 @@ import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
 
-@Route(value = "register/student")
+@Route(value = "register/student", layout = NavBar.class)
 public class RegisterStudentView extends VerticalLayout {
   //Anrede - TextfeldS
   Select anr = new Select<>();

@@ -15,7 +15,7 @@ import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.*;
 
 @PageTitle("Kontakt")
-@Route(value = "kontakt", layout = AppView.class)
+@Route(value = "kontakt", layout = NavBar.class)
 @CssImport("./styles/views/contact/contact-view.css")
 public class ContactView extends VerticalLayout  {
 
