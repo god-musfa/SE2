@@ -16,7 +16,7 @@ import com.vaadin.flow.router.Route;
 @Route(value = "register")
 public class RegisterView extends VerticalLayout {
   //Benutzername - Textfeld
-  TextField un = new TextField();
+  TextField un = new TextField("Benutzername");
   public void initializeUN() {
     un.setMaxLength(20);
     un.setRequired(true);
@@ -26,6 +26,7 @@ public class RegisterView extends VerticalLayout {
   EmailField em = new EmailField("E-Mail");
   public void initializeEM() {
     em.setMaxLength(32);
+    em.setErrorMessage("Keine valide E-Mail-Addresse");
     //em.setRequired(true);
   }
 
@@ -43,7 +44,6 @@ public class RegisterView extends VerticalLayout {
   //Passwort wiederholen - Passwort Textfeld
   PasswordField pw2 = new PasswordField("Passwort wiederholen");
   public void initializePW2() {
-    pw2.setRevealButtonVisible(false);
     pw2.setMaxLength(32);
     pw2.setMinLength(12);
     pw2.setRequired(true);

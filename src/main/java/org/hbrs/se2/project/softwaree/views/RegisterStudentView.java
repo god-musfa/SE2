@@ -2,12 +2,13 @@ package org.hbrs.se2.project.softwaree.views;
 //import com.vaadin.*;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
 
 @Route(value = "register/student")
-public class RegisterStudentView {
+public class RegisterStudentView extends VerticalLayout {
   //Anrede - TextfeldS
   Select anr = new Select<>();
   public void initializeANR() {
@@ -56,6 +57,23 @@ public class RegisterStudentView {
   Button registerButton = new Button("Registrieren");
   public void initializeButton() {
     registerButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+  }
+
+  public RegisterView() {
+    addClassName("RegisterView");
+
+    setId("registerView");
+    initializeANR();
+    initializeVN();
+    initializeNN();
+    initializeSTHN();
+    initializePLZ();
+    initializeABS();
+    initializeButton();
+
+    VerticalLayout layout = new VerticalLayout();
+    layout.add(anr,vn,nn,sthn,plz,abs,registerButton);
+    add(layout);
   }
 }
 
