@@ -11,16 +11,16 @@ import java.time.LocalDate;
  * A DTO for the {@link org.hbrs.se2.project.softwaree.entities.Job} entity
  */
 public class JobDTO implements Serializable {
-    private final Integer id;
-    private final String title;
-    private final LocalDate creation_date;
-    private final LocalDate last_edit;
-    private final LocalDate deadline;
-    private final String description;
-    private final String location;
-    private final Integer views;
+    private Integer id;
+    private String title;
+    private LocalDate creation_date;
+    private LocalDate last_edit;
+    private LocalDate deadline;
+    private String description;
+    private String location;
+    private Integer views;
 
-    public final Company company;
+    public Company company;
 
 
     public JobDTO(Integer id, String title, LocalDate creation_date, LocalDate last_edit, LocalDate deadline,
@@ -34,6 +34,13 @@ public class JobDTO implements Serializable {
         this.location = location;
         this.views = views;
         this.company = company;
+    }
+
+    public JobDTO(Integer id, String title, String description, String location) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.location = location;
     }
 
 

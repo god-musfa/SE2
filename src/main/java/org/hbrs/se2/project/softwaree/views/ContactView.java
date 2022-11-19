@@ -2,37 +2,53 @@ package org.hbrs.se2.project.softwaree.views;
 
 
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.details.Details;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.*;
+import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
+import com.vaadin.flow.data.binder.Binder;
+import com.vaadin.flow.data.binder.ReadOnlyHasValue;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.*;
+import org.hbrs.se2.project.softwaree.control.ContactControl;
+import org.hbrs.se2.project.softwaree.dtos.*;
+import org.hbrs.se2.project.softwaree.util.Globals;
 
 @PageTitle("Kontakt")
 @Route(value = "kontakt", layout = NavBar.class)
 @CssImport("./styles/views/contact/contact-view.css")
 public class ContactView extends VerticalLayout  {
-
-    private final int limit = 10000;
-    private int jobID = 1;
-    //private companieTDO companie;
-    //private studentTDO student;
-    //private jobTDO job;
-
-    //private Binder<CarDTOImpl> binder = new Binder(CarDTOImpl.class);
-
+    private final int limit = 10000; //Zeichenlimit im Eingabefeld
+    UserDTO user = (UserDTO) UI.getCurrent().getSession().getAttribute(Globals.CURRENT_USER);
+    private int jobID = -1;
+    private int companyID;
+    ContactControl cc;
     Button cancel = new Button("Abbrechen");
     Button save = new Button("Speichern");
 
-    Details jobDetails = null;
+    private final Binder<MessageDTO> binderContact = new Binder<>(MessageDTO.class);
 
-    public ContactView() throws InterruptedException {
+    public ContactView(ContactControl cc) {
+        this.cc = cc;
+
+        UI.getCurrent().getSession().setAttribute( "companyID", 3 ); //todo entferne sobald links zur seite korrekt implementiert wurden
+        companyID =  (Integer) UI.getCurrent().getSession().getAttribute("companyID");
+
+
+
+        //UI.getCurrent().getSession().setAttribute( "jobID", 1 ); //todo entferne sobald die links zur seite korrekt implementiert wurden
+        if(UI.getCurrent().getSession().getAttribute( "jobID" ) != null) {
+            jobID = (Integer) UI.getCurrent().getSession().getAttribute( "jobID" );
+        }
+
         addClassName("contact-view");
 
         add(createTitle());
@@ -40,6 +56,15 @@ public class ContactView extends VerticalLayout  {
         add(createButton());
         setSpacing(false);
 
+        cancel.addClickListener(event -> clearForm());
+
+        save.addClickListener(e -> {
+            cc.createContact(user.getId(), companyID, jobID, binderContact.getBean());
+
+            Notification.show("Nachricht übermittelt!")
+                    .addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+            clearForm();
+        });
     }
 
     private Component createTitle() {
@@ -68,22 +93,44 @@ public class ContactView extends VerticalLayout  {
 
         layout.setResponsiveSteps(
                 new FormLayout.ResponsiveStep("0", 1),
-                new FormLayout.ResponsiveStep("440px", 2)); //todo an allgemeine groessen anpassen
-
+                new FormLayout.ResponsiveStep(Globals.ScreenSizes.SMARTPHONE_LANDSCAPE, 2)
+        );
         return layout;
     }
 
 
     private Component createCompanybox() {
-        Span name = new Span("companie.getName()");
-        Span adress = new Span("companie.getStreet() + ' ' + companie.getNumber() + ', ' + companie.getPostalCode() + ' ' + companie.getCity()");
-        Span email = new Span("companie.getMail()");
-        Span phone = new Span("companie.getPhone()");
-        Span website = new Span("companie.getWebsite()");
-        Span field = new Span("companie.getField()");
-        Span size = new Span("companie.getSize()");
+        Span name = new Span();
+        Span address = new Span();
+        Span email = new Span();
+        Span phone = new Span();
+        Span website = new Span();
+        Span field = new Span();
+        Span size = new Span();
 
-        VerticalLayout content = new VerticalLayout(name, adress, email, phone, website, field, size);
+        Binder<CompanyDTO> binder =
+                new Binder<>(CompanyDTO.class);
+        binder.forField(new ReadOnlyHasValue<>(name::setText)).bind(CompanyDTO::getName, null);
+        binder.forField(new ReadOnlyHasValue<>(phone::setText)).bind(CompanyDTO::getPhoneNumber, null);
+        binder.forField(new ReadOnlyHasValue<>(website::setText)).bind(CompanyDTO::getWebsite, null);
+        binder.forField(new ReadOnlyHasValue<>(field::setText)).bind(CompanyDTO::getField, null);
+        binder.forField(new ReadOnlyHasValue<>(size::setText)).bind(CompanyDTO::getSize, null);
+        binder.readBean(cc.getCompanyFromCompanyID(companyID));
+        UserDTO cUser = cc.getUserFromCompanyID(companyID); // UserDTO for the next Binders
+
+        Binder<UserDTO> binderMail = new Binder<>(UserDTO.class);
+        ReadOnlyHasValue<String> mail = new ReadOnlyHasValue<>(email::setText);
+        binderMail.forField(mail).bind(UserDTO::getEmail, null);
+        binderMail.readBean(cUser);
+
+        Binder<AddressDTO> binderAddress =
+                new Binder<>(AddressDTO.class);
+        ReadOnlyHasValue<String> adr = new ReadOnlyHasValue<>(address::setText);
+        binderAddress.forField(adr).bind(ContactControl::getFullAddress, null); //Adresse
+        binderAddress.readBean(cc.getAddressFromUser(cUser));
+
+
+        VerticalLayout content = new VerticalLayout(name, address, email, phone, website, field, size);
         content.setSpacing(false);
         content.setPadding(false);
         content.setId("company");
@@ -95,18 +142,40 @@ public class ContactView extends VerticalLayout  {
     }
 
     private Component createStudentbox() {
-        Span name = new Span("student.getFirstName() + ' ' + student.getLastName()");
-        Span adress = new Span("student.getStreet() + ' ' + student.getNumber() + ', ' + student.getPostalCode() + ' ' + student.getCity()");
-        Span email = new Span("student.getMail()");
-        Span birthday = new Span("student.getBirthday()");
-        Span semester = new Span("student.getSemester()");
+        Span name = new Span();
+        Span address = new Span();
+        Span email = new Span();
+        Span birthday = new Span();
+        Span universitySubject = new Span();
+        Span semester = new Span();
+        Span degree = new Span();
 
-        VerticalLayout content = new VerticalLayout(name, adress, email, birthday, semester);
+        Binder<StudentDTO> binder =
+                new Binder<>(StudentDTO.class);
+        binder.forField(new ReadOnlyHasValue<>(name::setText)).bind(ContactControl::getFullName, null);
+        binder.forField(new ReadOnlyHasValue<>(birthday::setText)).bind(ContactControl::getBirthdayString, null); //Geburtstag
+        binder.forField(new ReadOnlyHasValue<>(universitySubject::setText)).bind(ContactControl::getUniSubString, null);
+        binder.forField(new ReadOnlyHasValue<>(semester::setText)).bind(ContactControl::getSemesterString, null); //Semester
+        binder.forField(new ReadOnlyHasValue<>(degree::setText)).bind(ContactControl::getDegreeString, null);
+        binder.readBean(cc.getStudentFromUser(user)); //vom user zum student objekt
+
+        Binder<UserDTO> binderMail =
+                new Binder<>(UserDTO.class);
+        binderMail.forField(new ReadOnlyHasValue<>(email::setText)).bind(UserDTO::getEmail, null);
+        binderMail.readBean(user);
+
+        Binder<AddressDTO> binderAddress =
+                new Binder<>(AddressDTO.class);
+        binderAddress.forField(new ReadOnlyHasValue<>(address::setText)).bind(ContactControl::getFullAddress, null); //Adresse
+        binderAddress.readBean(cc.getAddressFromUser(user));
+
+
+        VerticalLayout content = new VerticalLayout(name, address, email, birthday, universitySubject, semester, degree);
         content.setSpacing(false);
         content.setPadding(false);
         content.setId("student");
 
-        Details details = new Details("Meine Daten" + " pp", content);
+        Details details = new Details("Meine Daten", content);
         details.setOpened(true);
 
         return details;
@@ -115,36 +184,43 @@ public class ContactView extends VerticalLayout  {
     private Component createJobbox() {
         Span title = new Span("job.title()");
         title.setId("jobTitle");
-        Span beschreibung = new Span("job.description()");
-        beschreibung.setId("jobBeschreibung");
+        Span description = new Span("job.description()");
+        description.setId("jobBeschreibung");
+        Span location = new Span();
 
-        VerticalLayout jobContent = new VerticalLayout(title, beschreibung);
+        Binder<JobDTO> binder =
+                new Binder<>(JobDTO.class);
+        binder.forField(new ReadOnlyHasValue<>(title::setText)).bind(JobDTO::getTitle, null);
+        binder.forField(new ReadOnlyHasValue<>(description::setText)).bind(JobDTO::getDescription, null);
+        binder.forField(new ReadOnlyHasValue<>(location::setText)).bind(ContactControl::getLocationString, null);
+        binder.readBean(cc.getJobByID(jobID));
+
+        VerticalLayout jobContent = new VerticalLayout(title, description, location);
         jobContent.setSpacing(false);
         jobContent.setPadding(false);
         jobContent.setId("jobBox");
 
-        jobDetails = new Details("Job Übersicht", jobContent);
+        Details jobDetails = new Details("Job Übersicht", jobContent);
         jobDetails.setOpened(true);
 
         return jobDetails;
     }
 
     private Component createMessage() {
-        TextArea nachricht = new TextArea();
-        nachricht.setWidthFull();
-        nachricht.setLabel("Nachricht");
-        nachricht.setMinLength(20);
-        nachricht.setMaxLength(limit);
-        nachricht.setMinHeight("15em");
-        nachricht.setMaxHeight("30%");
-        nachricht.setValueChangeMode(ValueChangeMode.EAGER);
-        nachricht.addValueChangeListener(e -> {
-            e.getSource()
-                    .setHelperText(e.getValue().length() + "/" + limit);
-        });
-        nachricht.setId("nachrichtenbox");
-        nachricht.setPlaceholder("Ihre Nachricht an das Unternehmen");
-        return nachricht;
+        TextArea message = new TextArea();
+        message.setWidthFull();
+        message.setLabel("Nachricht");
+        message.setMaxLength(limit);
+        message.setMinHeight("15em");
+        message.setMaxHeight("30%");
+        message.setValueChangeMode(ValueChangeMode.EAGER);
+        message.addValueChangeListener(e -> e.getSource()
+                .setHelperText(e.getValue().length() + "/" + limit));
+        message.setId("nachrichtenbox");
+        message.setPlaceholder("Ihre Nachricht an das Unternehmen");
+        binderContact.forField(message).bind(MessageDTO::getMessage, MessageDTO::setMessage);
+        binderContact.setBean(new MessageDTO());
+        return message;
     }
 
     private Component createButton() {
@@ -156,4 +232,7 @@ public class ContactView extends VerticalLayout  {
         return buttonLayout;
     }
 
+    private void clearForm() {
+        //binderContact.setBean(new ContactDTO()); //todo erstellen
+    }
 }

@@ -1,5 +1,7 @@
 package org.hbrs.se2.project.softwaree.dtos;
 
+import org.hbrs.se2.project.softwaree.entities.Student;
+
 import java.io.Serializable;
 import java.time.LocalDate;
 
@@ -16,8 +18,7 @@ public class StudentDTO implements Serializable {
     private String university;
     private String subject;
 
-    public StudentDTO() {
-    }
+    public StudentDTO() {}
 
     public StudentDTO(Integer id, String firstName, String lastName, Integer semester, LocalDate birthday, String degree, String university, String subject) {
         this.id = id;
@@ -30,7 +31,14 @@ public class StudentDTO implements Serializable {
         this.subject = subject;
     }
 
-    public Integer getId() {
+    public StudentDTO(String firstName, String lastName, Integer semester, LocalDate birthday) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.semester = semester;
+        this.birthday = birthday;
+    }
+
+        public Integer getId() {
         return id;
     }
 

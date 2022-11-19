@@ -2,7 +2,6 @@ package org.hbrs.se2.project.softwaree.dtos;
 
 
 import org.hbrs.se2.project.softwaree.entities.Message;
-import org.hbrs.se2.project.softwaree.entities.StudentCompanyMessage;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -14,15 +13,17 @@ public class MessageDTO implements Serializable {
     private Integer id;
     private Date time_sent;
     private String message;
+    private Integer studentID;
+    private Integer companyID;
+    private Integer jobID;
 
-    public MessageDTO(Integer id, Date time_sent, String message) {
+    public MessageDTO(Integer id, Date time_sent, String message, Integer studentID, Integer companyID, Integer jobID) {
         this.id = id;
         this.time_sent = time_sent;
         this.message = message;
-    }
-
-    public MessageDTO(Integer id) {
-        this.id = id;
+        this.studentID = studentID;
+        this.companyID = companyID;
+        this.jobID = jobID;
     }
 
     public MessageDTO() {
@@ -50,5 +51,29 @@ public class MessageDTO implements Serializable {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public Integer getStudentID() {
+        return studentID;
+    }
+
+    public void setStudentID(Integer studentID) {
+        this.studentID = studentID;
+    }
+
+    public Integer getCompanyID() {
+        return companyID;
+    }
+
+    public void setCompanyID(Integer companyID) {
+        this.companyID = companyID;
+    }
+
+    public Integer getJobID() {
+        return jobID;
+    }
+
+    public void setJobID(Integer jobID) {
+        this.jobID = jobID;
     }
 }
