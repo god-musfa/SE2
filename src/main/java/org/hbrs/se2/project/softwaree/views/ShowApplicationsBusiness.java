@@ -1,0 +1,137 @@
+package org.hbrs.se2.project.softwaree.views;
+
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.UI;
+import com.vaadin.flow.component.dependency.CssImport;
+import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.grid.HeaderRow;
+import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.html.H3;
+import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.data.provider.ListDataProvider;
+import com.vaadin.flow.data.value.ValueChangeMode;
+import com.vaadin.flow.router.PageTitle;
+import com.vaadin.flow.router.Route;
+import org.apache.commons.lang3.StringUtils;
+import org.hbrs.se2.project.softwaree.control.ManageApplicationControl;
+import org.hbrs.se2.project.softwaree.dtos.ApplicationDTO;
+import org.hbrs.se2.project.softwaree.dtos.UserDTO;
+
+import org.hbrs.se2.project.softwaree.util.Globals;
+
+import java.util.List;
+import java.util.Optional;
+
+/**
+ * Darstellung einer Tabelle (bei Vaadin: ein Grid) zur Anzeige von Autos.
+ * Hier wurden nur grundlegende Elemente verarbeitet. Weitere Optionen (z.B.
+ * weitere Filter-Möglichkeiten) kann man hier entnehmen:
+ * https://vaadin.com/components/vaadin-grid/java-examples/header-and-footer
+ *
+ */
+@Route(value = "showApplicationsBusiness", layout = NavBar.class)
+@PageTitle("show jobs")
+@CssImport("./styles/views/showcars/show-cars-view.css")
+public class ShowApplicationsBusiness extends Div  {
+
+    private List<ApplicationDTO> applicationList;
+    public ShowApplicationsBusiness(ManageApplicationControl applicationControl) {
+        addClassName("jobs");
+        UserDTO user = (UserDTO) UI.getCurrent().getSession().getAttribute(Globals.CURRENT_USER);
+        // Auslesen alle abgespeicherten Autos aus der DB (über das Control)
+        applicationList = applicationControl.readAllApplications(user.getId());
+
+        // Titel überhalb der Tabelle
+        add(this.createTitle());
+
+        // Hinzufügen der Tabelle (bei Vaadin: ein Grid)
+        add(createGridTable());
+    }
+
+    private Component createGridTable() {
+        Grid<org.hbrs.se2.project.softwaree.dtos.ApplicationDTO> grid = new Grid<>();
+
+
+        ListDataProvider<org.hbrs.se2.project.softwaree.dtos.ApplicationDTO> dataProvider = new ListDataProvider<>(
+                applicationList);
+        grid.setDataProvider(dataProvider);
+
+        Grid.Column<ApplicationDTO> title = grid
+                .addColumn(org.hbrs.se2.project.softwaree.dtos.ApplicationDTO::getTitle).setHeader("Job title");
+        Grid.Column<ApplicationDTO> deadline = grid.addColumn(ApplicationDTO::getDeadline)
+                .setHeader("Deadline");
+
+        Grid.Column<ApplicationDTO> firstName = grid
+                .addColumn(ApplicationDTO::getFirstName)
+                .setHeader("First Name");
+
+        Grid.Column<ApplicationDTO> lastName = grid
+                .addColumn(ApplicationDTO::getLastName)
+                .setHeader("Last Name");
+
+        Grid.Column<ApplicationDTO> semester = grid
+                .addColumn(ApplicationDTO::getSemester)
+                .setHeader("Semester");
+
+        Grid.Column<ApplicationDTO> subject = grid
+                .addColumn(ApplicationDTO::getSubject)
+                .setHeader("Subject");
+
+        Grid.Column<ApplicationDTO> university = grid
+                .addColumn(ApplicationDTO::getUniversity)
+                .setHeader("University");
+
+        Grid.Column<ApplicationDTO> degree = grid
+                .addColumn(ApplicationDTO::getDegree)
+                .setHeader("Degree");
+
+        HeaderRow filterRow = grid.appendHeaderRow();
+
+
+
+        // Filter nach dem Abschluss des Jobs
+        TextField degreeFilter = new TextField();
+        degreeFilter.addValueChangeListener(event -> dataProvider.addFilter(
+                ApplicationDTO -> StringUtils.containsIgnoreCase(ApplicationDTO.getDegree(),
+                        degreeFilter.getValue())));
+
+        degreeFilter.setValueChangeMode(ValueChangeMode.EAGER);
+
+        filterRow.getCell(degree).setComponent(degreeFilter);
+        degreeFilter.setSizeFull();
+        degreeFilter.setPlaceholder("Ort...");
+
+        // Filter nach der Hochschule
+        TextField universityFilter = new TextField();
+        universityFilter.addValueChangeListener(event -> dataProvider
+                .addFilter(ApplicationDTO -> StringUtils.containsIgnoreCase(
+                        String.valueOf(ApplicationDTO.getUniversity()), universityFilter.getValue())));
+
+        universityFilter.setValueChangeMode(ValueChangeMode.EAGER);
+
+        filterRow.getCell(university).setComponent(universityFilter);
+        universityFilter.setSizeFull();
+        universityFilter.setPlaceholder("Beschreibung...");
+
+
+        grid.addSelectionListener(selection -> {
+            Optional<ApplicationDTO> optionalApplicationDTO = selection.getFirstSelectedItem();
+            if (optionalApplicationDTO.isPresent()) {
+                UI.getCurrent().navigate(Globals.Pages.SHOW_JOB_DETAILS+"/"+optionalApplicationDTO.get().getTitle());
+
+                /*System.out.printf("Selected person: %s%n",
+                optionalJob.get());*/
+            }
+        });
+
+        return grid;
+    }
+
+
+    private Component createTitle() {
+        return new H3("Stellenanzeigen");
+    }
+
+
+
+}
