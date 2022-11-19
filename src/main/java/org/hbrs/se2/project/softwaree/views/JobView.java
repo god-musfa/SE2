@@ -63,7 +63,7 @@ public class JobView extends Div  {
 
         Grid.Column<Job> streetColumn = grid
                 .addColumn(Job::getTitle).setHeader("Jobtitle");
-        Grid.Column<Job> numberColumn = grid.addColumn(Job::getAllCompanyNames)
+        Grid.Column<Job> numberColumn = grid.addColumn(Job::getCompanyName)
                .setHeader("Company Names");
 
         Grid.Column<Job> beschreibung = grid

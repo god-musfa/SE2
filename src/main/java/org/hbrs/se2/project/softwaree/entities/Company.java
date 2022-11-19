@@ -1,11 +1,6 @@
 package org.hbrs.se2.project.softwaree.entities;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import java.util.Set;
 
 @Entity
 @Table(name = "company", schema = "coll")
@@ -28,14 +23,6 @@ public class Company {
 
     @Column(name = "size")
     private String size;
-
-    @NotNull
-    @ManyToMany
-    @JoinTable(name = "company_job", schema = "coll",
-            joinColumns = @JoinColumn(name = "company_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "job_id", referencedColumnName = "id")
-           )
-    private Set<Job> ownedJobs = new java.util.HashSet<>();
 
     @Column(name = "\"contactPerson\"")
     private String contactPerson;
@@ -96,10 +83,6 @@ public class Company {
 
     public void setSize(String size) {
         this.size = size;
-    }
-
-    public Set<Job> getOwnedJobs() {
-        return ownedJobs;
     }
 
 }

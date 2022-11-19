@@ -20,11 +20,11 @@ public class JobDTO implements Serializable {
     private final String location;
     private final Integer views;
 
-    public final Set<Company> company;
+    public final Company company;
 
 
     public JobDTO(Integer id, String title, LocalDate creation_date, LocalDate last_edit, LocalDate deadline,
-                  String description, String location, Integer views, Set<Company> company) {
+                  String description, String location, Integer views, Company company) {
         this.id = id;
         this.title = title;
         this.creation_date = creation_date;
@@ -65,7 +65,7 @@ public class JobDTO implements Serializable {
         return views;
     }
 
-    public Set<Company> getCompany(){
+    public Company getCompany(){
         return company;
     }
 

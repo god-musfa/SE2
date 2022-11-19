@@ -53,9 +53,6 @@ public class Job {
     @Column(name = "views", nullable = false)
     private Integer views;
 
-    @ManyToMany(mappedBy = "ownedJobs")
-    @Fetch(FetchMode.JOIN)
-    Set<Company> company = new java.util.LinkedHashSet<>();
 
     @NotNull
     @ManyToMany
@@ -66,13 +63,22 @@ public class Job {
     @Fetch(FetchMode.JOIN)
     private  Set<Requirement> requirements = new java.util.LinkedHashSet<>();
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "company_id")
+    private Company company;
+
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
+    }
+
     public void setRequirements(Set<Requirement> requirements) {
         this.requirements = requirements;
     }
 
-    public void setCompany(Set<Company> company) {
-        this.company = company;
-    }
 
 
     public Integer getId() {
@@ -105,9 +111,9 @@ public class Job {
         return views;
     }
 
-    public Set<Company> getCompany() { return  company; }
 
-    public String getAllCompanyNames() {
+
+   /* public String getAllCompanyNames() {
         String names = "";
         Iterator<Company> it = this.getCompany().iterator();
         while(it.hasNext()) {
@@ -115,7 +121,7 @@ public class Job {
         }
         return names;
     }
-
+*/
 
     public Set<Requirement> getRequirements() {
         return requirements;
@@ -128,5 +134,9 @@ public class Job {
             description+= it.next().getDescription() + "\n";
         }
         return description;
+    }
+
+    public String getCompanyName() {
+     return company.getName();
     }
 }
