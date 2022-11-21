@@ -13,6 +13,7 @@ import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.page.Page;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.binder.ReadOnlyHasValue;
@@ -31,7 +32,7 @@ public class ContactView extends VerticalLayout  {
     private int jobID = -1;
     private int companyID;
     ContactControl cc;
-    Button cancel = new Button("Abbrechen");
+    Button cancel = new Button("Feld leeren");
     Button save = new Button("Speichern");
 
     private final Binder<MessageDTO> binderContact = new Binder<>(MessageDTO.class);
@@ -40,31 +41,38 @@ public class ContactView extends VerticalLayout  {
         this.cc = cc;
 
         UI.getCurrent().getSession().setAttribute( "companyID", 3 ); //todo entferne sobald links zur seite korrekt implementiert wurden
-        companyID =  (Integer) UI.getCurrent().getSession().getAttribute("companyID");
+        if(UI.getCurrent().getSession().getAttribute("companyID") != null) {
+            companyID =  (Integer) UI.getCurrent().getSession().getAttribute("companyID");
 
 
+            UI.getCurrent().getSession().setAttribute( "jobID", 1 ); //todo entferne sobald die links zur seite korrekt implementiert wurden
+            if(UI.getCurrent().getSession().getAttribute( "jobID" ) != null) {
+                jobID = (Integer) UI.getCurrent().getSession().getAttribute( "jobID" );
+            }
 
-        //UI.getCurrent().getSession().setAttribute( "jobID", 1 ); //todo entferne sobald die links zur seite korrekt implementiert wurden
-        if(UI.getCurrent().getSession().getAttribute( "jobID" ) != null) {
-            jobID = (Integer) UI.getCurrent().getSession().getAttribute( "jobID" );
+            addClassName("contact-view");
+
+            add(createTitle());
+            add(createContentbox());
+            add(createButton());
+            setSpacing(false);
+
+            cancel.addClickListener(event -> clearForm());
+
+            save.addClickListener(e -> {
+                cc.createContact(user.getId(), companyID, jobID, binderContact.getBean());
+
+                Notification.show("Nachricht übermittelt!")
+                        .addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+                clearForm();
+            });
         }
-
-        addClassName("contact-view");
-
-        add(createTitle());
-        add(createContentbox());
-        add(createButton());
-        setSpacing(false);
-
-        cancel.addClickListener(event -> clearForm());
-
-        save.addClickListener(e -> {
-            cc.createContact(user.getId(), companyID, jobID, binderContact.getBean());
-
-            Notification.show("Nachricht übermittelt!")
-                    .addThemeVariants(NotificationVariant.LUMO_SUCCESS);
-            clearForm();
-        });
+        else {
+            add(createTitle());
+            add(new Paragraph("Fehler. Bitte das Formular über eine Firma oder ein Jobangebot aufrufen."));
+            Notification.show("Fehler! Es konnte keine Firma mit dieser Nachricht verknüpft werden")
+                    .addThemeVariants(NotificationVariant.LUMO_ERROR);
+        }
     }
 
     private Component createTitle() {
@@ -233,6 +241,7 @@ public class ContactView extends VerticalLayout  {
     }
 
     private void clearForm() {
-        //binderContact.setBean(new ContactDTO()); //todo erstellen
+        Page page = UI.getCurrent().getPage();
+        page.executeJs("document.getElementById('nachrichtenbox').value = ''");
     }
 }
