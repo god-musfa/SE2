@@ -1,13 +1,11 @@
 package org.hbrs.se2.project.softwaree.views;
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.ComponentUtil;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dependency.JsModule;
-import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.H1;
-import com.vaadin.flow.component.html.H2;
-import com.vaadin.flow.component.html.Paragraph;
+import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
@@ -16,13 +14,12 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.component.tabs.TabsVariant;
-import com.vaadin.flow.router.BeforeEnterEvent;
-import com.vaadin.flow.router.BeforeEnterObserver;
-import com.vaadin.flow.router.Route;
-import com.vaadin.flow.router.RouterLink;
+import com.vaadin.flow.router.*;
 import com.vaadin.flow.server.PWA;
 import org.hbrs.se2.project.softwaree.dtos.UserDTO;
 import org.hbrs.se2.project.softwaree.util.Globals;
+
+import java.util.Optional;
 
 @CssImport("./styles/views/main/main-view.css")
 @Route("main2")
@@ -32,39 +29,36 @@ import org.hbrs.se2.project.softwaree.util.Globals;
     public class NavBar extends AppLayout implements BeforeEnterObserver {
 
     private Tabs menu;
+    private Span viewTitle;
+
 
         public NavBar() {
             if (getCurrentUser() == null) {
                 System.out.println("LOG: In Constructor of App View - No User given!");
             } else {
-                setUpUI();
+                menu = getTabs();
+                addToNavbar(createTopHeader());
+                addToNavbar(true, menu);
+
             }
         }
 
-        public void setUpUI() {
-            H1 title = new H1("Collab@HBRS");
-            title.getStyle().set("font-size", "var(--lumo-font-size-l)")
-                    .set("margin", "var(--lumo-space-m) var(--lumo-space-l)");
+        private Component createTopHeader() {
+            viewTitle = new Span("View Title_x");
 
-            menu = getTabs();
+            Span home = new Span ("Colab@HBRS");
+            home.setTitle("Welcome to Colab@HBRS");
+            Icon icon = VaadinIcon.HOME.create();
+            icon.setSize("var(--lumo-icon-size-s)");
 
-            H2 viewTitle = new H2("View title");
-            Paragraph viewContent = new Paragraph("View content");
+            VerticalLayout TopHeader = new VerticalLayout();
+            // TopHeader.setAlignItems(FlexComponent.Alignment.CENTER);
+            TopHeader.setWidth("100px"); TopHeader.setHeight("50px");
+            TopHeader.add(home);
 
-            Div content = new Div();
-            content.add(viewTitle, viewContent);
-
-            addToNavbar(title);
-            addToNavbar(true, menu);
-
-            Tabs secondaryNavbar = getSecondaryNavigation();
-
-            HorizontalLayout wrapper = new HorizontalLayout(secondaryNavbar);
-            setContent(wrapper);
-           // setContent(content);
-            //addToNavbar(true, wrapper);
-
+            return TopHeader;
         }
+
         private boolean checkIfUserIsLoggedIn() {
             // Falls der Benutzer nicht eingeloggt ist, dann wird er auf die Startseite gelenkt
             UserDTO userDTO = this.getCurrentUser();
@@ -80,34 +74,43 @@ import org.hbrs.se2.project.softwaree.util.Globals;
             tabs.add(createTab(VaadinIcon.LIST_UL, JobView.class),
                     createTab(VaadinIcon.LOCATION_ARROW, ShowAddressView.class),
                     createTab(VaadinIcon.USER, EditProfileView.class),
-                    createTab(VaadinIcon.SIGN_IN, RegisterStudentView.class));
+                    createTab(VaadinIcon.MAILBOX, ContactView.class));
+
             tabs.addThemeVariants(TabsVariant.LUMO_MINIMAL,
                     TabsVariant.LUMO_EQUAL_WIDTH_TABS);
+            tabs.setSizeFull();
+
+
             return tabs;
         }
+
 
         private Tab createTab(VaadinIcon viewIcon, Class<? extends Component> navigationTarget) {
+            // Setting up the Icon for the Tab
             Icon icon = viewIcon.create();
             icon.setSize("var(--lumo-icon-size-s)");
-            icon.getStyle().set("margin", "auto");
+            //icon.getStyle().set("margin", "auto");
 
+            // Setting up the Route for the Tab
+            Span tabTitle = new Span(navigationTarget.getSimpleName());
+            tabTitle.getStyle().set("font-size", "10px");
+            VerticalLayout tabLayout = new VerticalLayout();
+            tabLayout.setAlignItems(FlexComponent.Alignment.CENTER);
+            tabLayout.add(icon, tabTitle);
+            //tabLayout.
             RouterLink link = new RouterLink();
-            link.add(icon);
-            // Demo has no routes
+
+            link.add(tabLayout);
             link.setRoute(navigationTarget);
-            link.setTabIndex(-1);
 
-            return new Tab(link);
+            // Creating new Tab Instance
+            Tab tab = new Tab(link);
+            tab.getStyle().set("margin", "0");
+            ComponentUtil.setData(tab, Class.class, navigationTarget);
+            return tab;
         }
 
-        private Tabs getSecondaryNavigation() {
-            Tabs tabs = new Tabs();
-            tabs.add(new Tab("All"), new Tab("Open"), new Tab("Completed"),
-                    new Tab("Cancelled"));
-            tabs.addThemeVariants(TabsVariant.LUMO_MINIMAL,
-                    TabsVariant.LUMO_EQUAL_WIDTH_TABS);
-            return tabs;
-        }
+
 
     private void logoutUser() {
         UI ui = this.getUI().get();
@@ -121,18 +124,28 @@ import org.hbrs.se2.project.softwaree.util.Globals;
         // Falls der Benutzer nicht eingeloggt ist, dann wird er auf die Startseite gelenkt
         if ( !checkIfUserIsLoggedIn() ) return;
 
-/*        // Der aktuell-selektierte Tab wird gehighlighted.
+        //Der aktuell-selektierte Tab wird gehighlighted.
         getTabForComponent(getContent()).ifPresent(menu::setSelectedTab);
 
-        // Setzen des aktuellen Names des Tabs
+        //Setzen des aktuellen Names des Tabs
         viewTitle.setText(getCurrentPageTitle());
 
         // Setzen des Vornamens von dem aktuell eingeloggten Benutzer
-        helloUser.setText("Hello my dear old friend!! "  + this.getCurrentNameOfUser() );*/
+        //helloUser.setText("Hello my dear old friend!! "  + this.getCurrentNameOfUser() );
     }
     private String getCurrentNameOfUser() {
         return String.valueOf(getCurrentUser().getEmail());
     }
+
+    private Optional<Tab> getTabForComponent(Component component) {
+        return menu.getChildren().filter(tab -> ComponentUtil.getData(tab, Class.class).equals(component.getClass()))
+                .findFirst().map(Tab.class::cast);
+    }
+    private String getCurrentPageTitle() {
+        PageTitle title = getContent().getClass().getAnnotation(PageTitle.class);
+        return title == null ? "" : title.value();
+    }
+
 
     private UserDTO getCurrentUser() {
         return (UserDTO) UI.getCurrent().getSession().getAttribute(Globals.CURRENT_USER);
@@ -155,6 +168,6 @@ import org.hbrs.se2.project.softwaree.util.Globals;
 
     }
     }
-// end::snippet[]
+
 
 

@@ -53,7 +53,6 @@ public class Job {
     @Column(name = "views", nullable = false)
     private Integer views;
 
-
     @NotNull
     @ManyToMany
     @JoinTable(name = "job_requirement", schema = "coll",
@@ -67,6 +66,16 @@ public class Job {
     @JoinColumn(name = "company_id")
     private Company company;
 
+    @NotNull
+    @ManyToMany
+    @JoinTable(name = "job_benefit", schema = "coll",
+            joinColumns = @JoinColumn(name = "job_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "benefit_id", referencedColumnName = "id")
+    )
+    @Fetch(FetchMode.JOIN)
+    private  Set<Benefit> benefits = new java.util.LinkedHashSet<>();
+
+
     public Company getCompany() {
         return company;
     }
@@ -78,7 +87,6 @@ public class Job {
     public void setRequirements(Set<Requirement> requirements) {
         this.requirements = requirements;
     }
-
 
 
     public Integer getId() {
@@ -110,18 +118,9 @@ public class Job {
     public Integer getViews() {
         return views;
     }
-
-
-
-   /* public String getAllCompanyNames() {
-        String names = "";
-        Iterator<Company> it = this.getCompany().iterator();
-        while(it.hasNext()) {
-            names += it.next().getName() + "\n";
-        }
-        return names;
+    public Set<Benefit> getBenefits() {
+        return benefits;
     }
-*/
 
     public Set<Requirement> getRequirements() {
         return requirements;
@@ -134,6 +133,15 @@ public class Job {
             description+= it.next().getDescription() + "\n";
         }
         return description;
+    }
+
+    public String getBenefitsAsString() {
+        String benefits = "";
+        Iterator<Benefit> it = this.getBenefits().iterator();
+        while(it.hasNext()) {
+            benefits+= it.next().getDescription() + "\n";
+        }
+        return benefits;
     }
 
     public String getCompanyName() {

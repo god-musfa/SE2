@@ -4,6 +4,7 @@ package org.hbrs.se2.project.softwaree.views;
 import java.time.LocalDate;
 import java.util.Locale;
 
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.accordion.Accordion;
 import com.vaadin.flow.component.button.Button;
@@ -14,6 +15,7 @@ import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.notification.NotificationVariant;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
@@ -352,6 +354,7 @@ public class EditProfileView extends Div {
         // Check account type to show corresponding content:
         switch (userType) {
             case "student": {
+                add(createLocalNavigation());
                 setupStudentComponents();
                 add(profileSettingsAccordion);
                 break;
@@ -364,6 +367,28 @@ public class EditProfileView extends Div {
 
         }
     }
+    //Create Local Navigation for the Profile Page including Editing Profile, Settings, and Logout Buttons
+    private Component createLocalNavigation() {
+        Button logout = createButton("Logout");
+        logout.addClickListener(event -> {
+            UI ui = this.getUI().get();
+            ui.getSession().close();
+            ui.getPage().setLocation("/");
+        });
 
+        super.setSizeFull();
+        HorizontalLayout localNavigation = new HorizontalLayout(createButton("Edit"),createButton("Settings"), logout);
+        localNavigation.setSpacing(false); // Space around the Components = False
+        localNavigation.setWidthFull();
+        localNavigation.setJustifyContentMode(FlexComponent.JustifyContentMode.BETWEEN);
+        logout.getStyle().set("margin-left", "auto").set("padding-right", "3em"); // Specify the lignment of one component -> logout to the  Left
 
+        return localNavigation;
+    }
+
+    private Button createButton(String name) {
+        Button button = new Button(name);
+        button.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
+        return button;
+    }
 }
