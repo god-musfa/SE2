@@ -7,6 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.Iterator;
+import java.util.Optional;
 import java.util.Set;
 
 /*@NamedNativeQuery(name="Job.findAllJobsNative",
@@ -121,9 +122,23 @@ public class Job {
     public Integer getViews() {
         return views;
     }
+
     public Set<Benefit> getBenefits() {
         return benefits;
     }
+
+
+
+
+   /* public String getAllCompanyNames() {
+        String names = "";
+        Iterator<Company> it = this.getCompany().iterator();
+        while(it.hasNext()) {
+            names += it.next().getName() + "\n";
+        }
+        return names;
+    }
+*/
 
     public Set<Requirement> getRequirements() {
         return requirements;

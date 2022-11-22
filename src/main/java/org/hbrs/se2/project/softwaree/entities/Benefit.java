@@ -1,5 +1,6 @@
 package org.hbrs.se2.project.softwaree.entities;
 
+
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -10,6 +11,7 @@ import java.util.Set;
 @Table(name = "benefit", schema = "coll")
 public class Benefit {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Integer id;
 
@@ -42,3 +44,5 @@ public class Benefit {
     }
 
 }
+
+
