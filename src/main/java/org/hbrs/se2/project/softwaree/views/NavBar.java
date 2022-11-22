@@ -39,7 +39,6 @@ import java.util.Optional;
                 menu = getTabs();
                 addToNavbar(createTopHeader());
                 addToNavbar(true, menu);
-
             }
         }
 
@@ -79,7 +78,6 @@ import java.util.Optional;
             tabs.addThemeVariants(TabsVariant.LUMO_MINIMAL,
                     TabsVariant.LUMO_EQUAL_WIDTH_TABS);
             tabs.setSizeFull();
-
 
             return tabs;
         }

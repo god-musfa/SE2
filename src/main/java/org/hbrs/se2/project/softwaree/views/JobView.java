@@ -27,8 +27,10 @@ import org.hbrs.se2.project.softwaree.control.ManageJobsControl;
 import org.hbrs.se2.project.softwaree.entities.Job;
 import org.hbrs.se2.project.softwaree.util.Globals;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * Darstellung einer Tabelle (bei Vaadin: ein Grid) zur Anzeige von Autos.
@@ -43,12 +45,17 @@ import java.util.Optional;
 public class JobView extends Div {
 
     private List<Job> jobList;
+
     public JobView(ManageJobsControl jobsControl) {
         addClassName("jobs");
 
         // Auslesen alle abgespeicherten Autos aus der DB (über das Control)
         jobList = jobsControl.readAllJobs();
 
+
+       /* imageList.add(new Image("icons/Deutsche_Telekom_2022.svg.png"));
+        imageList.add(new Image("icons/Deutsche_Telekom_2022.svg.png"));
+        imageList.add(new Image("icons/Deutsche_Telekom_2022.svg.png"));*/
         // Titel überhalb der Tabelle
         add(this.createTitle());
 
@@ -135,7 +142,6 @@ public class JobView extends Div {
         return grid;
     }
 
-
     private Component createTitle() {
         return new H3("Stellenanzeigen");
     }
@@ -144,48 +150,64 @@ public class JobView extends Div {
         Grid<Job> grid = new Grid<>();
         setSizeFull();
         grid.setHeight("100%");
-        grid.addThemeVariants(GridVariant.LUMO_NO_BORDER, GridVariant.LUMO_NO_ROW_BORDERS);
+        grid.addThemeVariants(GridVariant.LUMO_NO_BORDER, GridVariant.LUMO_WRAP_CELL_CONTENT);
         grid.setItems(jobList);
         grid.addComponentColumn(job -> createCard(job));
+        grid.addSelectionListener(selection -> {
+            Optional<Job> optionalJob = selection.getFirstSelectedItem();
+            if (optionalJob.isPresent()) {
+                UI.getCurrent().navigate(Globals.Pages.SHOW_JOB_DETAILS+"/"+optionalJob.get().getTitle());
+
+                /*System.out.printf("Selected person: %s%n",
+                optionalJob.get());*/
+            }
+        });
         add(grid);
         return grid;
     }
 
     private HorizontalLayout createCard(Job job) {
+
+        // [horizontal ] Card Wrapper
         HorizontalLayout card = new HorizontalLayout();
         card.addClassName("card");
         card.setSpacing(false);
         card.getThemeList().add("spacing-s");
+        card.setJustifyContentMode(FlexComponent.JustifyContentMode.EVENLY);
 
         // Company Logo
         Image image = new Image();
         image.setSrc("icons/icon.png");
-        image.setHeight("30px");
+        image.setHeight("50px");
 
-        VerticalLayout description = new VerticalLayout();
+        // [vertical] Content Wrapper Component
+        VerticalLayout contentWrapper = new VerticalLayout();
+        contentWrapper.addClassName("description");
+        contentWrapper.setSpacing(false);
+        contentWrapper.setPadding(false);
+        contentWrapper.setAlignItems(FlexComponent.Alignment.START);
 
-        // Wrapper Component
-        description.addClassName("description");
-        description.setSpacing(false);
-        description.setPadding(false);
-
-        // Card Content
+        // [Horizontal] Header of the Card
         HorizontalLayout header = new HorizontalLayout();
         header.addClassName("header");
         header.setSpacing(false);
         header.getThemeList().add("spacing-s");
+        header.setWidthFull();
 
         // 1. Paragraph Job Title and Creation Date
         H2 title = new H2(job.getTitle());
         title.addClassName("job_title");
-        Span date = new Span(job.getCreation_date().toString());
+        String dateString = ( job.getCreation_date()!= null ?  job.getCreation_date().toString() : "NaN");
+        Span date = new Span("vom " + (dateString)) ;
         date.addClassName("creation_date");
+        date.getStyle().set("font-style" , "italic");
+        date.getStyle().set("margin-left", "auto");
+
         header.add(title, date);
-        date.getStyle().set("magrin-left", "auto");
 
         // 2. Job Description and
-        Span post = new Span(job.getDescription());
-        post.addClassName("job_description");
+        Paragraph job_description = new Paragraph(job.getDescription());
+        job_description.addClassName("job_description");
 
         HorizontalLayout actions = new HorizontalLayout();
         actions.addClassName("actions");
@@ -194,7 +216,9 @@ public class JobView extends Div {
 
         Icon likeIcon = VaadinIcon.HEART.create();
         likeIcon.addClassName("icon");
-        Span likes = new Span(job.getViews().toString());
+
+        String viewsString = ( job.getViews() != null ?  job.getViews().toString() : "NaN");
+        Span likes = new Span(viewsString);
         likes.addClassName("likes");
         /*Icon commentIcon = VaadinIcon.COMMENT.create();
         commentIcon.addClassName("icon");
@@ -207,9 +231,37 @@ public class JobView extends Div {
 
         actions.add(likeIcon, likes);//, commentIcon, comments, shareIcon, shares);
 
-        description.add(header, post, actions);
-        card.add(image, description);
+        contentWrapper.add(header, job_description, actions);
+        card.add(image, contentWrapper);
+        card.addClickListener(event -> {
+
+        });
         return card;
+    }
+
+    //Create Local Navigation for the Profile Page including Editing Profile, Settings, and Logout Buttons
+    private Component createLocalNavigation() {
+        Button logout = createButton("logout");
+        logout.addClickListener(event -> {
+            UI ui = this.getUI().get();
+            ui.getSession().close();
+            ui.getPage().setLocation("/");
+        });
+
+        super.setSizeFull();
+        HorizontalLayout localNavigation = new HorizontalLayout(createButton("Edit"),createButton("Settings"), logout);
+        localNavigation.setSpacing(false); // Space around the Components = False
+        localNavigation.setWidthFull();
+        localNavigation.setJustifyContentMode(FlexComponent.JustifyContentMode.BETWEEN);
+        logout.getStyle().set("margin-left", "auto").set("padding-right", "3em"); // Specify the lignment of one component -> logout to the  Left
+
+        return localNavigation;
+    }
+
+    private Button createButton(String name) {
+        Button button = new Button(name);
+        button.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
+        return button;
     }
 
     /*

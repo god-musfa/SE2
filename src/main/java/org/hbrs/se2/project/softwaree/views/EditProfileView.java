@@ -250,9 +250,6 @@ public class EditProfileView extends Div {
     }
 
 
-
-
-
     private void setupCompanyComponents() {
 
         // E-Mail field:
@@ -339,9 +336,6 @@ public class EditProfileView extends Div {
             notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
 
         } );
-
-
-
     }
 
 

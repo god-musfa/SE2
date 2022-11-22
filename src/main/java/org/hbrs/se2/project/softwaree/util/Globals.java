@@ -36,5 +36,4 @@ public class Globals {
         public static final String TABLET_LANDSCAPE = "1024px";
         public static final String WORKSTATION = "1200px";
     }
-
 }

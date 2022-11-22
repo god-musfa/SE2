@@ -25,7 +25,6 @@ public class Student {
     @Column(name = "degree")
     private String degree;
 
-
     @Column(name = "university")
     private String university;
 
