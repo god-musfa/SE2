@@ -20,6 +20,7 @@ import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
 import com.vaadin.flow.component.radiobutton.RadioGroupVariant;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.IntegerField;
+import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.router.PageTitle;
@@ -55,6 +56,7 @@ public class EditProfileView extends Div {
     private TextField city = new TextField("Ort");
     private EmailField email = new EmailField("E-Mail");
 
+
     private Button saveButton = new Button( "Save");
     private Button cancelButton = new Button( "Cancel");
 
@@ -62,6 +64,8 @@ public class EditProfileView extends Div {
 
     // Profile picture layout
     private final SoftwareeAvatar profileAvatar = new SoftwareeAvatar(true);
+    private final SoftwareeAvatar companyAvatar = new SoftwareeAvatar(true);
+
 
 
     // Form Layouts for splitting user settings into two parts (public information, personal information)
@@ -81,13 +85,16 @@ public class EditProfileView extends Div {
 
     // Components for companies:
     final TextField contactPerson = new TextField("Kontaktperson");
+
+    final TextField companyName = new TextField("Unternehmensname");
+
     final TextField phoneNumber = new TextField("Telefonnummer");
     final ComboBox<String> field = new ComboBox<>("Branche");
     final RadioButtonGroup<String> size = new RadioButtonGroup<>();
     final TextField website = new TextField("Webseite");
     UserDTO userDTO = (UserDTO) UI.getCurrent().getSession().getAttribute(Globals.CURRENT_USER);
     EditProfileControl pc;
-    private Binder<StudentDTO> binder2 = new Binder(StudentDTO.class);
+
 
     // Methods to setup components:
 
@@ -95,8 +102,6 @@ public class EditProfileView extends Div {
      * Sets up all components needed by student user and adds them to the main Accordion.
      */
     private void setupStudentComponents() {
-
-
 
         // Responsive layout specification:
         publicInfoForm.setResponsiveSteps(
@@ -106,8 +111,13 @@ public class EditProfileView extends Div {
         );
 
         // Patterns and rules for input validation:
+        //v
         number.setPattern("^[0-9]*[A-Za-z]{0,1}$");
+        number.setMaxLength(3);
         number.setErrorMessage("Diese Hausnummer ist ungültig!");
+        postalCode.setRequired(true);
+
+        postalCode.setMaxLength(5);
         postalCode.setPattern("^[0-9]{5}$");
         postalCode.setErrorMessage("Diese Postleitzahl ist ungültig!");
         birthday.setMax(LocalDate.now());
@@ -119,8 +129,10 @@ public class EditProfileView extends Div {
         email.setErrorMessage("Bitte geben Sie eine gültige E-Mail Adresse ein!");
         email.setClearButtonVisible(true);
 
+
         // Locale settings (for birthday picker):
         birthday.setLocale(germanLocale);
+        birthday.setReadOnly(true);
 
         // Set Settings for semester value:
         semester.setLabel("Semester");
@@ -232,6 +244,9 @@ public class EditProfileView extends Div {
         binderEmail.readBean(userDTO);
 
 
+
+        cancelButton.addClickListener(event -> UI.getCurrent().getPage().reload());
+
         saveButton.addClickListener(e -> {
             UserDTO userDTO = (UserDTO) UI.getCurrent().getSession().getAttribute(Globals.CURRENT_USER);
 
@@ -245,6 +260,7 @@ public class EditProfileView extends Div {
         } );
 
 
+
     }
 
 
@@ -254,30 +270,46 @@ public class EditProfileView extends Div {
     private void setupCompanyComponents() {
 
         // E-Mail field:
+        email.setRequiredIndicatorVisible(true);
         email.setLabel("E-Mail Adresse");
         email.setPlaceholder("username@example.com");
         email.setErrorMessage("Bitte geben Sie eine gültige E-Mail Adresse ein!");
         email.setClearButtonVisible(true);
+        email.setInvalid(true);
+        email.setPreventInvalidInput(false);
 
         // Public information form layout:
         publicInfoForm.setResponsiveSteps(
                 new FormLayout.ResponsiveStep("0", 1),
-                new FormLayout.ResponsiveStep("20em", 2)
+                new FormLayout.ResponsiveStep(Globals.ScreenSizes.SMARTPHONE_LANDSCAPE, 4),
+                new FormLayout.ResponsiveStep(Globals.ScreenSizes.WORKSTATION, 8 )
         );
 
         // Add input components to form for public info:
+        publicInfoForm.add(companyAvatar);
+        publicInfoForm.add(companyName);
         publicInfoForm.add(street);
         publicInfoForm.add(number);
         publicInfoForm.add(city);
         publicInfoForm.add(postalCode);
         publicInfoForm.add(email);
 
-
+        //Patterns
+        contactPerson.setRequired(true);
+        contactPerson.setPattern("^[a-zA-Z\\s]+");
         website.setPattern("^https?:\\/\\/(?:www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b(?:[-a-zA-Z0-9()@:%_\\+.~#?&\\/=]*)$");
         phoneNumber.setHelperText("Format: +4915776534993");
         phoneNumber.setLabel("Telefonnummer");
         phoneNumber.setPattern("\\(?\\+\\(?49\\)?[ ()]?([- ()]?\\d[- ()]?){10}");
         contactPerson.setLabel("Kontaktperson");
+        companyName.setLabel("Unternehmensname");
+        companyName.setReadOnly(true);
+        companyAvatar.setSize("6rem");
+        number.setMaxLength(3);
+        number.setPattern("^[0-9]{2}$");
+        postalCode.setMaxLength(5);
+        postalCode.setPattern("^(?!01000|99999)(0[1-9]\\d{3}|[1-9]\\d{4})$");
+
 
         field.setAllowCustomValue(true);
 
@@ -324,7 +356,10 @@ public class EditProfileView extends Div {
 
         Binder<UserDTO> binderEmail = new Binder<>(UserDTO.class);
         binderEmail.bindInstanceFields(this);
-        binderEmail.setBean(userDTO);
+        binderEmail.readBean(userDTO);
+
+        //button function
+        cancelButton.addClickListener(event -> UI.getCurrent().getPage().reload());
 
         saveButton.addClickListener(e -> {
             UserDTO userDTO = (UserDTO) UI.getCurrent().getSession().getAttribute(Globals.CURRENT_USER);
