@@ -25,12 +25,10 @@ import com.vaadin.flow.router.Route;
 import org.hbrs.se2.project.softwaree.components.SoftwareeAvatar;
 import org.hbrs.se2.project.softwaree.control.EditProfileControl;
 import org.hbrs.se2.project.softwaree.control.JobOfferControl;
-import org.hbrs.se2.project.softwaree.dtos.AddressDTO;
-import org.hbrs.se2.project.softwaree.dtos.CompanyDTO;
-import org.hbrs.se2.project.softwaree.dtos.StudentDTO;
-import org.hbrs.se2.project.softwaree.dtos.UserDTO;
+import org.hbrs.se2.project.softwaree.dtos.*;
 import org.hbrs.se2.project.softwaree.util.Globals;
 
+import java.sql.SQLOutput;
 import java.time.LocalDate;
 import java.util.Locale;
 
@@ -50,12 +48,13 @@ public class JobOfferView extends Div {
 
     // Base components for both user types
     private TextField title = new TextField("Titel");
-    final TextField contactPerson = new TextField("Kontaktperson");
-    private EmailField email = new EmailField("E-Mail");
-    final TextField website = new TextField("Webseite");
-    private final Locale germanLocale = new Locale("de", "DE");
-    private TextField description = new TextField("Beschreibung");
+    private final DatePicker creationDate = new DatePicker("Creation Date");
+    private final DatePicker lastEdit = new DatePicker("Last Edit");
     private final DatePicker deadline = new DatePicker("Deadline");
+    private TextField description = new TextField("Beschreibung");
+    final TextField contactPerson = new TextField("Kontaktperson");
+    private TextField location = new TextField("Location");
+    private final Locale germanLocale = new Locale("de", "DE");
     private Button saveButton = new Button( "Save");
     private Button cancelButton = new Button( "Cancel");
 
@@ -69,7 +68,8 @@ public class JobOfferView extends Div {
 
     UserDTO userDTO = (UserDTO) UI.getCurrent().getSession().getAttribute(Globals.CURRENT_USER);
     JobOfferControl jc;
-    private Binder<StudentDTO> binder2 = new Binder(StudentDTO.class);
+
+    private Binder<JobDTO> binder2 = new Binder<>(JobDTO.class);
 
 
 
@@ -92,12 +92,14 @@ public class JobOfferView extends Div {
         // Patterns and rules for input validation:
         deadline.setMin(LocalDate.now());
 
-
+        /*
         // E-Mail field settings:
         email.setLabel("E-Mail Adresse");
         email.setPlaceholder("username@example.com");
         email.setErrorMessage("Bitte geben Sie eine gültige E-Mail Adresse ein!");
         email.setClearButtonVisible(true);
+
+         */
 
         // Locale settings (for birthday picker):
         deadline.setLocale(germanLocale);
@@ -106,24 +108,30 @@ public class JobOfferView extends Div {
         // Placeholders for arrangement of form fields:
 
         Div titlePlaceholder = new Div();
-        Div descriptionPlaceholder = new Div();
-        Div emailPlaceholder = new Div();
+        Div creationDatePlaceholder = new Div();
+        Div lastEditPlaceholder = new Div();
         Div deadlinePlaceholder = new Div();
-        Div contactPersonPlaceholder = new Div();
+        Div descriptionPlaceholder = new Div();
+        Div locationPlaceholder = new Div();
+        Div viewsPlaceholder = new Div();
+        Div companyPlaceholder = new Div();
+
 
 
         // Add all components to publicInfoForm container:
 
         publicInfoForm.add(title);
         publicInfoForm.add(titlePlaceholder);
-        publicInfoForm.add(description);
-        publicInfoForm.add(descriptionPlaceholder);
-        publicInfoForm.add(email);
-        publicInfoForm.add(emailPlaceholder);
+        publicInfoForm.add(creationDate);
+        publicInfoForm.add(creationDatePlaceholder);
+        publicInfoForm.add(lastEdit);
+        publicInfoForm.add(lastEditPlaceholder);
         publicInfoForm.add(deadline);
         publicInfoForm.add(deadlinePlaceholder);
-        publicInfoForm.add(contactPerson);
-        publicInfoForm.add(contactPersonPlaceholder);
+        publicInfoForm.add(description);
+        publicInfoForm.add(descriptionPlaceholder);
+        publicInfoForm.add(location);
+        publicInfoForm.add(locationPlaceholder);
 
 
 
@@ -131,19 +139,21 @@ public class JobOfferView extends Div {
         publicInfoForm.setColspan(title, 2);
         publicInfoForm.setColspan(titlePlaceholder, 4);
 
-        publicInfoForm.setColspan(description, 2);
-        publicInfoForm.setColspan(descriptionPlaceholder, 4);
+        publicInfoForm.setColspan(creationDate, 2);
+        publicInfoForm.setColspan(creationDatePlaceholder, 4);
 
-        publicInfoForm.setColspan(email, 2);
-        publicInfoForm.setColspan(emailPlaceholder, 4);
-
+        publicInfoForm.setColspan(lastEdit, 2);
+        publicInfoForm.setColspan(lastEditPlaceholder, 4);
 
         publicInfoForm.setColspan(deadline, 2);
         publicInfoForm.setColspan(deadlinePlaceholder, 4);
 
+        publicInfoForm.setColspan(description, 2);
+        publicInfoForm.setColspan(descriptionPlaceholder, 4);
 
-        publicInfoForm.setColspan(contactPerson, 2);
-        publicInfoForm.setColspan(contactPersonPlaceholder, 4);
+        publicInfoForm.setColspan(location, 2);
+        publicInfoForm.setColspan(locationPlaceholder, 4);
+
 
 
 
@@ -162,30 +172,14 @@ public class JobOfferView extends Div {
         profileSettingsAccordion.add("Stellenanzeige", publicjobOfferPaddingContainer);
         publicjobOfferPaddingContainer.add(buttonLayout);
 
-        //prefill
-/*
-        Binder<StudentDTO> binder = new Binder(StudentDTO.class);
-        binder.bindInstanceFields(this);
-        binder.setBean(pc.getStudentFromUser(userDTO));
-
-        Binder<AddressDTO> binderAdress = new Binder<>(AddressDTO.class);
-        binderAdress.bindInstanceFields(this);
-        binderAdress.setBean(pc.getAdressFromUser(userDTO));
-
-        Binder<UserDTO> binderEmail = new Binder<>(UserDTO.class);
-        binderEmail.bindInstanceFields(this);
-        binderEmail.readBean(userDTO);
+        binder2.setBean(new JobDTO());
+        binder2.bindInstanceFields(this);
 
 
- */
-
-
-/*
         saveButton.addClickListener(e -> {
             UserDTO userDTO = (UserDTO) UI.getCurrent().getSession().getAttribute(Globals.CURRENT_USER);
-
-            pc.createStudent(binder.getBean());
-            pc.createAddress(binderAdress.getBean(), userDTO);
+            System.out.println(binder2.getBean().getDescription());
+            jc.createJobOffer(binder2.getBean(), userDTO.getId());
 
             Notification notification = Notification
                     .show("Daten gespeichert!");
@@ -194,7 +188,7 @@ public class JobOfferView extends Div {
         } );
 
 
- */
+
 
 
 

@@ -43,6 +43,10 @@ public class JobDTO implements Serializable {
         this.location = location;
     }
 
+    public JobDTO() {
+
+    }
+
     public Integer getId() {
         return id;
     }
@@ -55,34 +59,49 @@ public class JobDTO implements Serializable {
     public String getTitle() {
         return title;
     }
-
+    public void setCreation_date(LocalDate creation_date) {
+        this.creation_date = creation_date;
+    }
     public LocalDate getCreation_date() {
         return creation_date;
     }
 
+    public void setLast_edit(LocalDate last_edit) {
+        this.last_edit = last_edit;
+    }
     public LocalDate getLast_edit() {
         return last_edit;
     }
 
+    public void setDeadline(LocalDate deadline) {
+        this.deadline = deadline;
+    }
     public LocalDate getDeadline() {
         return deadline;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getDescription() {
         return description;
     }
 
+    public void setLocation(String location) {
+        this.location = location;
+    }
     public String getLocation() {
         return location;
     }
-
     public Integer getViews() {
         return views;
     }
 
-    public Company getCompany(){
-        return company;
+    public void setViews(Integer views) {
+        this.views = views;
     }
+
 
     @Override
     public boolean equals(Object o) {
