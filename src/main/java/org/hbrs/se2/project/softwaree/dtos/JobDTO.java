@@ -1,6 +1,8 @@
 package org.hbrs.se2.project.softwaree.dtos;
 
+import org.hbrs.se2.project.softwaree.entities.Benefit;
 import org.hbrs.se2.project.softwaree.entities.Company;
+import org.hbrs.se2.project.softwaree.entities.Requirement;
 
 import java.io.Serializable;
 import java.util.*;
@@ -22,6 +24,9 @@ public class JobDTO implements Serializable {
 
     public Company company;
 
+    private Set<Benefit> benefits;
+    private Set<Requirement> requirements;
+
 
     public JobDTO(Integer id, String title, LocalDate creation_date, LocalDate last_edit, LocalDate deadline,
                   String description, String location, Integer views, Company company) {
@@ -34,6 +39,21 @@ public class JobDTO implements Serializable {
         this.location = location;
         this.views = views;
         this.company = company;
+    }
+
+    public JobDTO(Integer id, String title, LocalDate creation_date, LocalDate last_edit, LocalDate deadline,
+                  String description, String location, Integer views, Company company, Set<Benefit> benefits, Set<Requirement> requirements) {
+        this.id = id;
+        this.title = title;
+        this.creation_date = creation_date;
+        this.last_edit = last_edit;
+        this.deadline = deadline;
+        this.description = description;
+        this.location = location;
+        this.views = views;
+        this.company = company;
+        this.benefits = benefits;
+        this.requirements = requirements;
     }
 
     public JobDTO(Integer id, String title, String description, String location) {
@@ -74,6 +94,14 @@ public class JobDTO implements Serializable {
 
     public Company getCompany(){
         return company;
+    }
+
+    public Set<Benefit> getBenefits() {
+        return this.benefits;
+    }
+
+    public Set<Requirement> getRequirements() {
+        return this.requirements;
     }
 
     @Override

@@ -1,0 +1,54 @@
+.jobcard {
+    border-radius: 5px;
+    border-style: none;
+    background-color: #F2FBFF;
+    text-align: center;
+    padding: 5px;
+}
+
+.jobcard-key {
+    float: left;
+}
+
+.jobcard-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.jobcard-value {
+    float: right;
+    color: #888888;
+    margin-left: auto;
+}
+
+.jobcard-bulletpoint {
+    border-bottom: 1px;
+    border-bottom-style: solid;
+    padding-bottom: 0.5rem;
+    border-bottom-color: #E2F6FF;
+}
+
+.jobcard-views-icon {
+    color: #888888;
+    width: 1rem;
+    height: 1rem;
+    margin-top: 10px;
+}
+
+.jobcard-views-label {
+    color: #888888;
+    margin-top: 10px;
+    margin-left: 5px;
+    font-size: small;
+}
+
+.jobtitle {
+    font-size: large;
+    margin-bottom: 5px;
+    line-height: 1.5rem;
+}
+
+.companytitle {
+    font-size: small;
+    color: #888888;
+}

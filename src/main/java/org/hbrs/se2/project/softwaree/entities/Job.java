@@ -7,6 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.Iterator;
+import java.util.Optional;
 import java.util.Set;
 
 /*@NamedNativeQuery(name="Job.findAllJobsNative",
@@ -63,6 +64,17 @@ public class Job {
     @Fetch(FetchMode.JOIN)
     private  Set<Requirement> requirements = new java.util.LinkedHashSet<>();
 
+
+    @NotNull
+    @ManyToMany
+    @JoinTable(name = "job_benefit", schema = "coll",
+            joinColumns = @JoinColumn(name = "job_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "benefit_id", referencedColumnName = "id")
+    )
+    @Fetch(FetchMode.JOIN)
+    private  Set<Benefit> benefits = new java.util.LinkedHashSet<>();
+
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "company_id")
     private Company company;
@@ -110,6 +122,11 @@ public class Job {
     public Integer getViews() {
         return views;
     }
+
+    public Set<Benefit> getBenefits() {
+        return benefits;
+    }
+
 
 
 

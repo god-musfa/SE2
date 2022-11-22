@@ -114,7 +114,7 @@ public class JobView extends Div  {
         grid.addSelectionListener(selection -> {
             Optional<Job> optionalJob = selection.getFirstSelectedItem();
             if (optionalJob.isPresent()) {
-                UI.getCurrent().navigate(Globals.Pages.SHOW_JOB_DETAILS+"/"+optionalJob.get().getTitle());
+                UI.getCurrent().navigate(Globals.Pages.SHOW_JOB_DETAILS+"/"+optionalJob.get().getId());
 
                 /*System.out.printf("Selected person: %s%n",
                 optionalJob.get());*/
