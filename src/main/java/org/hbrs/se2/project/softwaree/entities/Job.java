@@ -139,4 +139,16 @@ public class Job {
     public String getCompanyName() {
      return company.getName();
     }
+
+    public void setTitle(String title) {
+    }
+
+    public void setDescription(String description) {
+    }
+
+    public void setLocation(String location) {
+    }
+
+    public void setId(Integer id) {
+    }
 }
