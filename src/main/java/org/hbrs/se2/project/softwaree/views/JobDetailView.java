@@ -73,12 +73,13 @@ public class JobDetailView extends Div implements HasUrlParameter<String> {
          */
 
         // Try to fetch job id from url query:
+        System.out.println(parameter);
         try {
             currentJobID = Integer.parseInt(parameter);
         } catch (NumberFormatException ex) {
             currentJobID = -1;
         }
-
+        System.out.println(currentJobID);
         // Validate job id from query:
         if (jobDetailControl.validateJobID(currentJobID)) {
             build();

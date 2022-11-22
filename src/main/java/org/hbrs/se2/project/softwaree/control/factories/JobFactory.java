@@ -9,8 +9,8 @@ public class JobFactory {
         return new JobDTO(
                 job.getId(),
                 job.getTitle(),
-                job.getCreation_date(),
-                job.getLast_edit(),
+                job.getCreationDate(),
+                job.getLastEdit(),
                 job.getDeadline(),
                 job.getDescription(),
                 job.getLocation(),

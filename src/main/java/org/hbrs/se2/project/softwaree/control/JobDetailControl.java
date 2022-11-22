@@ -18,6 +18,7 @@ public class JobDetailControl {
     }
 
     public boolean validateJobID(int id) {
+        System.out.println(repo.getFullJobInfo(id).isPresent()+" "+repo.getFullJobInfo(id).isPresent());
         return repo.getFullJobInfo(id).isPresent() && repo.checkJobExists(id);
     }
 

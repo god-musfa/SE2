@@ -150,4 +150,8 @@ public class JobDTO implements Serializable {
     public int hashCode() {
         return Objects.hash(id, title, creation_date, last_edit, deadline, description, location, views, company);
     }
+
+    public Company getCompany() {
+        return company;
+    }
 }
