@@ -89,7 +89,7 @@ public class JobView extends Div {
                 .setHeader("Requirements");
 
         Grid.Column<Job> creation_date = grid
-                .addColumn(Job::getCreation_date)
+                .addColumn(Job::getCreationDate)
                 .setHeader("Creation Date");
 
         Grid.Column<Job> location = grid

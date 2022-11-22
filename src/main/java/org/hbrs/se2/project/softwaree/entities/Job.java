@@ -29,29 +29,31 @@ import java.util.Set;
 @Table(name = "job_listing", schema = "coll")
 public class Job {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @Column(name="title", nullable = false)
+    @Column(name="title")
     private String title;
 
-    @Column(name="creation_date", nullable = false)
+    @Column(name="creation_date")
     private LocalDate creation_date;
 
-    @Column(name="last_edit", nullable = false)
+    @Column(name="last_edit")
     private LocalDate last_edit;
 
-    @Column(name = "deadline", nullable = false)
+    @Column(name = "deadline")
     private LocalDate deadline;
 
-    @Column(name = "description", nullable = false)
+    @Column(name = "description")
     private String description;
 
-    @Column(name = "location", nullable = false)
+    @Column(name = "location")
     private String location;
 
-    @Column(name = "views", nullable = false)
+    @Column(name = "views")
     private Integer views;
+
 
     @NotNull
     @ManyToMany
@@ -89,17 +91,18 @@ public class Job {
     }
 
 
+
     public Integer getId() {
         return id;
     }
 
     public String getTitle() {return title;}
 
-    public LocalDate getCreation_date() {
+    public LocalDate getCreationDate() {
         return creation_date;
     }
 
-    public LocalDate getLast_edit() {
+    public LocalDate getLastEdit() {
         return last_edit;
     }
 
@@ -145,6 +148,38 @@ public class Job {
     }
 
     public String getCompanyName() {
-     return company.getName();
+        return company.getName();
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setCreation_date(LocalDate creation_date) {
+        this.creation_date = creation_date;
+    }
+
+    public void setLast_edit(LocalDate last_edit) {
+        this.last_edit = last_edit;
+    }
+
+    public void setDeadline(LocalDate deadline) {
+        this.deadline = deadline;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public void setViews(Integer views) {
+        this.views = views;
     }
 }
