@@ -197,7 +197,7 @@ public class JobView extends Div {
         // 1. Paragraph Job Title and Creation Date
         H2 title = new H2(job.getTitle());
         title.addClassName("job_title");
-        String dateString = ( job.getCreation_date()!= null ?  job.getCreation_date().toString() : "NaN");
+        String dateString = ( job.getCreationDate()!= null ?  job.getCreationDate().toString() : "NaN");
         Span date = new Span("vom " + (dateString)) ;
         date.addClassName("creation_date");
         date.getStyle().set("font-style" , "italic");
