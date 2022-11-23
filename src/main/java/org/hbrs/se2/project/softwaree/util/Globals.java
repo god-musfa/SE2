@@ -10,6 +10,10 @@ public class Globals {
         public static final String LOGIN_VIEW = "login";
         public static final String MAIN_VIEW = "";
 
+        public static final String REGISTER_STUDENT = "register/student";
+        public static final String REGISTER_COMPANY = "register/company";
+        public static final String REGISTER = "register";
+
         public static final String EDIT_PROFILE = "editProfile";
         public static final String SHOW_ADDRESS = "address";
 

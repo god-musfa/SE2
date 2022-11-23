@@ -1,6 +1,7 @@
 package org.hbrs.se2.project.softwaree.views;
 //import com.vaadin.*;
 //import com.vaadin.flow.component.Text;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.checkbox.Checkbox;
 //import com.vaadin.flow.component.formlayout.FormLayout;
@@ -11,7 +12,10 @@ import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.router.Route;
+import org.hbrs.se2.project.softwaree.dtos.UserDTO;
+import org.hbrs.se2.project.softwaree.util.Globals;
 //import javax.validation.constraints.Email;
 
 @Route(value = "register")
@@ -24,22 +28,22 @@ public class RegisterView extends VerticalLayout {
   }
 
   //E-Mail - Textfeld
-  EmailField em = new EmailField("E-Mail");
+  EmailField email = new EmailField("E-Mail");
   public void initializeEM() {
-    em.setMaxLength(32);
-    em.setErrorMessage("Keine valide E-Mail-Addresse");
+    email.setMaxLength(32);
+    email.setErrorMessage("Keine valide E-Mail-Addresse");
     //em.setRequired(true);
   }
 
   //Passwort, mind. 12 Zeichen - Passwort-Textfeld
-  PasswordField pw = new PasswordField("Passwort");
+  PasswordField password = new PasswordField("Passwort");
   public void initializePW() {
-    pw.setRevealButtonVisible(false);
-    pw.setMaxLength(32);
-    pw.setMinLength(12);
-    pw.setHelperText("Das Passwort muss mindestens 12 Zeichen haben.");
-    pw.setErrorMessage("Kein valides Passwort");
-    pw.setRequired(true);
+    password.setRevealButtonVisible(false);
+    password.setMaxLength(32);
+    password.setMinLength(12);
+    password.setHelperText("Das Passwort muss mindestens 12 Zeichen haben.");
+    password.setErrorMessage("Kein valides Passwort");
+    password.setRequired(true);
   }
 
   //Passwort wiederholen - Passwort Textfeld
@@ -49,11 +53,14 @@ public class RegisterView extends VerticalLayout {
     pw2.setMinLength(12);
     pw2.setRequired(true);
   }
-  Select kat = new Select<>();
+
+  Select<String> userType = new Select<>();
   public void initializeKAT() {
-    kat.setLabel("Benutzerkategorie");
-    kat.setItems("Student","Unternehmen");
+    userType.setLabel("Benutzerkategorie");
+    userType.setItems("student","company");
+    userType.setEmptySelectionAllowed(false);
   }
+
   //Ich stimme der AGB und der Datenschutzbestimmung zu: - Checkmark
   Checkbox agb = new Checkbox("Ich stimme der AGB und der Datenschutzbestimmung zu.");
 
@@ -64,10 +71,8 @@ public class RegisterView extends VerticalLayout {
     registerButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
   }
 
-  public RegisterView() {
-    addClassName("RegisterView");
-
-    setId("registerView");
+  private Binder<UserDTO> userDTOBinder = new Binder<>(UserDTO.class);
+  public void setupComponents(){
     initializeEM();
     initializeUN();
     initializePW();
@@ -76,10 +81,27 @@ public class RegisterView extends VerticalLayout {
     initializeButton();
 
     VerticalLayout layout = new VerticalLayout();
-    layout.add(em,un,pw,pw2,agb,kat,registerButton);
+    layout.add(email,un,password,pw2,agb,userType,registerButton);
     add(layout);
 
+    userDTOBinder.setBean(new UserDTO());
+    userDTOBinder.bindInstanceFields(this);
+
+    registerButton.addClickListener(e -> {
+      UI.getCurrent().getSession().setAttribute( Globals.CURRENT_USER, userDTOBinder.getBean());
+
+      if (userType.getValue().equals("student")){
+        UI.getCurrent().navigate(Globals.Pages.REGISTER_STUDENT);
+      } else if (userType.getValue().equals("company")){
+        UI.getCurrent().navigate(Globals.Pages.REGISTER_COMPANY);
+      }
+    });
   }
 
+  public RegisterView() {
+    addClassName("RegisterView");
 
+    setId("registerView");
+    setupComponents();
+  }
 }

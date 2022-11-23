@@ -1,11 +1,19 @@
 package org.hbrs.se2.project.softwaree.views;
 //import com.vaadin.*;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.router.Route;
+import org.hbrs.se2.project.softwaree.control.RegistrationControl;
+import org.hbrs.se2.project.softwaree.dtos.AddressDTO;
+import org.hbrs.se2.project.softwaree.dtos.CompanyDTO;
+import org.hbrs.se2.project.softwaree.dtos.StudentDTO;
+import org.hbrs.se2.project.softwaree.dtos.UserDTO;
+import org.hbrs.se2.project.softwaree.util.Globals;
 
 @Route(value = "register/student", layout = NavBar.class)
 public class RegisterStudentView extends VerticalLayout {
@@ -16,42 +24,50 @@ public class RegisterStudentView extends VerticalLayout {
     anr.setItems("Herr","Frau");
   }
   //Vorname - Textfeld
-  TextField vn = new TextField("Vorname");
+  TextField firstName = new TextField("Vorname");
   public void initializeVN() {
-    vn.setMaxLength(20);
-    vn.setRequired(true);
+    firstName.setMaxLength(20);
+    firstName.setRequired(true);
   }
   // Nachname - Textfeld
-  TextField nn = new TextField("Nachname");
+  TextField lastName = new TextField("Nachname");
   public void initializeNN() {
-    nn.setMaxLength(20);
-    nn.setRequired(true);
+    lastName.setMaxLength(20);
+    lastName.setRequired(true);
   }
   // Straße, Hausnummer - Textfeld
-  TextField sthn = new TextField("Straße, Hausnummer");
-  public void initializeSTHN() {
-    sthn.setMaxLength(20);
-    sthn.setRequired(true);
-    sthn.setPattern("([a-zA-Z]|[ß]|[ ])+, [0-9]+\n");
+  TextField street = new TextField("Straße");
+  public void initializeStreet() {
+    street.setMaxLength(20);
+    street.setRequired(true);
+    street.setPattern("([a-zA-Z]|[ß]|[ ])+, [0-9]+\n");
   }
+
+  TextField number = new TextField("Hausnummer");
+  public void initializeNumber() {
+    number.setMaxLength(20);
+    number.setRequired(true);
+    number.setPattern("([a-zA-Z]|[ß]|[ ])+, [0-9]+\n");
+  }
+
   // PLZ - Textfeld
-  TextField plz = new TextField("PLZ");
+  TextField postalCode = new TextField("PLZ");
   public void initializePLZ() {
-    plz.setMaxLength(20);
-    plz.setRequired(true);
-    plz.setPattern("[0-9][0-9][0-9][0-9][0-9]");
+    postalCode.setMaxLength(20);
+    postalCode.setRequired(true);
+    postalCode.setPattern("[0-9][0-9][0-9][0-9][0-9]");
   }
   // Abschluss - Textfeld
-  Select abs = new Select<>();
+  Select<String> degree = new Select<>();
   public void initializeABS() {
-    abs.setLabel("Abschluss");
-    abs.setItems("Keinen","Bachelor","Master","Doktor");
+    degree.setLabel("Abschluss");
+    degree.setItems("Keinen","Bachelor","Master","Doktor");
   }
   // Universität - Textfeld
-  TextField uni = new TextField("Universität");
+  TextField university = new TextField("Universität");
   public void initializeUNI() {
-    uni.setMaxLength(20);
-    uni.setRequired(true);
+    university.setMaxLength(20);
+    university.setRequired(true);
   }
   //Registrieren - Button
   Button registerButton = new Button("Registrieren");
@@ -59,21 +75,45 @@ public class RegisterStudentView extends VerticalLayout {
     registerButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
   }
 
-  public RegisterStudentView() {
-    addClassName("RegisterStudentView");
-
-    setId("registerStudentView");
+  private Binder<UserDTO> userDTOBinder = new Binder<>(UserDTO.class);
+  private Binder<StudentDTO> studentDTOBinder = new Binder<>(StudentDTO.class);
+  private Binder<AddressDTO> addressDTOBinder = new Binder<>(AddressDTO.class);
+  public void setupComponents(){
     initializeANR();
     initializeVN();
     initializeNN();
-    initializeSTHN();
+    initializeStreet();
+    initializeNumber();
     initializePLZ();
     initializeABS();
     initializeButton();
 
     VerticalLayout layout = new VerticalLayout();
-    layout.add(anr,vn,nn,sthn,plz,abs,registerButton);
+    layout.add(anr,firstName,lastName,street,postalCode,degree,registerButton);
     add(layout);
+
+    userDTOBinder.setBean((UserDTO) UI.getCurrent().getSession().getAttribute( Globals.CURRENT_USER));
+
+    studentDTOBinder.setBean(new StudentDTO());
+    studentDTOBinder.bindInstanceFields(this);
+
+    addressDTOBinder.setBean(new AddressDTO());
+    addressDTOBinder.bindInstanceFields(this);
+
+    registerButton.addClickListener(e -> {
+      UI.getCurrent().getSession().setAttribute( Globals.CURRENT_USER, userDTOBinder.getBean());
+
+      registrationControl.save(userDTOBinder.getBean(), studentDTOBinder.getBean(), addressDTOBinder.getBean());
+    });
+  }
+
+  RegistrationControl registrationControl;
+  public RegisterStudentView(RegistrationControl registrationControl) {
+    this.registrationControl = registrationControl;
+    addClassName("RegisterStudentView");
+
+    setId("registerStudentView");
+    setupComponents();
   }
 }
 

@@ -11,7 +11,6 @@ public class AddressFactory {
 
         address.setPostalCode(addressDTO.getPostalCode());
         address.setStreet(addressDTO.getStreet());
-        address.setId(addressDTO.getId());
         return address;
     }
 }

@@ -33,6 +33,10 @@ public class UserDTO implements Serializable {
         this.userType = userType;
     }
 
+    public UserDTO() {
+
+    }
+
     public Integer getId() {
         return id;
     }
