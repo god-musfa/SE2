@@ -10,22 +10,6 @@ import java.util.Iterator;
 import java.util.Optional;
 import java.util.Set;
 
-/*@NamedNativeQuery(name="Job.findAllJobsNative",
-                    query = "SELECT j.title, j.creation_date, j.description, j.location  FROM coll.job_listing j WHERE j.id = 1",
-                    resultSetMapping = "Mapping.JobDTO")
-
-@SqlResultSetMapping(name = "Mapping.JoDTO",
-                    classes = @ConstructorResult(targetClass = org.hbrs.se2.project.softwaree.dtos.JobDTO.class,
-                                columns = {
-                                        @ColumnResult(name = "title", type=String.class),
-                                        @ColumnResult(name = "creation_date", type = LocalDate.class),
-                                        //@ColumnResult(name = "last_edit", type = LocalDate.class),
-                                        //@ColumnResult(name = "deadline", type = LocalDate.class),
-                                        @ColumnResult(name = "description", type = String.class),
-                                        @ColumnResult(name = "location", type = String.class)
-                                        //@ColumnResult(name = "views", type = Integer.class),
-                                }
-                                ))*/
 @Entity
 @Table(name = "job_listing", schema = "coll")
 public class Job {
@@ -103,6 +87,7 @@ public class Job {
         return creation_date;
     }
 
+
     public LocalDate getLastEdit() {
         return last_edit;
     }
@@ -128,17 +113,11 @@ public class Job {
     }
 
 
-
-
-   /* public String getAllCompanyNames() {
-        String names = "";
-        Iterator<Company> it = this.getCompany().iterator();
-        while(it.hasNext()) {
-            names += it.next().getName() + "\n";
-        }
-        return names;
-    }
-*/
+    // Verify that attributes are not Null before calling "toString()" method
+    public String getLastEditAsString() {return last_edit!= null ?  last_edit.toString() : "-";}
+    public String getCreationDateAsString() {return creation_date != null ?  creation_date.toString() : "-";}
+    public String getDeadlineAsString() {return deadline!= null ?  deadline.toString() : "-";}
+    public String getViewsAsString() { return views != null ? views.toString() : "-";}
 
     public Set<Requirement> getRequirements() {
         return requirements;

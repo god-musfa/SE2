@@ -6,9 +6,10 @@ public interface SoftwareeJobCardIf {
     public void setTitle(String title);
     public void setCompany(String company);
     public void setIcon(String iconPath);
-    public void setCreationDate(LocalDate creationDate);
-    public void setEditDate(LocalDate editDate);
-    public void setDeadline(LocalDate deadline);
+    public void setCreationDate(String creationDate);
+    public void setEditDate(String editDate);
+    public void setDeadline(String deadline);
+
     public void setLocationInfo(String locationInfo);
     public void setJobExperienceInfo(String experienceInfo);
     public void setQualification(String qualification);

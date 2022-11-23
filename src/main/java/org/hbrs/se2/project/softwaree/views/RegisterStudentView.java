@@ -16,7 +16,7 @@ import org.hbrs.se2.project.softwaree.dtos.StudentDTO;
 import org.hbrs.se2.project.softwaree.dtos.UserDTO;
 import org.hbrs.se2.project.softwaree.util.Globals;
 
-@Route(value = "register/student", layout = NavBar.class)
+@Route(value = "register/student") // hotfix: removed layout to prevent error when entering the editprofilview while still registering
 public class RegisterStudentView extends VerticalLayout {
   //Anrede - TextfeldS
   Select anr = new Select<>();

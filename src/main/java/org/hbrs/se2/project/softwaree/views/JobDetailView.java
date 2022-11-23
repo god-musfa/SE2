@@ -173,8 +173,8 @@ public class JobDetailView extends Div implements HasUrlParameter<String> {
         jobcard.setTitle(thisJob.getTitle());
         jobcard.setCompany(thisJob.getCompany().getName());
         jobcard.setViews(jobDetailControl.validateJobViews(thisJob.getViews()));
-        jobcard.setCreationDate(thisJob.getCreation_date());
-        jobcard.setDeadline(thisJob.getDeadline());
+        jobcard.setCreationDate(thisJob.getCreationDateAsString());
+        jobcard.setDeadline(thisJob.getDeadlineAsString());
         jobcard.setLocationInfo(thisJob.getLocation());
         jobcard.setButtonCompanyID(thisJob.getCompany().getId());
         jobcard.setIcon("https://cdn-icons-png.flaticon.com/512/149/149071.png");

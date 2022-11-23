@@ -132,10 +132,10 @@ public class JobView extends Div {
         grid.addSelectionListener(selection -> {
             Optional<Job> optionalJob = selection.getFirstSelectedItem();
             if (optionalJob.isPresent()) {
-                UI.getCurrent().navigate(Globals.Pages.SHOW_JOB_DETAILS+"/"+optionalJob.get().getId());
+               // setzen
 
-                /*System.out.printf("Selected person: %s%n",
-                optionalJob.get());*/
+
+                //UI.getCurrent().navigate(Globals.Pages.SHOW_JOB_DETAILS+"/"+optionalJob.get().getId());
             }
         });
 
@@ -149,7 +149,10 @@ public class JobView extends Div {
     private Component createCardList() {
         Grid<Job> grid = new Grid<>();
         setSizeFull();
+
+        this.getStyle().set("padding", "1px 10px 1px");
         grid.setHeight("100%");
+
         grid.addThemeVariants(GridVariant.LUMO_NO_BORDER, GridVariant.LUMO_WRAP_CELL_CONTENT);
         grid.setItems(jobList);
         grid.addComponentColumn(job -> createCard(job));
@@ -157,7 +160,7 @@ public class JobView extends Div {
             Optional<Job> optionalJob = selection.getFirstSelectedItem();
             if (optionalJob.isPresent()) {
                 UI.getCurrent().navigate(Globals.Pages.SHOW_JOB_DETAILS+"/"+optionalJob.get().getId());
-
+                UI.getCurrent().getSession().setAttribute( "jobID", optionalJob.get().getId() );
                 /*System.out.printf("Selected person: %s%n",
                 optionalJob.get());*/
             }
@@ -179,6 +182,7 @@ public class JobView extends Div {
         Image image = new Image();
         image.setSrc("icons/icon.png");
         image.setHeight("50px");
+        image.getStyle().set("margin","30px 0px 12px 8px");
 
         // [vertical] Content Wrapper Component
         VerticalLayout contentWrapper = new VerticalLayout();
@@ -197,8 +201,9 @@ public class JobView extends Div {
         // 1. Paragraph Job Title and Creation Date
         H2 title = new H2(job.getTitle());
         title.addClassName("job_title");
-        String dateString = ( job.getCreationDate()!= null ?  job.getCreationDate().toString() : "NaN");
-        Span date = new Span("vom " + (dateString)) ;
+        title.getStyle().set("font-size", "1.5em");
+        String dateString = ( job.getCreationDateAsString());
+        Span date = new Span(dateString) ;
         date.addClassName("creation_date");
         date.getStyle().set("font-style" , "italic");
         date.getStyle().set("margin-left", "auto");
@@ -214,10 +219,10 @@ public class JobView extends Div {
         actions.setSpacing(false);
         actions.getThemeList().add("spacing-s");
 
-        Icon likeIcon = VaadinIcon.HEART.create();
+        Icon likeIcon = VaadinIcon.EYE.create();
         likeIcon.addClassName("icon");
 
-        String viewsString = ( job.getViews() != null ?  job.getViews().toString() : "NaN");
+        String viewsString = ( job.getViewsAsString());
         Span likes = new Span(viewsString);
         likes.addClassName("likes");
         /*Icon commentIcon = VaadinIcon.COMMENT.create();

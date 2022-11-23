@@ -40,16 +40,23 @@ public class ContactView extends VerticalLayout  {
     public ContactView(ContactControl cc) {
         this.cc = cc;
 
-        UI.getCurrent().getSession().setAttribute( "companyID", 3 ); //todo entferne sobald links zur seite korrekt implementiert wurden
+        //UI.getCurrent().getSession().setAttribute( "companyID", 3 ); //todo entferne sobald links zur seite korrekt implementiert wurden
         if(UI.getCurrent().getSession().getAttribute("companyID") != null) {
             companyID =  (Integer) UI.getCurrent().getSession().getAttribute("companyID");
 
 
-            UI.getCurrent().getSession().setAttribute( "jobID", 1 ); //todo entferne sobald die links zur seite korrekt implementiert wurden
+            //UI.getCurrent().getSession().setAttribute( "jobID", 1 ); //todo entferne sobald die links zur seite korrekt implementiert wurden
             if(UI.getCurrent().getSession().getAttribute( "jobID" ) != null) {
                 jobID = (Integer) UI.getCurrent().getSession().getAttribute( "jobID" );
             }
-
+        }
+        else {
+            companyID = 3; jobID = 1;
+            add(createTitle());
+            add(new Paragraph("Fehler. Bitte das Formular über eine Firma oder ein Jobangebot aufrufen."));
+            Notification.show("Fehler! Es konnte keine Firma mit dieser Nachricht verknüpft werden")
+                    .addThemeVariants(NotificationVariant.LUMO_ERROR);
+        }
             addClassName("contact-view");
 
             add(createTitle());
@@ -66,13 +73,7 @@ public class ContactView extends VerticalLayout  {
                         .addThemeVariants(NotificationVariant.LUMO_SUCCESS);
                 clearForm();
             });
-        }
-        else {
-            add(createTitle());
-            add(new Paragraph("Fehler. Bitte das Formular über eine Firma oder ein Jobangebot aufrufen."));
-            Notification.show("Fehler! Es konnte keine Firma mit dieser Nachricht verknüpft werden")
-                    .addThemeVariants(NotificationVariant.LUMO_ERROR);
-        }
+
     }
 
     private Component createTitle() {

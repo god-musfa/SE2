@@ -154,4 +154,9 @@ public class JobDTO implements Serializable {
     public Company getCompany() {
         return company;
     }
+
+    // Verify that attributes are not Null before calling "toString()" method
+    public String getLastEditAsString() {return last_edit!= null ?  last_edit.toString() : "-";}
+    public String getCreationDateAsString() {return creation_date != null ?  creation_date.toString() : "-";}
+    public String getDeadlineAsString() {return deadline!= null ?  deadline.toString() : "-";}
 }

@@ -15,8 +15,7 @@ import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.QueryParameters;
-
-import java.time.LocalDate;
+import org.hbrs.se2.project.softwaree.util.Globals;
 
 /**@author dheil2s
  *
@@ -112,8 +111,8 @@ public class SoftwareeJobCard extends Div implements SoftwareeJobCardIf{
         add(applyJobButton);
     }
 
-    public SoftwareeJobCard(String jobTitle, String companyName, LocalDate creationDate, LocalDate editDate,
-                            LocalDate deadline, String locationInfo, String salary, int views) {
+    public SoftwareeJobCard(String jobTitle, String companyName, String creationDate, String editDate,
+                            String deadline, String locationInfo, String salary, int views) {
 
         this();
         this.setTitle(jobTitle);
@@ -143,18 +142,18 @@ public class SoftwareeJobCard extends Div implements SoftwareeJobCardIf{
     }
 
     @Override
-    public void setCreationDate(LocalDate creationDate) {
-        createBullet.value.setText(creationDate.toString());
+    public void setCreationDate(String creationDate) {
+        createBullet.value.setText(creationDate);
     }
 
     @Override
-    public void setEditDate(LocalDate editDate) {
-        deadlineBullet.value.setText(editDate.toString());
+    public void setEditDate(String editDate) {
+        deadlineBullet.value.setText(editDate);
     }
 
     @Override
-    public void setDeadline(LocalDate deadline) {
-        deadlineBullet.value.setText(deadline.toString());
+    public void setDeadline(String deadline) {
+        deadlineBullet.value.setText(deadline);
     }
 
     @Override
@@ -175,7 +174,7 @@ public class SoftwareeJobCard extends Div implements SoftwareeJobCardIf{
     @Override
     public void setViews(int views) {
         this.viewsLabel.setText(String.valueOf(
-                (views>=0)?views:0
+                (views>=0) ?views:0
         ));
     }
 
@@ -192,7 +191,8 @@ public class SoftwareeJobCard extends Div implements SoftwareeJobCardIf{
     @Override
     public void setButtonCompanyID(int id) {
         applyJobButton.addClickListener(e -> {
-            UI.getCurrent().navigate("/", QueryParameters.empty());
+            UI.getCurrent().getSession().setAttribute( "companyID", id );
+            UI.getCurrent().navigate("kontakt");
         });
     }
 }
