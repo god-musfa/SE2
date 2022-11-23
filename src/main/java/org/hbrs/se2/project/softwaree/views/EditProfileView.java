@@ -244,6 +244,7 @@ public class EditProfileView extends Div {
         Binder<UserDTO> binderEmail = new Binder<>(UserDTO.class);
         binderEmail.bindInstanceFields(this);
         binderEmail.readBean(userDTO);
+        binderEmail.setReadOnly(true);
 
 
 
@@ -356,6 +357,7 @@ public class EditProfileView extends Div {
         Binder<UserDTO> binderEmail = new Binder<>(UserDTO.class);
         binderEmail.bindInstanceFields(this);
         binderEmail.readBean(userDTO);
+        binderEmail.setReadOnly(true);
 
         //button function
         cancelButton.addClickListener(event -> UI.getCurrent().getPage().reload());
