@@ -30,4 +30,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     @Query("  SELECT new org.hbrs.se2.project.softwaree.dtos.UserDTO(u.id, u.email, u.password,u.userType)  FROM User u WHERE u.id = ?1")
     UserDTO findUserByID(int id);
+
+    @Query("select (count(u) > 0) from User u where u.email = ?1")
+    boolean checkEmailExists(String email);
 }

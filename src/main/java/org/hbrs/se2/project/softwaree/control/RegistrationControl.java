@@ -33,6 +33,11 @@ public class RegistrationControl {
     private List<UserDTO> userDTOList = new ArrayList<>();
 
     public boolean save(UserDTO userDTO, StudentDTO studentDTO, AddressDTO addressDTO){
+        if (emailExists(userDTO.getEmail())){
+            System.out.println("Email is already taken!");
+            return false;
+        }
+
         Address address = AddressFactory.createAddress(addressDTO);
         addressRepository.saveAndFlush(address);
 
@@ -45,5 +50,7 @@ public class RegistrationControl {
         return true;
     }
 
-    //Email zur Überprüfung mit Count
+    public boolean emailExists(String email){
+        return userRepository.checkEmailExists(email);
+    }
 }
