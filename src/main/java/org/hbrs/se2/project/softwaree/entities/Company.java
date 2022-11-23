@@ -27,6 +27,19 @@ public class Company {
     @Column(name = "\"contactPerson\"")
     private String contactPerson;
 
+    @MapsId
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id")
+    private User user;
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     public String getContactPerson() {
         return contactPerson;
     }

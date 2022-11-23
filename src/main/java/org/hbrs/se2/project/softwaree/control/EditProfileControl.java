@@ -10,7 +10,6 @@ import org.hbrs.se2.project.softwaree.dtos.UserDTO;
 import org.hbrs.se2.project.softwaree.entities.Address;
 import org.hbrs.se2.project.softwaree.entities.Company;
 import org.hbrs.se2.project.softwaree.entities.Student;
-import org.hbrs.se2.project.softwaree.entities.User;
 import org.hbrs.se2.project.softwaree.repository.AddressRepository;
 import org.hbrs.se2.project.softwaree.repository.CompanyRepository;
 import org.hbrs.se2.project.softwaree.repository.StudentRepository;
@@ -29,7 +28,7 @@ public class EditProfileControl {
     @Autowired
     AddressRepository repoA;
     public AddressDTO getAdressFromUser(UserDTO userDTO){
-        return repoA.findAdress(userDTO.getId());
+        return repoA.findAdress(userDTO.getAddressId());
     }
 
     @Autowired

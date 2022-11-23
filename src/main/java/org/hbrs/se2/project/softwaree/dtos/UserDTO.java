@@ -3,7 +3,6 @@ package org.hbrs.se2.project.softwaree.dtos;
 import org.hbrs.se2.project.softwaree.entities.Address;
 import org.hbrs.se2.project.softwaree.entities.User;
 
-import javax.persistence.ManyToOne;
 import java.io.Serializable;
 
 /**
@@ -11,7 +10,7 @@ import java.io.Serializable;
  */
 public class UserDTO implements Serializable {
     private Integer id;
-    private Address address;
+    private Integer addressId;
     private String email;
     private String password;
     private String profilePic;
@@ -24,9 +23,9 @@ public class UserDTO implements Serializable {
         this.userType = userType;
     }
 
-    public UserDTO(Integer id, Address address, String email, String password, String profilePic, String userType) {
+    public UserDTO(Integer id, Integer addressId, String email, String password, String profilePic, String userType) {
         this.id = id;
-        this.address = address;
+        this.addressId = addressId;
         this.email = email;
         this.password = password;
         this.profilePic = profilePic;
@@ -45,12 +44,12 @@ public class UserDTO implements Serializable {
         this.id = id;
     }
 
-    public Address getAddress() {
-        return address;
+    public Integer getAddressId() {
+        return addressId;
     }
 
-    public void setAddress(Address address) {
-        this.address = address;
+    public void setAddressId(Integer addressId) {
+        this.addressId = addressId;
     }
 
     public String getEmail() {

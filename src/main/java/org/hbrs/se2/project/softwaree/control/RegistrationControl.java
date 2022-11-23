@@ -39,14 +39,17 @@ public class RegistrationControl {
         }
 
         Address address = AddressFactory.createAddress(addressDTO);
-        addressRepository.saveAndFlush(address);
+        addressRepository.save(address);
 
         User user = UserFactory.createUser(userDTO, address);
-        Student student = StudentFactory.createStudent(studentDTO);
-        student.setUser(user);
 
-        userRepository.saveAndFlush(user);
-        studentRepository.saveAndFlush(student);
+        Student student = StudentFactory.createStudent(studentDTO);
+        user.setStudent(student);
+        student.setUser(user);
+        studentRepository.save(student);
+        userRepository.save(user);
+
+
         return true;
     }
 
