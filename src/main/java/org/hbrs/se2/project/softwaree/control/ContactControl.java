@@ -15,8 +15,7 @@ public class ContactControl {
     @Autowired
     AddressRepository repoAddress;
     public AddressDTO getAddressFromUser(UserDTO user) {
-        //return repoAddress.findAdress(user.getAddress().getId()); //todo address gibt bisher nur null zurueck.
-        return repoAddress.findAdress(user.getId());  //todo Adresse falsch, weil user.getAddress().getId() weil adressid != userid
+        return repoAddress.findAdress(user.getAddressId());
     }
 
     @Autowired
