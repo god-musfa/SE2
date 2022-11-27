@@ -24,6 +24,7 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.apache.commons.lang3.StringUtils;
 import org.hbrs.se2.project.softwaree.control.ManageJobsControl;
+import org.hbrs.se2.project.softwaree.dtos.UserDTO;
 import org.hbrs.se2.project.softwaree.entities.Job;
 import org.hbrs.se2.project.softwaree.util.Globals;
 
@@ -49,8 +50,8 @@ public class JobView extends Div {
     public JobView(ManageJobsControl jobsControl) {
         addClassName("jobs");
 
-        // Auslesen alle abgespeicherten Autos aus der DB (über das Control)
-        jobList = jobsControl.readAllJobs();
+        // Auslesen alle abgespeicherten Jobs aus der DB (über das Control) - ausgenommen der Jobs, die von blockierten Firmen kommen
+        jobList = jobsControl.readAllJobs(((UserDTO)UI.getCurrent().getSession().getAttribute(Globals.CURRENT_USER)).getId());
 
 
        /* imageList.add(new Image("icons/Deutsche_Telekom_2022.svg.png"));

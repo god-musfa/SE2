@@ -4,9 +4,9 @@ import org.hbrs.se2.project.softwaree.dtos.JobDTO;
 import org.hbrs.se2.project.softwaree.entities.Job;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Component;
 
-import javax.persistence.NamedNativeQuery;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,6 +23,7 @@ public interface JobRepository extends JpaRepository<Job, Integer> {
     @Query("select (count(j) > 0) from Job j where j.id = ?1")
     boolean checkJobExists(Integer id);
 
-
+    @Query(value = "SELECT j FROM Job j WHERE j.company.id NOT IN :ids")
+    List<Job> findAllNotBlockedCompanys(@Param("ids") List<Integer> idList);
 
 }

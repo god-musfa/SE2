@@ -1,27 +1,31 @@
 package org.hbrs.se2.project.softwaree.control;
 
-import org.hbrs.se2.project.softwaree.control.factories.AddressFactory;
-import org.hbrs.se2.project.softwaree.dtos.AddressDTO;
-import org.hbrs.se2.project.softwaree.dtos.JobDTO;
-import org.hbrs.se2.project.softwaree.dtos.UserDTO;
-import org.hbrs.se2.project.softwaree.entities.Company;
 import org.hbrs.se2.project.softwaree.entities.Job;
+import org.hbrs.se2.project.softwaree.repository.BlacklistRepository;
 import org.hbrs.se2.project.softwaree.repository.JobRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Iterator;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Component
 public class ManageJobsControl {
     @Autowired
     private JobRepository repository;
 
+    @Autowired
+    private BlacklistRepository blacklistRepo;
 
-    public List<Job> readAllJobs() {
-        return repository.findAll();
+    /**
+     * Gibt eine Liste mit allen Jobs zurück, die nicht von Unternehmen stammen, die vom Nutzer blockiert worden sind.
+     * @param userid NutzerID des aktuell eingeloggten Nutzers
+     * @return Liste vom Typ Job
+     */
+    public List<Job> readAllJobs(Integer userid) {
+        List<Integer> blockedCompanys = new ArrayList<>();
+        blacklistRepo.findBlockedCompanys(userid).forEach( (dto) -> blockedCompanys.add(dto.getCompany_id()) ); //Liste der blockierten Unternehmen
+        return blockedCompanys.isEmpty() ? repository.findAll() : repository.findAllNotBlockedCompanys(blockedCompanys);
     }
 
 
