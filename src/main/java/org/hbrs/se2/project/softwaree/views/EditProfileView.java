@@ -159,6 +159,19 @@ public class EditProfileView extends Div {
         Div universityInfoPlaceholder = new Div();
         Div profilePicturePlaceholder = new Div();
 
+        // Prefill
+        Binder<StudentDTO> binder = new Binder(StudentDTO.class);
+        binder.bindInstanceFields(this);
+        binder.setBean(pc.getStudentFromUser(userDTO));
+
+        Binder<AddressDTO> binderAdress = new Binder<>(AddressDTO.class);
+        binderAdress.bindInstanceFields(this);
+        binderAdress.setBean(pc.getAdressFromUser(userDTO));
+
+        Binder<UserDTO> binderEmail = new Binder<>(UserDTO.class);
+        binderEmail.bindInstanceFields(this);
+        binderEmail.readBean(userDTO);
+        binderEmail.setReadOnly(true);
 
         // Add all components to publicInfoForm container:
         publicInfoForm.add(profileAvatar);
@@ -216,12 +229,10 @@ public class EditProfileView extends Div {
         publicInfoForm.setColspan(university, 2);
         publicInfoForm.setColspan(universityInfoPlaceholder, 4);
 
-
         // Second outter container to implement padding - (padding is sexy!):
         VerticalLayout publicProfilePaddingContainer = new VerticalLayout();
         publicProfilePaddingContainer.add(publicInfoForm);
         publicProfilePaddingContainer.setPadding(true);
-
 
 
         // Button design
@@ -231,20 +242,6 @@ public class EditProfileView extends Div {
 
         profileSettingsAccordion.add("Profilangaben", publicProfilePaddingContainer);
         publicProfilePaddingContainer.add(buttonLayout);
-
-        //prefill
-        Binder<StudentDTO> binder = new Binder(StudentDTO.class);
-        binder.bindInstanceFields(this);
-        binder.setBean(pc.getStudentFromUser(userDTO));
-
-        Binder<AddressDTO> binderAdress = new Binder<>(AddressDTO.class);
-        binderAdress.bindInstanceFields(this);
-        binderAdress.setBean(pc.getAdressFromUser(userDTO));
-
-        Binder<UserDTO> binderEmail = new Binder<>(UserDTO.class);
-        binderEmail.bindInstanceFields(this);
-        binderEmail.readBean(userDTO);
-        binderEmail.setReadOnly(true);
 
 
 

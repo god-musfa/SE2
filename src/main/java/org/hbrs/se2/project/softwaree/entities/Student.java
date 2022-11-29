@@ -2,6 +2,8 @@ package org.hbrs.se2.project.softwaree.entities;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Entity(name = "Student")
 @Table(name = "student", schema = "coll")
@@ -35,6 +37,20 @@ public class Student {
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "id", nullable = false)
     private User user;
+
+    @ManyToMany
+    @JoinTable(name = "student_skills",
+            joinColumns = @JoinColumn(name = "student_id"),
+            inverseJoinColumns = @JoinColumn(name = "skill_id"))
+    private Set<Skill> skills = new LinkedHashSet<>();
+
+    public Set<Skill> getSkills() {
+        return skills;
+    }
+
+    public void setSkills(Set<Skill> skills) {
+        this.skills = skills;
+    }
 
     public User getUser() {
         return user;
