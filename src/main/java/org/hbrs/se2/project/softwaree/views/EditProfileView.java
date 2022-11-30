@@ -27,6 +27,7 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import org.hbrs.se2.project.softwaree.components.SkillsComponent;
 import org.hbrs.se2.project.softwaree.components.SoftwareeAvatar;
 import org.hbrs.se2.project.softwaree.control.EditProfileControl;
 import org.hbrs.se2.project.softwaree.dtos.AddressDTO;
@@ -94,6 +95,7 @@ public class EditProfileView extends Div {
     final ComboBox<String> field = new ComboBox<>("Branche");
     final RadioButtonGroup<String> size = new RadioButtonGroup<>();
     final TextField website = new TextField("Webseite");
+
     UserDTO userDTO = (UserDTO) UI.getCurrent().getSession().getAttribute(Globals.CURRENT_USER);
     EditProfileControl pc;
 
@@ -229,6 +231,11 @@ public class EditProfileView extends Div {
         publicInfoForm.setColspan(university, 2);
         publicInfoForm.setColspan(universityInfoPlaceholder, 4);
 
+        // Skills:
+        SkillsComponent skills = new SkillsComponent(pc.getAvailableSkills());
+        publicInfoForm.add(skills, 4);
+
+
         // Second outter container to implement padding - (padding is sexy!):
         VerticalLayout publicProfilePaddingContainer = new VerticalLayout();
         publicProfilePaddingContainer.add(publicInfoForm);
@@ -244,6 +251,7 @@ public class EditProfileView extends Div {
         publicProfilePaddingContainer.add(buttonLayout);
 
 
+        // Logics:
 
         cancelButton.addClickListener(event -> UI.getCurrent().getPage().reload());
 
