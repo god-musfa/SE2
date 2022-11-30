@@ -379,7 +379,6 @@ public class EditProfileView extends Div {
     public EditProfileView(EditProfileControl pc) {
         this.pc = pc;
         addClassName("edit-profile-view");
-        UserDTO userdto = (UserDTO) UI.getCurrent().getSession().getAttribute(Globals.CURRENT_USER);
         String userType = userDTO.getUserType();
 
         // Check account type to show corresponding content:
@@ -407,8 +406,16 @@ public class EditProfileView extends Div {
             ui.getPage().setLocation("/");
         });
 
+        Button delete = createButton("Konto löschen");
+        delete.addClickListener(event -> {
+            pc.deleteAccount(userDTO);
+            UI ui = this.getUI().get();
+            ui.getSession().close();
+            ui.getPage().setLocation("/");
+        });
+
         super.setSizeFull();
-        HorizontalLayout localNavigation = new HorizontalLayout(createButton("Edit"),createButton("Settings"), logout);
+        HorizontalLayout localNavigation = new HorizontalLayout(createButton("Edit"),createButton("Settings"),delete, logout);
         localNavigation.setSpacing(false); // Space around the Components = False
         localNavigation.setWidthFull();
         localNavigation.setJustifyContentMode(FlexComponent.JustifyContentMode.BETWEEN);

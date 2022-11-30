@@ -3,6 +3,7 @@ package org.hbrs.se2.project.softwaree.repository;
 import org.hbrs.se2.project.softwaree.entities.*;
 import org.hbrs.se2.project.softwaree.dtos.*;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Component;
 
@@ -33,4 +34,8 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     @Query("select (count(u) > 0) from User u where u.email = ?1")
     boolean checkEmailExists(String email);
+
+    @Modifying
+    @Query("DELETE FROM User u WHERE u.id = ?1")
+    void deleteUser(Integer id);
 }

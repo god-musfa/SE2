@@ -13,13 +13,17 @@ import org.hbrs.se2.project.softwaree.entities.Student;
 import org.hbrs.se2.project.softwaree.repository.AddressRepository;
 import org.hbrs.se2.project.softwaree.repository.CompanyRepository;
 import org.hbrs.se2.project.softwaree.repository.StudentRepository;
+import org.hbrs.se2.project.softwaree.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 public class EditProfileControl {
     @Autowired
     StudentRepository repo;
+    @Autowired
+    UserRepository repoU;
 
     public StudentDTO getStudentFromUser(UserDTO userDTO) {
         return repo.findStudent(userDTO.getId());
@@ -50,5 +54,11 @@ public class EditProfileControl {
     public void createCompany(CompanyDTO companyDTO){
         Company companyEntity = CompanyFactory.createCompany(companyDTO);
         repoC.save(companyEntity);
+    }
+    @Transactional
+    public void deleteAccount(UserDTO user){
+        repoU.deleteUser(user.getId());
+        repoA.deleteById(user.getAddressId());
+        System.out.println("Account Deleted");
     }
 }
