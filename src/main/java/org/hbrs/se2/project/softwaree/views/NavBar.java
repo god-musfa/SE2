@@ -3,6 +3,7 @@ import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentUtil;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.applayout.AppLayout;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.html.*;
@@ -30,6 +31,9 @@ import java.util.Optional;
 
     private Tabs menu;
     private Span viewTitle;
+    Icon logo = new Icon("Softwaree_Logo, logo");
+    private final Image i = new Image("images/Softwaree_klein.png", "Logo");
+
 
 
         public NavBar() {
@@ -45,15 +49,33 @@ import java.util.Optional;
         private Component createTopHeader() {
             viewTitle = new Span("View Title_x");
 
-            Span home = new Span ("Colab@HBRS");
-            home.setTitle("Welcome to Colab@HBRS");
-            Icon icon = VaadinIcon.HOME.create();
-            icon.setSize("var(--lumo-icon-size-s)");
+
+
+
+
+
+
+
+
+
+
 
             VerticalLayout TopHeader = new VerticalLayout();
             // TopHeader.setAlignItems(FlexComponent.Alignment.CENTER);
             TopHeader.setWidth("100px"); TopHeader.setHeight("50px");
+
+
+            Span home = new Span (i);
+            i.setMaxHeight(TopHeader.getHeight());
+            i.setMaxWidth(TopHeader.getWidth());
+            //home.setMaxWidth("50%");
+
+            home.setTitle("Welcome to Colab@HBRS");
+            Icon icon = VaadinIcon.HOME.create();
+            icon.setSize("var(--lumo-icon-size-s)");
+
             TopHeader.add(home);
+
 
             return TopHeader;
         }
@@ -70,7 +92,8 @@ import java.util.Optional;
 
         private Tabs getTabs() {
             Tabs tabs = new Tabs();
-            tabs.add(createTab(VaadinIcon.LIST_UL, JobView.class),
+            tabs.add(
+                    createTab(VaadinIcon.LIST_UL, JobView.class),
                     createTab(VaadinIcon.LOCATION_ARROW, ShowAddressView.class),
                     createTab(VaadinIcon.USER, EditProfileView.class),
                     createTab(VaadinIcon.MAILBOX, ContactView.class));

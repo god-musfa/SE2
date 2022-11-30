@@ -3,6 +3,7 @@ package org.hbrs.se2.project.softwaree.views;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.dialog.Dialog;
+import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.login.LoginForm;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
@@ -14,6 +15,10 @@ import org.hbrs.se2.project.softwaree.dtos.UserDTO;
 import org.hbrs.se2.project.softwaree.util.Globals;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.awt.*;
+
+import static org.hbrs.se2.project.softwaree.util.Globals.ScreenSizes.WORKSTATION;
+
 /**
  * View zur Darstellung der Startseite. Diese zeigt dem Benutzer ein Login-Formular an.
  * ToDo: Integration einer Seite zur Registrierung von Benutzern
@@ -23,10 +28,30 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class MainView extends VerticalLayout {
     @Autowired
     private LoginControl loginControl;
+    private final Image i = new Image("images/Softwaree_Logo.png", "Logo");
+    //private int screenWidth;
+
+
+
 
     public MainView() {
         setSizeFull();
         LoginForm component = new LoginForm();
+        add(i);
+        i.setMaxWidth("70%");
+        /*private void setupLogo() {
+            UI.getCurrent().getPage().retrieveExtendedClientDetails(receiver -> {
+                int screenWidth = receiver.getScreenWidth();
+                String a= Integer.toString(screenWidth);
+                if(a >= WORKSTATION){
+
+                }
+            });
+
+        }*/
+
+
+
 
         component.addLoginListener(e -> {
 
@@ -62,6 +87,7 @@ public class MainView extends VerticalLayout {
         setAlignItems(Alignment.CENTER);
 
     }
+
 
     private void grabAndSetUserIntoSession() {
         UserDTO userDTO = loginControl.getCurrentUser();

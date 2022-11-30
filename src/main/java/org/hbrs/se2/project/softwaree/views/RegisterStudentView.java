@@ -4,6 +4,7 @@ import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.datepicker.DatePicker;
+import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.TextField;
@@ -20,6 +21,8 @@ import org.hbrs.se2.project.softwaree.util.Globals;
 public class RegisterStudentView extends VerticalLayout {
   //Anrede - TextfeldS
   Select anr = new Select<>();
+  private final Image i = new Image("images/Softwaree_Logo.png", "Logo");
+
   public void initializeANR() {
     anr.setLabel("Anrede");
     anr.setItems("Herr","Frau");
@@ -96,6 +99,8 @@ public class RegisterStudentView extends VerticalLayout {
     initializeButton();
 
     VerticalLayout layout = new VerticalLayout();
+    layout.setWidth("250px");
+    setHorizontalComponentAlignment(Alignment.CENTER, layout);
     layout.add(anr,firstName,lastName,birthday,street,number,postalCode,degree,university,registerButton);
     add(layout);
 
@@ -118,11 +123,13 @@ public class RegisterStudentView extends VerticalLayout {
 
   RegistrationControl registrationControl;
   public RegisterStudentView(RegistrationControl registrationControl) {
+    add(i);
     this.registrationControl = registrationControl;
     addClassName("RegisterStudentView");
 
     setId("registerStudentView");
     setupComponents();
+
   }
 }
 

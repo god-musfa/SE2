@@ -6,6 +6,7 @@ import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.checkbox.Checkbox;
 //import com.vaadin.flow.component.formlayout.FormLayout;
 //import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.EmailField;
@@ -22,6 +23,7 @@ import org.hbrs.se2.project.softwaree.util.Globals;
 public class RegisterView extends VerticalLayout {
   //Benutzername - Textfeld
   TextField un = new TextField("Benutzername");
+  private final Image i = new Image("images/Softwaree_Logo.png", "Logo");
   public void initializeUN() {
     un.setMaxLength(20);
     un.setRequired(true);
@@ -81,6 +83,8 @@ public class RegisterView extends VerticalLayout {
     initializeButton();
 
     VerticalLayout layout = new VerticalLayout();
+    layout.setWidth("250px");
+    setHorizontalComponentAlignment(Alignment.CENTER, layout);
     layout.add(email,un,password,pw2,agb,userType,registerButton);
     add(layout);
 
@@ -99,9 +103,13 @@ public class RegisterView extends VerticalLayout {
   }
 
   public RegisterView() {
+    setSizeFull();
+    add(i);
+    i.setMaxWidth("70%");
     addClassName("RegisterView");
 
     setId("registerView");
     setupComponents();
+
   }
 }
