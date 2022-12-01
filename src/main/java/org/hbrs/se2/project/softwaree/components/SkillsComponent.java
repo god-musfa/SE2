@@ -3,21 +3,18 @@ package org.hbrs.se2.project.softwaree.components;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.dependency.CssImport;
-import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.html.ListItem;
 import com.vaadin.flow.component.html.UnorderedList;
-import com.vaadin.flow.component.icon.Icon;
-import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.FlexLayout;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.data.provider.Query;
 import org.hbrs.se2.project.softwaree.dtos.SkillDTO;
-import org.hbrs.se2.project.softwaree.util.Globals;
 
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -26,10 +23,10 @@ public class SkillsComponent extends VerticalLayout {
 
     FlexLayout addSkillLayout = new FlexLayout();
     Button addSkillButton = new Button("Hinzufügen");
-    ComboBox newSkillField = new ComboBox();
+    ComboBox<String> newSkillField = new ComboBox();
     UnorderedList skillsLayout = new UnorderedList();
     Label infoLabel = new Label("Fähigkeiten aus der Liste hinzufügen oder durch Klicken entfernen");
-
+    Label skillAmountLabel = new Label("(0/20)");
     private HashMap<String, ListItem> skills = new HashMap<>();
 
 
@@ -41,14 +38,17 @@ public class SkillsComponent extends VerticalLayout {
 
         // Styling inner components:
         newSkillField.setPlaceholder("Neue Fähigkeit");
-        newSkillField.setAllowCustomValue(false);               // Note: can be set to true, to accept custom skills.
+        newSkillField.setAllowCustomValue(true);               // Accept custom skills.
 
         skillsLayout.addClassName("skills-layout");
         addSkillButton.addClassName("add-button");
         infoLabel.addClassName("info-label");
+        skillAmountLabel.addClassName("amount-label");
 
         // Header part:
-        addSkillLayout.add(newSkillField, addSkillButton);
+        addSkillLayout.add(newSkillField, addSkillButton, skillAmountLabel);
+        addSkillLayout.setFlexWrap(FlexLayout.FlexWrap.WRAP);
+        addSkillLayout.setAlignContent(FlexLayout.ContentAlignment.CENTER);
 
         // Add both parts to main component:
         add(infoLabel, addSkillLayout, skillsLayout);
@@ -60,9 +60,21 @@ public class SkillsComponent extends VerticalLayout {
                         .collect(Collectors.toList())
         );
 
+        // Capabitlity to set own values:
+        newSkillField.addCustomValueSetListener(event -> {
+            List<String> items = newSkillField.getDataProvider().fetch(new Query<>()).collect(Collectors.toList());
+            items.add(event.getDetail());
+            newSkillField.setItems(items);
+            newSkillField.setValue(event.getDetail());
+        });
+
+
         // Set button behavior:
         addSkillButton.addClickListener(clickEvent -> {
-            addSkill(newSkillField.getValue().toString());
+            Optional<String> skillValue = Optional.of(newSkillField.getValue().toString());
+            if (skillValue.isPresent()) {
+                addSkill(newSkillField.getValue().toString());
+            }
         });
     }
 
@@ -72,6 +84,8 @@ public class SkillsComponent extends VerticalLayout {
         if (skills.containsKey(skillName)) {
             skillsLayout.remove(skills.get(skillName));
             skills.remove(skillName);
+            skillAmountLabel.setText("(" + skills.size() + "/20)");
+            skillAmountLabel.removeClassName("skills-full");
         }
     }
 
@@ -85,6 +99,10 @@ public class SkillsComponent extends VerticalLayout {
             skillsLayout.add(newItem);
             skills.put(skillName, newItem);
             skillsLayout.add(newItem);
+            skillAmountLabel.setText("(" + skills.size() + "/20)");
+            if (skills.size() == 20) {
+                skillAmountLabel.addClassName("skills-full");
+            }
         }
     }
 

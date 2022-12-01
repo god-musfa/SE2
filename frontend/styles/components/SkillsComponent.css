@@ -20,6 +20,15 @@
     border-bottom-style: dashed;
 }
 
+.amount-label {
+    color: #666666;
+    margin: 5px;
+}
+
+.amount-label .skills-full {
+    color: #FF3333;
+}
+
 .skill-pill {
     background: #eee;
     border-radius: 3px 0 0 3px;

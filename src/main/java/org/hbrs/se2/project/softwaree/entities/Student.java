@@ -128,4 +128,8 @@ public class Student {
         return skills;
     }
 
+    public void setSkills(Set<Skill> skills) {
+        this.skills = skills;
+    }
+
 }

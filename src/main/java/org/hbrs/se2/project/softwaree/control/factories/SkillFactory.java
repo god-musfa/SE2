@@ -11,4 +11,5 @@ public class SkillFactory {
                 skill.getDescription()
         );
     }
+
 }

@@ -1,14 +1,17 @@
 package org.hbrs.se2.project.softwaree.control;
 
 import org.hbrs.se2.project.softwaree.control.factories.MessageFactory;
+import org.hbrs.se2.project.softwaree.control.factories.StudentFactory;
 import org.hbrs.se2.project.softwaree.dtos.*;
 import org.hbrs.se2.project.softwaree.entities.Message;
+import org.hbrs.se2.project.softwaree.entities.Student;
 import org.hbrs.se2.project.softwaree.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.Optional;
 
 @Component
 public class ContactControl {
@@ -33,7 +36,12 @@ public class ContactControl {
     @Autowired
     StudentRepository repoStudent;
     public StudentDTO getStudentFromUser(UserDTO user) {
-        return repoStudent.findStudent(user.getId());
+        Optional<Student> studentFromDB = repoStudent.findStudentById(user.getId());
+        if (studentFromDB.isPresent()) {
+            return StudentFactory.createDTO(studentFromDB.get());
+        } else {
+            return null;
+        }
     }
 
     @Autowired

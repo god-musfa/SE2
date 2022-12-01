@@ -3,6 +3,7 @@ package org.hbrs.se2.project.softwaree.views;
 
 import java.time.LocalDate;
 import java.util.Locale;
+import java.util.Set;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
@@ -31,6 +32,7 @@ import org.hbrs.se2.project.softwaree.components.SkillsComponent;
 import org.hbrs.se2.project.softwaree.components.SoftwareeAvatar;
 import org.hbrs.se2.project.softwaree.control.EditProfileControl;
 import org.hbrs.se2.project.softwaree.dtos.*;
+import org.hbrs.se2.project.softwaree.entities.Skill;
 import org.hbrs.se2.project.softwaree.util.Globals;
 import com.vaadin.flow.component.notification.Notification;
 
@@ -258,7 +260,17 @@ public class EditProfileView extends Div {
         saveButton.addClickListener(e -> {
             UserDTO userDTO = (UserDTO) UI.getCurrent().getSession().getAttribute(Globals.CURRENT_USER);
 
-            pc.createStudent(binder.getBean());
+            // Load skills into studentDTO:
+            StudentDTO currentStudent = binder.getBean();
+            Set<Skill> currentSkillSet = pc.createSkillSet(skills.getSkillNames());
+
+            for (Skill s : currentSkillSet) {
+                pc.saveSkill(s);
+            }
+
+            currentStudent.setSkills(currentSkillSet);
+
+            pc.createStudent(currentStudent);
             pc.createAddress(binderAdress.getBean(), userDTO);
 
             Notification notification = Notification

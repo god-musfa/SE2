@@ -1,19 +1,17 @@
 package org.hbrs.se2.project.softwaree.entities;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Entity(name = "Skill")
 @Table(name = "skill", schema = "coll")
 public class Skill {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "skill_sequence")
+    @SequenceGenerator(name = "skill_sequence", sequenceName = "skill_id_seq", schema = "coll")
     @Column(name = "id", nullable = false)
     private Integer id;
 

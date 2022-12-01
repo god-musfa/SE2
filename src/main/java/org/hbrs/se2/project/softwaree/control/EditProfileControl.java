@@ -7,6 +7,7 @@ import org.hbrs.se2.project.softwaree.control.factories.StudentFactory;
 import org.hbrs.se2.project.softwaree.dtos.*;
 import org.hbrs.se2.project.softwaree.entities.Address;
 import org.hbrs.se2.project.softwaree.entities.Company;
+import org.hbrs.se2.project.softwaree.entities.Skill;
 import org.hbrs.se2.project.softwaree.entities.Student;
 import org.hbrs.se2.project.softwaree.repository.AddressRepository;
 import org.hbrs.se2.project.softwaree.repository.CompanyRepository;
@@ -15,9 +16,7 @@ import org.hbrs.se2.project.softwaree.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
@@ -29,7 +28,12 @@ public class EditProfileControl {
     SkillRepository skillRepo;
 
     public StudentDTO getStudentFromUser(UserDTO userDTO) {
-        return repo.findStudent(userDTO.getId());
+        Optional<Student> studentFromDB = repo.findStudentById(userDTO.getId());
+        if (studentFromDB.isPresent()) {
+            return StudentFactory.createDTO(studentFromDB.get());
+        } else {
+            return null;
+        }
     }
 
     @Autowired
@@ -78,4 +82,26 @@ public class EditProfileControl {
         }
     }
 
+
+    public Set<Skill> createSkillSet(Set<String> skillNames) {
+        Set<Skill> returnSet = new HashSet<>();
+
+        for (String skillName : skillNames) {
+            Optional<Skill> skillFromDB = skillRepo.findByDescription(skillName);
+            if (skillFromDB.isPresent()) {
+                // Take Skill from DB and add to list:
+                returnSet.add(skillFromDB.get());
+            } else {
+                Skill newSkill = new Skill();
+                newSkill.setDescription(skillName);
+                returnSet.add(newSkill);
+            }
+        }
+
+        return returnSet;
+    }
+
+    public void saveSkill(Skill skill) {
+        skillRepo.save(skill);
+    }
 }
