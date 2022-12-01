@@ -12,6 +12,7 @@ import com.vaadin.flow.data.provider.Query;
 import org.hbrs.se2.project.softwaree.dtos.SkillDTO;
 
 
+import java.awt.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -29,6 +30,12 @@ public class SkillsComponent extends VerticalLayout {
     Label infoLabel = new Label("Fähigkeiten aus der Liste hinzufügen oder durch Klicken entfernen");
     Label skillAmountLabel = new Label("(0/20)");
     private HashMap<String, ListItem> skills = new HashMap<>();
+
+    /** Component types for this skill component **/
+    public enum ComponentType {
+        SKILL_EDITOR, SKILL_EDITOR_NO_CUSTOM, SKILL_VIEWER;
+    }
+    private boolean readOnly = false;
 
 
     /** Component UI **/
@@ -79,9 +86,12 @@ public class SkillsComponent extends VerticalLayout {
     }
 
 
+
+
+
     /** Component logic **/
     public void removeSkill(String skillName) {
-        if (skills.containsKey(skillName)) {
+        if (skills.containsKey(skillName) && !readOnly) {
             skillsLayout.remove(skills.get(skillName));
             skills.remove(skillName);
             skillAmountLabel.setText("(" + skills.size() + "/20)");
@@ -109,6 +119,38 @@ public class SkillsComponent extends VerticalLayout {
     public Set<String> getSkillNames() {
         return skills.keySet();
     }
+
+
+    /** Component state can be switched between only viewing,
+     * editing and editing with restriction to predefined values **/
+    public void setSkillComponentType(ComponentType componentType) {
+        switch (componentType) {
+
+            case SKILL_EDITOR: {
+                removeAll();
+                add(infoLabel, addSkillLayout, skillsLayout);
+                newSkillField.setAllowCustomValue(true);
+                readOnly = false;
+                break;
+            }
+
+            case SKILL_EDITOR_NO_CUSTOM: {
+                removeAll();
+                add(infoLabel, addSkillLayout, skillsLayout);
+                newSkillField.setAllowCustomValue(false);
+                readOnly = false;
+                break;
+            }
+
+            case SKILL_VIEWER: {
+                removeAll();
+                add(skillsLayout);
+                readOnly = true;
+                break;
+            }
+        }
+    }
+
 
 
 
