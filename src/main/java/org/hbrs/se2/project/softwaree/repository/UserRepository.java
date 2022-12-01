@@ -28,6 +28,9 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Query("  SELECT new org.hbrs.se2.project.softwaree.dtos.UserDTO(u.id,u.address.id, u.email, u.password,u.profilePic,u.userType)  FROM User u WHERE u.email = ?1 AND u.password = ?2")
     UserDTO findUserByEmailAndPassword(String email, String password);
 
+    @Query("  SELECT new org.hbrs.se2.project.softwaree.dtos.UserDTO(u.id,u.address.id, u.email, u.password,u.profilePic,u.userType)  FROM User u WHERE u.email = ?1")
+    UserDTO findUserByEmail(String email);
+
     @Query("  SELECT new org.hbrs.se2.project.softwaree.dtos.UserDTO(u.id,u.address.id, u.email, u.password,u.profilePic,u.userType)  FROM User u WHERE u.id = ?1")
     UserDTO findUserByID(int id);
 
