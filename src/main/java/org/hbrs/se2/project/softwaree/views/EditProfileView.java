@@ -279,8 +279,6 @@ public class EditProfileView extends Div {
 
         } );
 
-        // Testing:
-        skills.setSkillComponentType(SkillsComponent.ComponentType.SKILL_EDITOR);
     }
 
 
