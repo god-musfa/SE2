@@ -30,10 +30,7 @@ import com.vaadin.flow.router.Route;
 import org.hbrs.se2.project.softwaree.components.SkillsComponent;
 import org.hbrs.se2.project.softwaree.components.SoftwareeAvatar;
 import org.hbrs.se2.project.softwaree.control.EditProfileControl;
-import org.hbrs.se2.project.softwaree.dtos.AddressDTO;
-import org.hbrs.se2.project.softwaree.dtos.CompanyDTO;
-import org.hbrs.se2.project.softwaree.dtos.StudentDTO;
-import org.hbrs.se2.project.softwaree.dtos.UserDTO;
+import org.hbrs.se2.project.softwaree.dtos.*;
 import org.hbrs.se2.project.softwaree.util.Globals;
 import com.vaadin.flow.component.notification.Notification;
 
@@ -233,6 +230,9 @@ public class EditProfileView extends Div {
 
         // Skills:
         SkillsComponent skills = new SkillsComponent(pc.getAvailableSkills());
+        for (SkillDTO skillDTO : pc.getStudentSkills(userDTO)){
+            skills.addSkill(skillDTO.getDescription());
+        }
         publicInfoForm.add(skills, 4);
 
 

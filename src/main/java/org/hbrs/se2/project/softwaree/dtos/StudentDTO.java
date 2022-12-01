@@ -1,9 +1,11 @@
 package org.hbrs.se2.project.softwaree.dtos;
 
+import org.hbrs.se2.project.softwaree.entities.Skill;
 import org.hbrs.se2.project.softwaree.entities.Student;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Set;
 
 /**
  * A DTO for the {@link Student} entity
@@ -17,6 +19,7 @@ public class StudentDTO implements Serializable {
     private String degree;
     private String university;
     private String subject;
+
 
     public StudentDTO() {}
 
@@ -38,7 +41,7 @@ public class StudentDTO implements Serializable {
         this.birthday = birthday;
     }
 
-        public Integer getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -101,4 +104,6 @@ public class StudentDTO implements Serializable {
     public void setSubject(String subject) {
         this.subject = subject;
     }
+
+
 }

@@ -1,6 +1,13 @@
 package org.hbrs.se2.project.softwaree.entities;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Entity(name = "Skill")
 @Table(name = "skill", schema = "coll")
@@ -12,6 +19,12 @@ public class Skill {
 
     @Column(name = "description", nullable = false)
     private String description;
+
+    // ManyToMany with Student:
+
+    @ManyToMany(mappedBy = "skills", fetch = FetchType.EAGER)
+    private Set<Student> students = new HashSet<>();
+
 
     public String getDescription() {
         return description;
