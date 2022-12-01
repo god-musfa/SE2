@@ -23,10 +23,13 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     // SELECT firstname, lastname, id
     // FROM User p
     // WHERE p.userid = [StringValueOf( userid )] AND p.password = [StringValueOf( password )]
+
+    /** Removed due to manyToMany association with skills dataset, replaced.
     UserDTO findUserByIdAndPassword(String userid , String password);
 
     @Query("  SELECT new org.hbrs.se2.project.softwaree.dtos.UserDTO(u.id,u.address.id, u.email, u.password,u.profilePic,u.userType)  FROM User u WHERE u.email = ?1 AND u.password = ?2")
     UserDTO findUserByEmailAndPassword(String email, String password);
+    **/
 
     @Query("  SELECT new org.hbrs.se2.project.softwaree.dtos.UserDTO(u.id,u.address.id, u.email, u.password,u.profilePic,u.userType)  FROM User u WHERE u.email = ?1")
     UserDTO findUserByEmail(String email);

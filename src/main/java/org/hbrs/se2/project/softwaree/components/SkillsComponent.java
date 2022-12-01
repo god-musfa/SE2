@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
 @CssImport("./styles/components/SkillsComponent.css")
 public class SkillsComponent extends VerticalLayout {
 
+    /** Main Components in the SkillComponent **/
     FlexLayout addSkillLayout = new FlexLayout();
     Button addSkillButton = new Button("Hinzufügen");
     ComboBox<String> newSkillField = new ComboBox();
@@ -31,7 +32,6 @@ public class SkillsComponent extends VerticalLayout {
 
 
     /** Component UI **/
-
     public SkillsComponent(List<SkillDTO> autoCompleteSet) {
         // For outer component styling:
         addClassName("skill-component");

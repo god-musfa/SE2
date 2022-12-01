@@ -8,6 +8,7 @@ public class SecurityHandler {
     private static BCryptPasswordEncoder bcryptEncoder = new BCryptPasswordEncoder();
 
 
+
     public static String hashPassword(String plainPassword) {
         return bcryptEncoder.encode(plainPassword);
     }

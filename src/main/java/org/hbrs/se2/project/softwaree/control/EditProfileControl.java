@@ -70,7 +70,6 @@ public class EditProfileControl {
     }
 
     public List<SkillDTO> getStudentSkills(UserDTO userDTO) {
-        // Testing, get all available: ;
         Optional<Student> targetStudent = repo.findStudentById(userDTO.getId());
         if (targetStudent.isPresent()) {
             return targetStudent.get().getSkills().stream()
@@ -82,7 +81,6 @@ public class EditProfileControl {
         }
     }
 
-
     public Set<Skill> createSkillSet(Set<String> skillNames) {
         Set<Skill> returnSet = new HashSet<>();
 
@@ -92,6 +90,7 @@ public class EditProfileControl {
                 // Take Skill from DB and add to list:
                 returnSet.add(skillFromDB.get());
             } else {
+                // Create empty skill and add description from combobox:
                 Skill newSkill = new Skill();
                 newSkill.setDescription(skillName);
                 returnSet.add(newSkill);

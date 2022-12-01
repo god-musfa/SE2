@@ -44,7 +44,7 @@ public class RegistrationControl {
 
         User user = UserFactory.createUser(userDTO, address);
 
-        // Hash user password:
+        // Hash user password before saving:
         user.setPassword(
                 SecurityHandler.hashPassword(user.getPassword())
         );
