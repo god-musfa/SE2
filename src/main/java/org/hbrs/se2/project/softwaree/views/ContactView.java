@@ -34,6 +34,7 @@ public class ContactView extends VerticalLayout  {
     ContactControl cc;
     Button cancel = new Button("Feld leeren");
     Button save = new Button("Speichern");
+    Button back;
 
     private final Binder<MessageDTO> binderContact = new Binder<>(MessageDTO.class);
 
@@ -65,6 +66,14 @@ public class ContactView extends VerticalLayout  {
                         .addThemeVariants(NotificationVariant.LUMO_SUCCESS);
                 clearForm();
             });
+
+            back.addClickListener(e -> {
+                if ((jobID != -1)) {
+                    UI.getCurrent().navigate("job/" + jobID);
+                } else {
+                    UI.getCurrent().getPage().executeJs("window.history.back()"); //Firmenseite
+                }
+            });
         }
         else {
             add(createTitle());
@@ -94,6 +103,10 @@ public class ContactView extends VerticalLayout  {
         if(jobID != -1) {
             layout.add(jobBox);
             layout.setColspan(jobBox, 2);
+            back = new Button("Zum Jobprofil");
+        }
+        else {
+            back = new Button("Zum Unternehmensprofil");
         }
         layout.add(message);
         layout.setColspan(message, 2);
@@ -236,6 +249,7 @@ public class ContactView extends VerticalLayout  {
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         buttonLayout.add(save);
         buttonLayout.add(cancel);
+        buttonLayout.add(back);
         return buttonLayout;
     }
 
