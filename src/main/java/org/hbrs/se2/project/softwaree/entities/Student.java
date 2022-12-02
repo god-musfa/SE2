@@ -2,6 +2,10 @@ package org.hbrs.se2.project.softwaree.entities;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.Set;
+
 
 @Entity(name = "Student")
 @Table(name = "student", schema = "coll")
@@ -35,6 +39,18 @@ public class Student {
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "id", nullable = false)
     private User user;
+
+    // Skills (ManyToMany):
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @JoinTable(name = "student_skills", schema = "coll",
+            joinColumns = {
+                    @JoinColumn(name = "student_id", referencedColumnName = "id",
+                            nullable = false, updatable = false)},
+            inverseJoinColumns = {
+                    @JoinColumn(name = "skill_id", referencedColumnName = "id",
+                            nullable = false, updatable = false)})
+    private Set<Skill> skills = new HashSet<>();
+
 
     public User getUser() {
         return user;
@@ -106,6 +122,14 @@ public class Student {
 
     public void setSubject(String subject) {
         this.subject = subject;
+    }
+
+    public Set<Skill> getSkills(){
+        return skills;
+    }
+
+    public void setSkills(Set<Skill> skills) {
+        this.skills = skills;
     }
 
 }

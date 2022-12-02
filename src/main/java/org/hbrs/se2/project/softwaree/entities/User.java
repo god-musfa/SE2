@@ -34,6 +34,8 @@ public class User {
     @OneToOne(mappedBy = "user")
     private Company company;
 
+
+
     public Company getCompany() {
         return company;
     }

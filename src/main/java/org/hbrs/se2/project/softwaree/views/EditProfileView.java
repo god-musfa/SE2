@@ -3,6 +3,7 @@ package org.hbrs.se2.project.softwaree.views;
 
 import java.time.LocalDate;
 import java.util.Locale;
+import java.util.Set;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
@@ -27,12 +28,11 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import org.hbrs.se2.project.softwaree.components.SkillsComponent;
 import org.hbrs.se2.project.softwaree.components.SoftwareeAvatar;
 import org.hbrs.se2.project.softwaree.control.EditProfileControl;
-import org.hbrs.se2.project.softwaree.dtos.AddressDTO;
-import org.hbrs.se2.project.softwaree.dtos.CompanyDTO;
-import org.hbrs.se2.project.softwaree.dtos.StudentDTO;
-import org.hbrs.se2.project.softwaree.dtos.UserDTO;
+import org.hbrs.se2.project.softwaree.dtos.*;
+import org.hbrs.se2.project.softwaree.entities.Skill;
 import org.hbrs.se2.project.softwaree.util.Globals;
 import com.vaadin.flow.component.notification.Notification;
 
@@ -94,6 +94,7 @@ public class EditProfileView extends Div {
     final ComboBox<String> field = new ComboBox<>("Branche");
     final RadioButtonGroup<String> size = new RadioButtonGroup<>();
     final TextField website = new TextField("Webseite");
+
     UserDTO userDTO = (UserDTO) UI.getCurrent().getSession().getAttribute(Globals.CURRENT_USER);
     EditProfileControl pc;
 
@@ -159,6 +160,19 @@ public class EditProfileView extends Div {
         Div universityInfoPlaceholder = new Div();
         Div profilePicturePlaceholder = new Div();
 
+        // Prefill
+        Binder<StudentDTO> binder = new Binder(StudentDTO.class);
+        binder.bindInstanceFields(this);
+        binder.setBean(pc.getStudentFromUser(userDTO));
+
+        Binder<AddressDTO> binderAdress = new Binder<>(AddressDTO.class);
+        binderAdress.bindInstanceFields(this);
+        binderAdress.setBean(pc.getAdressFromUser(userDTO));
+
+        Binder<UserDTO> binderEmail = new Binder<>(UserDTO.class);
+        binderEmail.bindInstanceFields(this);
+        binderEmail.readBean(userDTO);
+        binderEmail.setReadOnly(true);
 
         // Add all components to publicInfoForm container:
         publicInfoForm.add(profileAvatar);
@@ -216,12 +230,18 @@ public class EditProfileView extends Div {
         publicInfoForm.setColspan(university, 2);
         publicInfoForm.setColspan(universityInfoPlaceholder, 4);
 
+        // Skills:
+        SkillsComponent skills = new SkillsComponent(pc.getAvailableSkills());
+        for (SkillDTO skillDTO : pc.getStudentSkills(userDTO)){
+            skills.addSkill(skillDTO.getDescription());
+        }
+        publicInfoForm.add(skills, 4);
+
 
         // Second outter container to implement padding - (padding is sexy!):
         VerticalLayout publicProfilePaddingContainer = new VerticalLayout();
         publicProfilePaddingContainer.add(publicInfoForm);
         publicProfilePaddingContainer.setPadding(true);
-
 
 
         // Button design
@@ -232,28 +252,25 @@ public class EditProfileView extends Div {
         profileSettingsAccordion.add("Profilangaben", publicProfilePaddingContainer);
         publicProfilePaddingContainer.add(buttonLayout);
 
-        //prefill
-        Binder<StudentDTO> binder = new Binder(StudentDTO.class);
-        binder.bindInstanceFields(this);
-        binder.setBean(pc.getStudentFromUser(userDTO));
 
-        Binder<AddressDTO> binderAdress = new Binder<>(AddressDTO.class);
-        binderAdress.bindInstanceFields(this);
-        binderAdress.setBean(pc.getAdressFromUser(userDTO));
-
-        Binder<UserDTO> binderEmail = new Binder<>(UserDTO.class);
-        binderEmail.bindInstanceFields(this);
-        binderEmail.readBean(userDTO);
-        binderEmail.setReadOnly(true);
-
-
+        // Logics:
 
         cancelButton.addClickListener(event -> UI.getCurrent().getPage().reload());
 
         saveButton.addClickListener(e -> {
             UserDTO userDTO = (UserDTO) UI.getCurrent().getSession().getAttribute(Globals.CURRENT_USER);
 
-            pc.createStudent(binder.getBean());
+            // Load skills into studentDTO:
+            StudentDTO currentStudent = binder.getBean();
+            Set<Skill> currentSkillSet = pc.createSkillSet(skills.getSkillNames());
+
+            for (Skill s : currentSkillSet) {
+                pc.saveSkill(s);
+            }
+
+            currentStudent.setSkills(currentSkillSet);
+
+            pc.createStudent(currentStudent);
             pc.createAddress(binderAdress.getBean(), userDTO);
 
             Notification notification = Notification
@@ -261,8 +278,6 @@ public class EditProfileView extends Div {
             notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
 
         } );
-
-
 
     }
 

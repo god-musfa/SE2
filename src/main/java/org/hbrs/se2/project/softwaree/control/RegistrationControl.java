@@ -13,6 +13,7 @@ import org.hbrs.se2.project.softwaree.entities.User;
 import org.hbrs.se2.project.softwaree.repository.AddressRepository;
 import org.hbrs.se2.project.softwaree.repository.StudentRepository;
 import org.hbrs.se2.project.softwaree.repository.UserRepository;
+import org.hbrs.se2.project.softwaree.security.SecurityHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -42,6 +43,11 @@ public class RegistrationControl {
         addressRepository.save(address);
 
         User user = UserFactory.createUser(userDTO, address);
+
+        // Hash user password before saving:
+        user.setPassword(
+                SecurityHandler.hashPassword(user.getPassword())
+        );
 
         Student student = StudentFactory.createStudent(studentDTO);
         user.setStudent(student);
