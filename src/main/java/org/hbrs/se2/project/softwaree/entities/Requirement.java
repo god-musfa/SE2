@@ -5,12 +5,7 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
-import java.util.Iterator;
 import java.util.Set;
-import org.hbrs.se2.project.softwaree.entities.Company;
-import org.hbrs.se2.project.softwaree.entities.Job;
 
 @Entity
 @Table(name = "requirement", schema = "coll")

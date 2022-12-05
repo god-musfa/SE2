@@ -15,9 +15,6 @@ import org.hbrs.se2.project.softwaree.dtos.UserDTO;
 import org.hbrs.se2.project.softwaree.util.Globals;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.awt.*;
-
-import static org.hbrs.se2.project.softwaree.util.Globals.ScreenSizes.WORKSTATION;
 
 /**
  * View zur Darstellung der Startseite. Diese zeigt dem Benutzer ein Login-Formular an.

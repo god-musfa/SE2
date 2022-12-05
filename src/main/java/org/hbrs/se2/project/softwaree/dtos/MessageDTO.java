@@ -2,7 +2,6 @@ package org.hbrs.se2.project.softwaree.dtos;
 
 
 import org.hbrs.se2.project.softwaree.entities.Message;
-
 import java.io.Serializable;
 import java.util.Date;
 

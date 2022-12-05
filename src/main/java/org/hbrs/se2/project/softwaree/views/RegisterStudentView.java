@@ -1,5 +1,4 @@
 package org.hbrs.se2.project.softwaree.views;
-//import com.vaadin.*;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -12,7 +11,6 @@ import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.router.Route;
 import org.hbrs.se2.project.softwaree.control.RegistrationControl;
 import org.hbrs.se2.project.softwaree.dtos.AddressDTO;
-import org.hbrs.se2.project.softwaree.dtos.CompanyDTO;
 import org.hbrs.se2.project.softwaree.dtos.StudentDTO;
 import org.hbrs.se2.project.softwaree.dtos.UserDTO;
 import org.hbrs.se2.project.softwaree.util.Globals;

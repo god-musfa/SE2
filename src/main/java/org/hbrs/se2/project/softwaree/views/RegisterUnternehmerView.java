@@ -1,5 +1,4 @@
 package org.hbrs.se2.project.softwaree.views;
-//import com.vaadin.*;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;

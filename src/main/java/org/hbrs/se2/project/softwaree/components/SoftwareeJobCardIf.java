@@ -1,7 +1,5 @@
 package org.hbrs.se2.project.softwaree.components;
 
-import java.time.LocalDate;
-
 public interface SoftwareeJobCardIf {
     public void setTitle(String title);
     public void setCompany(String company);

@@ -3,7 +3,6 @@ package org.hbrs.se2.project.softwaree.entities;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
-
 import javax.persistence.*;
 import java.util.Set;
 

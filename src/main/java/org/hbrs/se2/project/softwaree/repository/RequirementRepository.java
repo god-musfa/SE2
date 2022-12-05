@@ -1,4 +1,4 @@
-package org.hbrs.se2.project.softwaree;
+package org.hbrs.se2.project.softwaree.repository;
 
 import org.hbrs.se2.project.softwaree.entities.Requirement;
 import org.springframework.data.jpa.repository.JpaRepository;

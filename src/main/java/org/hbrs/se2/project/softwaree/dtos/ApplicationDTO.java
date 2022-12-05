@@ -1,7 +1,5 @@
 package org.hbrs.se2.project.softwaree.dtos;
 
-import org.hbrs.se2.project.softwaree.dtos.JobDTO;
-import org.hbrs.se2.project.softwaree.dtos.StudentDTO;
 import org.hbrs.se2.project.softwaree.entities.Application;
 
 import java.io.Serializable;

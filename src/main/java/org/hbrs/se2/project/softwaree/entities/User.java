@@ -1,7 +1,4 @@
 package org.hbrs.se2.project.softwaree.entities;
-
-import org.hibernate.annotations.Type;
-
 import javax.persistence.*;
 
 @Entity

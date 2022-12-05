@@ -1,7 +1,6 @@
 package org.hbrs.se2.project.softwaree.repository;
 
 import org.hbrs.se2.project.softwaree.dtos.AddressDTO;
-import org.hbrs.se2.project.softwaree.dtos.StudentDTO;
 import org.hbrs.se2.project.softwaree.entities.Address;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

@@ -1,8 +1,6 @@
 package org.hbrs.se2.project.softwaree.dtos;
 
-import org.hbrs.se2.project.softwaree.entities.Address;
 import org.hbrs.se2.project.softwaree.entities.User;
-
 import java.io.Serializable;
 
 /**

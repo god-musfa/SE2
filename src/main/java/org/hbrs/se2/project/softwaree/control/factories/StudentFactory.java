@@ -1,7 +1,6 @@
 package org.hbrs.se2.project.softwaree.control.factories;
 
 import org.hbrs.se2.project.softwaree.dtos.StudentDTO;
-import org.hbrs.se2.project.softwaree.dtos.UserDTO;
 import org.hbrs.se2.project.softwaree.entities.Student;
 
 import java.util.Optional;

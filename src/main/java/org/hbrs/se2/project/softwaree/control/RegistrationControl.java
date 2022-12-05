@@ -1,6 +1,5 @@
 package org.hbrs.se2.project.softwaree.control;
 
-import org.hbrs.se2.project.softwaree.control.exception.DatabaseUserException;
 import org.hbrs.se2.project.softwaree.control.factories.AddressFactory;
 import org.hbrs.se2.project.softwaree.control.factories.StudentFactory;
 import org.hbrs.se2.project.softwaree.control.factories.UserFactory;

@@ -16,7 +16,6 @@ import org.hbrs.se2.project.softwaree.control.ManageAddressControl;
 import org.hbrs.se2.project.softwaree.dtos.AddressDTO;
 import org.hbrs.se2.project.softwaree.dtos.CompanyDTO;
 import org.hbrs.se2.project.softwaree.util.Globals;
-
 import java.util.List;
 
 /**

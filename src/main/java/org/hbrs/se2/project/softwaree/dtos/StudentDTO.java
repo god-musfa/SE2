@@ -2,7 +2,6 @@ package org.hbrs.se2.project.softwaree.dtos;
 
 import org.hbrs.se2.project.softwaree.entities.Skill;
 import org.hbrs.se2.project.softwaree.entities.Student;
-
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Set;

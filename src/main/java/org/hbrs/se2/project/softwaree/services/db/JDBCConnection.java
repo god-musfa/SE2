@@ -1,7 +1,6 @@
 package org.hbrs.se2.project.softwaree.services.db;
 
 import org.hbrs.se2.project.softwaree.services.db.exceptions.DatabaseLayerException;
-
 import java.sql.*;
 import java.util.Properties;
 import java.util.logging.Level;

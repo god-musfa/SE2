@@ -16,9 +16,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.hbrs.se2.project.softwaree.control.ManageApplicationControl;
 import org.hbrs.se2.project.softwaree.dtos.ApplicationDTO;
 import org.hbrs.se2.project.softwaree.dtos.UserDTO;
-
 import org.hbrs.se2.project.softwaree.util.Globals;
-
 import java.util.List;
 import java.util.Optional;
 

@@ -14,8 +14,7 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.router.QueryParameters;
-import org.hbrs.se2.project.softwaree.util.Globals;
+
 
 /**@author dheil2s
  *

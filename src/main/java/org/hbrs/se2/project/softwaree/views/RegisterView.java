@@ -1,11 +1,7 @@
 package org.hbrs.se2.project.softwaree.views;
-//import com.vaadin.*;
-//import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.checkbox.Checkbox;
-//import com.vaadin.flow.component.formlayout.FormLayout;
-//import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.select.Select;
@@ -17,7 +13,7 @@ import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.router.Route;
 import org.hbrs.se2.project.softwaree.dtos.UserDTO;
 import org.hbrs.se2.project.softwaree.util.Globals;
-//import javax.validation.constraints.Email;
+
 
 @Route(value = "register")
 public class RegisterView extends VerticalLayout {
