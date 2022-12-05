@@ -1,4 +1,4 @@
-package org.hbrs.se2.project.softwaree.test;
+package org.hbrs.se2.project.softwaree.test.entities;
 import org.hbrs.se2.project.softwaree.entities.Address;
 import org.hbrs.se2.project.softwaree.entities.Company;
 import org.hbrs.se2.project.softwaree.entities.Student;
@@ -56,6 +56,12 @@ public class UserTest {
   public void getSetEmail() {
     user.setEmail("test.test@test.de");
     Assert.assertEquals(user.getEmail(), "test.test@test.de");
+  }
+
+  @Test
+  public void getSetId() {
+    user.setId(1234);
+    Assert.assertEquals((int)user.getId(), 1234);
   }
 
 }

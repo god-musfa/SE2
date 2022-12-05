@@ -1,4 +1,4 @@
-package org.hbrs.se2.project.softwaree.test;
+package org.hbrs.se2.project.softwaree.test.entities;
 
 import org.hbrs.se2.project.softwaree.entities.Address;
 import org.junit.Before;
@@ -33,6 +33,12 @@ public class AddressTest {
   public void getSetPostalCode() {
     address.setPostalCode("53757");
     Assert.assertEquals(address.getPostalCode(), "53757");
+  }
+
+  @Test
+  public void getSetId() {
+    address.setId(1234);
+    Assert.assertEquals((int)address.getId(), 1234);
   }
 
 }

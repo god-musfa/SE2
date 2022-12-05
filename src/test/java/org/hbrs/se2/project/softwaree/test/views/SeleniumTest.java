@@ -1,4 +1,4 @@
-package org.hbrs.se2.project.softwaree.test;
+package org.hbrs.se2.project.softwaree.test.views;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;

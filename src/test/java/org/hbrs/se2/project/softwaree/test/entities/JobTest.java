@@ -1,20 +1,32 @@
-package org.hbrs.se2.project.softwaree.test;
+package org.hbrs.se2.project.softwaree.test.entities;
 
 import org.hbrs.se2.project.softwaree.entities.Company;
 import org.hbrs.se2.project.softwaree.entities.Job;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.Assert;
-
 import java.time.LocalDate;
+
 
 public class JobTest {
   Job job;
+  Job jobprefilled;
   Company company;
 
   @Before
   public void setUp() {
     job = new Job();
+    jobprefilled = new Job();
+    jobprefilled.setLocation("Sankt Augustin");
+    jobprefilled.setCreation_date(LocalDate.now());
+    jobprefilled.setDeadline(LocalDate.now());
+    jobprefilled.setLast_edit(LocalDate.now());
+    jobprefilled.setTitle("Job2");
+    jobprefilled.setDescription("Best Job 2");
+    jobprefilled.setCompany(company);
+    jobprefilled.setId(12345);
+    jobprefilled.setViews(12345);
+
 
     company = new Company();
     company.setName("Coca Cola");
@@ -62,6 +74,32 @@ public class JobTest {
   public void getSetCompany() {
     job.setCompany(company);
     Assert.assertEquals(job.getCompany(), company);
+  }
+
+  @Test
+  public void getSetId() {
+    job.setId(1234);
+    Assert.assertEquals((int)job.getId(), 1234);
+  }
+
+  @Test
+  public void getSetLocation() {
+    job.setLocation("Sankt Augustin");
+    Assert.assertEquals(job.getLocation(), "Sankt Augustin");
+  }
+
+  @Test
+  public void getSetViews() {
+    job.setViews(1234);
+    Assert.assertEquals((int)job.getViews(), 1234);
+  }
+
+  @Test
+  public void notNull() {
+    Assert.assertNotNull(jobprefilled.getLastEditAsString());
+    Assert.assertNotNull(jobprefilled.getCreationDateAsString());
+    Assert.assertNotNull(jobprefilled.getDeadlineAsString());
+    Assert.assertNotNull(jobprefilled.getViewsAsString());
   }
 
 }

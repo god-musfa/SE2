@@ -1,4 +1,4 @@
-package org.hbrs.se2.project.softwaree.test;
+package org.hbrs.se2.project.softwaree.test.entities;
 
 import org.hbrs.se2.project.softwaree.entities.Benefit;
 import org.junit.Before;
@@ -17,5 +17,11 @@ public class BenefitTest {
   public void getSetDescription() {
     benefit.setDescription("Best Benefit");
     Assert.assertEquals(benefit.getDescription(), "Best Benefit");
+  }
+
+  @Test
+  public void getSetId() {
+    benefit.setId(1234);
+    Assert.assertEquals((int)benefit.getId(), 1234);
   }
 }
