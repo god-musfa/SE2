@@ -26,4 +26,7 @@ public interface JobRepository extends JpaRepository<Job, Integer> {
     @Query(value = "SELECT j FROM Job j WHERE j.company.id NOT IN :ids")
     List<Job> findAllNotBlockedCompanys(@Param("ids") List<Integer> idList);
 
+    @Query(value = "SELECT j FROM Job j WHERE j.company.id = ?1")
+    List<Job> readJobsFromCompany(Integer id);
+
 }

@@ -50,8 +50,17 @@ public class JobView extends Div {
     public JobView(ManageJobsControl jobsControl) {
         addClassName("jobs");
 
-        // Auslesen alle abgespeicherten Jobs aus der DB (über das Control) - ausgenommen der Jobs, die von blockierten Firmen kommen
-        jobList = jobsControl.readAllJobs(((UserDTO)UI.getCurrent().getSession().getAttribute(Globals.CURRENT_USER)).getId());
+        UserDTO user = (UserDTO)UI.getCurrent().getSession().getAttribute(Globals.CURRENT_USER);
+
+        if((user.getUserType()).equals("student")) {
+            // Auslesen alle abgespeicherten Jobs aus der DB (über das Control) - ausgenommen der Jobs, die von blockierten Firmen kommen
+            jobList = jobsControl.readAllJobs(user.getId());
+        }
+        else {
+            jobList = jobsControl.readJobsFromCompany(user.getId());
+            add(this.createJobButton());
+
+        }
 
 
        /* imageList.add(new Image("icons/Deutsche_Telekom_2022.svg.png"));
@@ -267,6 +276,17 @@ public class JobView extends Div {
     private Button createButton(String name) {
         Button button = new Button(name);
         button.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
+        return button;
+    }
+
+
+    private Button createJobButton() {
+        Button button = new Button("Stellenanzeige erstellen");
+        button.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
+
+        button.addClickListener(e -> {
+            UI.getCurrent().navigate(Globals.Pages.JOB_OFFER);
+        });
         return button;
     }
 

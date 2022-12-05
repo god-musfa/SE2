@@ -28,6 +28,9 @@ public class ManageJobsControl {
         return blockedCompanys.isEmpty() ? repository.findAll() : repository.findAllNotBlockedCompanys(blockedCompanys);
     }
 
+    public List<Job> readJobsFromCompany(Integer id) {
+        return repository.readJobsFromCompany(id);
+    }
 
 /*    public  List<JobDTO> readAllJobsNative() {
         return repository.findAllJobsNative();
