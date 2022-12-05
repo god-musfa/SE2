@@ -5,10 +5,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
 @SpringBootApplication
-public class HellocarApplication extends SpringBootServletInitializer {
+public class SoftwareeApplication extends SpringBootServletInitializer {
 
     public static void main(String[] args) {
-        SpringApplication.run(HellocarApplication.class, args);
+        SpringApplication.run(SoftwareeApplication.class, args);
     }
 
 }
