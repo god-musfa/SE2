@@ -1,6 +1,7 @@
 package org.hbrs.se2.project.softwaree.test.entities;
 
 import org.hbrs.se2.project.softwaree.entities.Student;
+import org.hbrs.se2.project.softwaree.entities.User;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.Assert;
@@ -8,9 +9,11 @@ import java.time.LocalDate;
 
 public class StudentTest {
   Student student;
+  User user;
   @Before
   public void setUp() {
     student = new Student();
+    user = new User();
   }
 
   @Test
@@ -54,5 +57,19 @@ public class StudentTest {
     student.setUniversity("Hochschule Bonn-Rhein-Sieg");
     Assert.assertEquals(student.getUniversity(), "Hochschule Bonn-Rhein-Sieg");
   }
+
+  @Test
+  public void getSetId() {
+    student.setId(1234);
+    Assert.assertEquals((int)student.getId(), 1234);
+  }
+
+  @Test
+  public void getSetUser() {
+    student.setUser(user);
+    Assert.assertEquals(student.getUser(), user);
+  }
+
+  // ToDo: getSetSkills
 
 }

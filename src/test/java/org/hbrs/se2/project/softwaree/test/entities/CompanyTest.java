@@ -58,9 +58,15 @@ public class CompanyTest {
   }
 
   @Test
-  public void getSetUser() {
+  public void getSetUserType() {
     user.setUserType("student");
     Assert.assertEquals(user.getUserType(), "student");
+  }
+
+  @Test
+  public void getSetUser() {
+    company.setUser(user);
+    Assert.assertEquals(company.getUser(), user);
   }
 
 }

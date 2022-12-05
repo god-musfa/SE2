@@ -64,4 +64,10 @@ public class UserTest {
     Assert.assertEquals((int)user.getId(), 1234);
   }
 
+  @Test
+  public void getSetProfilePic() {
+    user.setProfilePic("Nice Pic");
+    Assert.assertEquals(user.getProfilePic(), "Nice Pic");
+  }
+
 }

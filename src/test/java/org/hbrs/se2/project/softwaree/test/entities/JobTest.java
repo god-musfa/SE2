@@ -10,12 +10,14 @@ import java.time.LocalDate;
 
 public class JobTest {
   Job job;
+  Job jobnull;
   Job jobprefilled;
   Company company;
 
   @Before
   public void setUp() {
     job = new Job();
+    jobnull = new Job();
     jobprefilled = new Job();
     jobprefilled.setLocation("Sankt Augustin");
     jobprefilled.setCreation_date(LocalDate.now());
@@ -95,11 +97,28 @@ public class JobTest {
   }
 
   @Test
+  public void getSetCompanyName() {
+    jobprefilled.setCompany(company);
+    Assert.assertEquals(jobprefilled.getCompanyName(), "Coca Cola");
+
+  }
+
+  @Test
   public void notNull() {
     Assert.assertNotNull(jobprefilled.getLastEditAsString());
     Assert.assertNotNull(jobprefilled.getCreationDateAsString());
     Assert.assertNotNull(jobprefilled.getDeadlineAsString());
     Assert.assertNotNull(jobprefilled.getViewsAsString());
   }
+
+  @Test
+  public void isNull() {
+    Assert.assertEquals(jobnull.getLastEditAsString(), "-");
+    Assert.assertEquals(jobnull.getCreationDateAsString(), "-");
+    Assert.assertEquals(jobnull.getDeadlineAsString(), "-");
+    Assert.assertEquals(jobnull.getViewsAsString(), "-");
+  }
+
+  // ToDo: getSetRequirements, getSetBenefits
 
 }
