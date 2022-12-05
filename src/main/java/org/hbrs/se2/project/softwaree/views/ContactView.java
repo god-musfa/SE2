@@ -27,7 +27,7 @@ import org.hbrs.se2.project.softwaree.util.Globals;
 @Route(value = "kontakt", layout = NavBar.class)
 @CssImport("./styles/views/contact/contact-view.css")
 public class ContactView extends VerticalLayout  {
-    private final int limit = 10000; //Zeichenlimit im Eingabefeld
+    private static final int limit = 10000; //Zeichenlimit im Eingabefeld
     UserDTO user = (UserDTO) UI.getCurrent().getSession().getAttribute(Globals.CURRENT_USER);
     private int jobID = -1;
     private int companyID;

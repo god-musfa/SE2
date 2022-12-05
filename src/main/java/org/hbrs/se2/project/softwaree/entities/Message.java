@@ -12,19 +12,19 @@ public class Message {
     private Integer id;
 
     @Column(name = "time_sent", nullable = false)
-    private Date time_sent;
+    private Date timeSent;
 
     @Column(name = "message", nullable = false)
     private String message;
 
     @Column(name = "student_id", nullable = false)
-    private Integer student_id;
+    private Integer studentID;
 
     @Column(name = "company_id", nullable = false)
-    private Integer company_id;
+    private Integer companyID;
 
     @Column(name = "job_id")
-    private Integer job_id;
+    private Integer jobID;
 
 
     public Integer getId() {
@@ -36,11 +36,11 @@ public class Message {
     }
 
     public Date getTimeSent() {
-        return time_sent;
+        return timeSent;
     }
 
-    public void setTimeSent(Date time_sent) {
-        this.time_sent = time_sent;
+    public void setTimeSent(Date timeSent) {
+        this.timeSent = timeSent;
     }
 
     public String getMessage() {
@@ -51,28 +51,28 @@ public class Message {
         this.message = message;
     }
 
-    public Integer getStudent_id() {
-        return student_id;
+    public Integer getStudentID() {
+        return studentID;
     }
 
-    public void setStudent_id(Integer student_id) {
-        this.student_id = student_id;
+    public void setStudentID(Integer studentID) {
+        this.studentID = studentID;
     }
 
-    public Integer getCompany_id() {
-        return company_id;
+    public Integer getCompanyID() {
+        return companyID;
     }
 
-    public void setCompany_id(Integer company_id) {
-        this.company_id = company_id;
+    public void setCompanyID(Integer companyID) {
+        this.companyID = companyID;
     }
 
-    public Integer getJob_id() {
-        return job_id;
+    public Integer getJobID() {
+        return jobID;
     }
 
-    public void setJob_id(Integer job_id) {
-        this.job_id = job_id;
+    public void setJobID(Integer jobID) {
+        this.jobID = jobID;
     }
 
 }

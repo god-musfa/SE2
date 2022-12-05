@@ -11,10 +11,10 @@ public class MessageFactory {
 
         message.setTimeSent(now);
         message.setMessage(messageString);
-        message.setStudent_id(studentID);
-        message.setCompany_id(companyID);
+        message.setStudentID(studentID);
+        message.setCompanyID(companyID);
         if(jobID != -1) {
-            message.setJob_id(jobID);
+            message.setJobID(jobID);
         }
 
         return message;

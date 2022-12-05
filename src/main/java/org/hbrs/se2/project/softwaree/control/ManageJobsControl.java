@@ -24,7 +24,7 @@ public class ManageJobsControl {
      */
     public List<Job> readAllJobs(Integer userid) {
         List<Integer> blockedCompanys = new ArrayList<>();
-        blacklistRepo.findBlockedCompanys(userid).forEach( (dto) -> blockedCompanys.add(dto.getCompany_id()) ); //Liste der blockierten Unternehmen
+        blacklistRepo.findBlockedCompanys(userid).forEach( dto -> blockedCompanys.add(dto.getCompanyID()) ); //Liste der blockierten Unternehmen
         return blockedCompanys.isEmpty() ? repository.findAll() : repository.findAllNotBlockedCompanys(blockedCompanys);
     }
 

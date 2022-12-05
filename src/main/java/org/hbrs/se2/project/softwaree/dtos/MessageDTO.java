@@ -11,15 +11,15 @@ import java.util.Date;
  */
 public class MessageDTO implements Serializable {
     private Integer id;
-    private Date time_sent;
+    private Date timeSent;
     private String message;
     private Integer studentID;
     private Integer companyID;
     private Integer jobID;
 
-    public MessageDTO(Integer id, Date time_sent, String message, Integer studentID, Integer companyID, Integer jobID) {
+    public MessageDTO(Integer id, Date timeSent, String message, Integer studentID, Integer companyID, Integer jobID) {
         this.id = id;
-        this.time_sent = time_sent;
+        this.timeSent = timeSent;
         this.message = message;
         this.studentID = studentID;
         this.companyID = companyID;
@@ -37,12 +37,12 @@ public class MessageDTO implements Serializable {
         this.id = id;
     }
 
-    public Date getTime_sent() {
-        return time_sent;
+    public Date getTimeSent() {
+        return timeSent;
     }
 
-    public void setTime_sent(Date timeSent) {
-        this.time_sent = timeSent;
+    public void setTimeSent(Date timeSent) {
+        this.timeSent = timeSent;
     }
 
     public String getMessage() {
