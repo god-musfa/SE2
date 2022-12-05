@@ -23,13 +23,6 @@ import org.hbrs.se2.project.softwaree.util.Globals;
 import java.time.LocalDate;
 import java.util.Locale;
 
-
-/**
- * @author dheil2s, myild22s
- * AppView to view and change profile information of the current user.
- * This AppView handles both, students and universities.
- **/
-
 @Route(value = Globals.Pages.JOB_OFFER, layout = NavBar.class)
 @PageTitle("Stellenanzeige erstellen")
 @CssImport("./styles/views/main/main-view.css")

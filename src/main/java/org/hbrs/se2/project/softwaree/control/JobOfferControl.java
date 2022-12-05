@@ -17,13 +17,13 @@ public class JobOfferControl {
   JobRepository repoJ;
   @Autowired
   CompanyRepository repoC;
-  private final org.hbrs.se2.project.softwaree.repository.JobRepository JobRepository;
+  private final org.hbrs.se2.project.softwaree.repository.JobRepository jobRepository;
   public JobOfferControl(JobRepository JobRepository) {
-    this.JobRepository = JobRepository;
+    this.jobRepository = JobRepository;
   }
-  public void createJobOffer(JobDTO JobDTO, Integer Id){
-    Company company = repoC.findById(Id).get();
-    Job jobEntity = JobOfferFactory.createJobOffer(JobDTO,company);
+  public void createJobOffer(JobDTO jobDTO, Integer id){
+    Company company = repoC.findById(id).get();
+    Job jobEntity = JobOfferFactory.createJobOffer(jobDTO,company);
     repoJ.save(jobEntity);
   }
 
