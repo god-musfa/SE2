@@ -14,7 +14,7 @@ public class BenefitTest {
   }
 
   @Test
-  public void getSetDescription_success() {
+  public void getSetDescription() {
     benefit.setDescription("Best Benefit");
     Assert.assertEquals(benefit.getDescription(), "Best Benefit");
   }

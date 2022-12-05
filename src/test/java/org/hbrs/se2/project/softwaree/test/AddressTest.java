@@ -13,27 +13,26 @@ public class AddressTest {
   }
 
   @Test
-  public void getSetSteet_success() {
+  public void getSetStreet() {
     address.setStreet("Grantham-Allee");
     Assert.assertEquals(address.getStreet(), "Grantham-Allee");
   }
 
   @Test
-  public void getSetCity_success() {
+  public void getSetCity() {
     address.setCity("Sankt Augustin");
     Assert.assertEquals(address.getCity(), "Sankt Augustin");
   }
 
   @Test
-  public void getSetNumber_success() {
+  public void getSetNumber() {
     address.setNumber("20");
     Assert.assertEquals(address.getNumber(), "20");
   }
   @Test
-  public void getSetPostalCode_success() {
+  public void getSetPostalCode() {
     address.setPostalCode("53757");
     Assert.assertEquals(address.getPostalCode(), "53757");
   }
-
 
 }

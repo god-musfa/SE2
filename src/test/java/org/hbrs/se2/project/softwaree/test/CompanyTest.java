@@ -13,37 +13,38 @@ public class CompanyTest {
     company = new Company();
   }
   @Test
-  public void getSetName_success() {
+  public void getSetName() {
     company.setName("Coca Cola");
     Assert.assertEquals(company.getName(), "Coca Cola");
   }
   @Test
-  public void getSetField_success() {
+  public void getSetField() {
     company.setField("Informatik");
     Assert.assertEquals(company.getField(), "Informatik");
   }
 
   @Test
-  public void getSetPhoneNumber_success() {
+  public void getSetPhoneNumber() {
     company.setPhoneNumber("123456789");
     Assert.assertEquals(company.getPhoneNumber(), "123456789");
   }
 
   @Test
-  public void getSetWebsite_success() {
+  public void getSetWebsite() {
     company.setWebsite("https://www.coca-cola-deutschland.de/");
     Assert.assertEquals(company.getWebsite(), "https://www.coca-cola-deutschland.de/");
   }
 
   @Test
-  public void getSetSize_success() {
+  public void getSetSize() {
     company.setSize("small");
     Assert.assertEquals(company.getSize(), "small");
   }
 
   @Test
-  public void getSetContactPerson_success() {
+  public void getSetContactPerson() {
     company.setContactPerson("Herr Müller");
     Assert.assertEquals(company.getContactPerson(), "Herr Müller");
   }
+
 }

@@ -14,13 +14,13 @@ public class StudentTest {
   }
 
   @Test
-  public void getSetFirstName_success() {
+  public void getSetFirstName() {
     student.setFirstName("Michael");
     Assert.assertEquals(student.getFirstName(), "Michael");
   }
 
   @Test
-  public void getSetLastName_success() {
+  public void getSetLastName() {
     student.setLastName("Meier");
     Assert.assertEquals(student.getLastName(), "Meier");
   }
@@ -34,19 +34,19 @@ public class StudentTest {
  */
 
   @Test
-  public void getSetDegree_success() {
+  public void getSetDegree() {
     student.setDegree("Abitur");
     Assert.assertEquals(student.getDegree(), "Abitur");
   }
 
   @Test
-  public void getSetBirthday_success() {
+  public void getSetBirthday() {
     LocalDate now = LocalDate.now();
     student.setBirthday(now);
     Assert.assertEquals(student.getBirthday(), now);
   }
   @Test
-  public void getSetUniversity_success() {
+  public void getSetUniversity() {
     student.setUniversity("Hochschule Bonn-Rhein-Sieg");
     Assert.assertEquals(student.getUniversity(), "Hochschule Bonn-Rhein-Sieg");
   }

@@ -26,43 +26,42 @@ public class JobTest {
   }
 
   @Test
-  public void getSetTitle_success() {
+  public void getSetTitle() {
     job.setTitle("Job1");
     Assert.assertEquals(job.getTitle(), "Job1");
   }
 
   @Test
-  public void getSetDescription_success() {
+  public void getSetDescription() {
     job.setDescription("Best Job");
     Assert.assertEquals(job.getDescription(), "Best Job");
   }
 
   @Test
-  public void getSetCreation_date_success() {
+  public void getSetCreationDate() {
     LocalDate now = LocalDate.now();
     job.setCreation_date(now);
     Assert.assertEquals(job.getCreationDate(), now);
   }
 
   @Test
-  public void getSetDeadline_date_success() {
+  public void getSetDeadlineDate() {
     LocalDate now = LocalDate.now();
     job.setDeadline(now);
     Assert.assertEquals(job.getDeadline(), now);
   }
 
   @Test
-  public void getSetLast_edit_success() {
+  public void getSetLastEdit() {
     LocalDate now = LocalDate.now();
     job.setLast_edit(now);
     Assert.assertEquals(job.getLastEdit(), now);
   }
 
   @Test
-  public void getSetCompany_success() {
+  public void getSetCompany() {
     job.setCompany(company);
     Assert.assertEquals(job.getCompany(), company);
   }
-
 
 }
