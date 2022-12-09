@@ -3,6 +3,7 @@ package org.hbrs.se2.project.softwaree.dtos;
 import org.hbrs.se2.project.softwaree.entities.Benefit;
 import org.hbrs.se2.project.softwaree.entities.Company;
 import org.hbrs.se2.project.softwaree.entities.Requirement;
+import org.hbrs.se2.project.softwaree.entities.Skill;
 
 import java.io.Serializable;
 import java.util.*;
@@ -26,6 +27,7 @@ public class JobDTO implements Serializable {
 
     private Set<Benefit> benefits;
     private Set<Requirement> requirements;
+    private Set<Skill> skills;
 
 
     public JobDTO(Integer id, String title, LocalDate creation_date, LocalDate last_edit, LocalDate deadline,
@@ -39,6 +41,16 @@ public class JobDTO implements Serializable {
         this.location = location;
         this.views = views;
         this.company = company;
+    }
+
+    public JobDTO(Integer id, String title, LocalDate creation_date, LocalDate deadline,
+                  String description, String location) {
+        this.id = id;
+        this.title = title;
+        this.creation_date = creation_date;
+        this.deadline = deadline;
+        this.description = description;
+        this.location = location;
     }
 
     public JobDTO(Integer id, String title, LocalDate creation_date, LocalDate last_edit, LocalDate deadline,
@@ -64,7 +76,7 @@ public class JobDTO implements Serializable {
     }
 
     public JobDTO() {
-
+        this.creation_date = LocalDate.now();
     }
 
     public Integer getId() {
@@ -159,4 +171,12 @@ public class JobDTO implements Serializable {
     public String getLastEditAsString() {return last_edit!= null ?  last_edit.toString() : "-";}
     public String getCreationDateAsString() {return creation_date != null ?  creation_date.toString() : "-";}
     public String getDeadlineAsString() {return deadline!= null ?  deadline.toString() : "-";}
+
+    public Set<Skill> getSkills(){
+        return skills;
+    }
+
+    public void setSkills(Set<Skill> skills) {
+        this.skills = skills;
+    }
 }

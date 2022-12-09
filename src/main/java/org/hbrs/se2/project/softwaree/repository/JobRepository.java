@@ -16,8 +16,14 @@ public interface JobRepository extends JpaRepository<Job, Integer> {
     @Query("  SELECT new org.hbrs.se2.project.softwaree.dtos.JobDTO(id, title, description, location) FROM Job  WHERE id = ?1")
     JobDTO findJobWithTitleDescriptionLocation(int jobID);
 
+    @Query("  SELECT new org.hbrs.se2.project.softwaree.dtos.JobDTO(id, title, creation_date, deadline, description, location) FROM Job  WHERE id = ?1")
+    JobDTO findJobWithTitleCreationDateDeadlineDescriptionLocation(int jobID);
+
     @Query("select j from Job j where j.id = ?1")
     Optional<Job> getFullJobInfo(Integer id);
+
+    @Query("select j from Job j where j.id = ?1")
+    JobDTO getFullJob(Integer id);
 
     @Query("select (count(j) > 0) from Job j where j.id = ?1")
     boolean checkJobExists(Integer id);

@@ -279,6 +279,7 @@ public class JobView extends Div {
         button.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
 
         button.addClickListener(e -> {
+            UI.getCurrent().getSession().setAttribute( "jobID", -1 );
             UI.getCurrent().navigate(Globals.Pages.JOB_OFFER);
         });
         return button;

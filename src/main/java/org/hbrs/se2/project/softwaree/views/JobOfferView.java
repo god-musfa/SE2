@@ -13,12 +13,16 @@ import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
+import com.vaadin.flow.data.binder.ReadOnlyHasValue;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import org.hbrs.se2.project.softwaree.components.SkillsComponent;
 import org.hbrs.se2.project.softwaree.control.JobOfferControl;
 import org.hbrs.se2.project.softwaree.dtos.*;
+import org.hbrs.se2.project.softwaree.entities.Requirement;
 import org.hbrs.se2.project.softwaree.util.Globals;
 import java.time.LocalDate;
 import java.util.Locale;
@@ -32,15 +36,17 @@ public class JobOfferView extends Div {
 
     // Base components for both user types
     private TextField title = new TextField("Titel");
-    private final DatePicker creationDate = new DatePicker("Creation Date");
-    private final DatePicker lastEdit = new DatePicker("Last Edit");
-    private final DatePicker deadline = new DatePicker("Deadline");
+    private final DatePicker creationDate = new DatePicker("Erstellungsdatum");
+    private final DatePicker lastEdit = new DatePicker("Bearbeitungsdatum");
+    private final DatePicker deadline = new DatePicker("Frist");
     private TextField description = new TextField("Beschreibung");
     final TextField contactPerson = new TextField("Kontaktperson");
-    private TextField location = new TextField("Location");
+    private TextArea requirement = new TextArea("Qualifikation");
+    private TextArea benefit = new TextArea("Wir bieten");
+    private TextField location = new TextField("Standort");
     private final Locale germanLocale = new Locale("de", "DE");
-    private Button saveButton = new Button( "Save");
-    private Button cancelButton = new Button( "Cancel");
+    private Button saveButton = new Button( "Speichern");
+    private Button cancelButton = new Button( "Abbrechen");
 
 
     // Form Layouts for splitting user settings into two parts (public information, personal information)
@@ -51,6 +57,7 @@ public class JobOfferView extends Div {
     // To DO  Get Company Details
 
     UserDTO userDTO = (UserDTO) UI.getCurrent().getSession().getAttribute(Globals.CURRENT_USER);
+    JobDTO jobDTO;
     JobOfferControl jc;
 
     private Binder<JobDTO> binder2 = new Binder<>(JobDTO.class);
@@ -64,7 +71,7 @@ public class JobOfferView extends Div {
      */
     private void setupJobOfferComponents() {
 
-
+        int jobID = ((UI.getCurrent().getSession().getAttribute( "jobID" ) != null) ? ((Integer) UI.getCurrent().getSession().getAttribute( "jobID" )) : -1);
 
         // Responsive layout specification:
         publicInfoForm.setResponsiveSteps(
@@ -99,6 +106,8 @@ public class JobOfferView extends Div {
         Div locationPlaceholder = new Div();
         Div viewsPlaceholder = new Div();
         Div companyPlaceholder = new Div();
+        Div requirementPlaceholder = new Div();
+        Div benefitPlaceholder = new Div();
 
 
 
@@ -107,36 +116,48 @@ public class JobOfferView extends Div {
         publicInfoForm.add(title);
         publicInfoForm.add(titlePlaceholder);
         publicInfoForm.add(creationDate);
-        publicInfoForm.add(creationDatePlaceholder);
-        publicInfoForm.add(lastEdit);
-        publicInfoForm.add(lastEditPlaceholder);
         publicInfoForm.add(deadline);
         publicInfoForm.add(deadlinePlaceholder);
         publicInfoForm.add(description);
         publicInfoForm.add(descriptionPlaceholder);
         publicInfoForm.add(location);
         publicInfoForm.add(locationPlaceholder);
+        publicInfoForm.add(requirement);
+        publicInfoForm.add(requirementPlaceholder);
+        publicInfoForm.add(benefit);
+        publicInfoForm.add(benefitPlaceholder);
+
+        /*
+        jobDTO = jc.getJobFromJobID(jobID);
+        SkillsComponent skills = new SkillsComponent(jc.getAvailableSkills());
+        for (SkillDTO skillDTO : jc.getJobSkills(jobDTO)){
+            skills.addSkill(skillDTO.getDescription());
+        }
+        publicInfoForm.add(skills, 4);
+
+         */
 
 
 
         // Configure colspan of components inside of container:
         publicInfoForm.setColspan(title, 2);
-        publicInfoForm.setColspan(titlePlaceholder, 4);
+        publicInfoForm.setColspan(titlePlaceholder, 6);
 
-        publicInfoForm.setColspan(creationDate, 2);
-        publicInfoForm.setColspan(creationDatePlaceholder, 4);
+        publicInfoForm.setColspan(creationDate, 1);
+        publicInfoForm.setColspan(deadline, 1);
+        publicInfoForm.setColspan(deadlinePlaceholder, 6);
 
-        publicInfoForm.setColspan(lastEdit, 2);
-        publicInfoForm.setColspan(lastEditPlaceholder, 4);
-
-        publicInfoForm.setColspan(deadline, 2);
-        publicInfoForm.setColspan(deadlinePlaceholder, 4);
-
-        publicInfoForm.setColspan(description, 2);
+        publicInfoForm.setColspan(description, 4);
         publicInfoForm.setColspan(descriptionPlaceholder, 4);
 
         publicInfoForm.setColspan(location, 2);
-        publicInfoForm.setColspan(locationPlaceholder, 4);
+        publicInfoForm.setColspan(locationPlaceholder, 6);
+
+        publicInfoForm.setColspan(requirement, 4);
+        publicInfoForm.setColspan(requirementPlaceholder, 4);
+
+        publicInfoForm.setColspan(benefit, 4);
+        publicInfoForm.setColspan(benefitPlaceholder, 4);
 
 
 
@@ -156,14 +177,34 @@ public class JobOfferView extends Div {
         profileSettingsAccordion.add("Stellenanzeige", publicjobOfferPaddingContainer);
         publicjobOfferPaddingContainer.add(buttonLayout);
 
-        binder2.setBean(new JobDTO());
         binder2.bindInstanceFields(this);
+
+
+        Binder<RequirementDTO> binderRe = new Binder<>(RequirementDTO.class);
+        //binderRe.bindInstanceFields(this);
+        binderRe.bind(requirement, RequirementDTO::getDescription, RequirementDTO::setDescription);
+
+        Binder<BenefitDTO> binderBe = new Binder<>(BenefitDTO.class);
+        //binderBe.bindInstanceFields(this);
+        binderBe.bind(benefit, BenefitDTO::getDescription, BenefitDTO::setDescription);
+
+        if(jobID != -1) {
+            System.out.println("Hallo");
+            binder2.setBean(jc.getJobFromJobID(jobID));
+            binderRe.setBean(jc.getRequirementFromID(1)); //todo jobid
+            binderBe.setBean(jc.getBenefitFromID(1)); //todo jobid
+        }
+        else {
+            binder2.setBean(new JobDTO());
+            binderRe.setBean(new RequirementDTO());
+            binderBe.setBean(new BenefitDTO());
+        }
 
 
         saveButton.addClickListener(e -> {
             UserDTO userDTO = (UserDTO) UI.getCurrent().getSession().getAttribute(Globals.CURRENT_USER);
             System.out.println(binder2.getBean().getDescription());
-            jc.createJobOffer(binder2.getBean(), userDTO.getId());
+            jc.createJobOffer(binder2.getBean(), binderRe.getBean(), binderBe.getBean(), userDTO.getId());
 
             Notification notification = Notification
                     .show("Daten gespeichert!");

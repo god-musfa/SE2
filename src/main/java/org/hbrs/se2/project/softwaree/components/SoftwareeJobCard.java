@@ -14,6 +14,8 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import org.hbrs.se2.project.softwaree.dtos.UserDTO;
+import org.hbrs.se2.project.softwaree.util.Globals;
 
 
 /**@author dheil2s
@@ -57,7 +59,7 @@ public class SoftwareeJobCard extends Div implements SoftwareeJobCardIf{
     private SoftwareeBulletpoint salaryBullet = new SoftwareeBulletpoint(
             VaadinIcon.MONEY, "Gehalt", "- €");
 
-    private Button applyJobButton = new Button("Jetzt bewerben");
+    private Button applyJobButton;
 
 
     public SoftwareeJobCard() {
@@ -102,6 +104,11 @@ public class SoftwareeJobCard extends Div implements SoftwareeJobCardIf{
         innerLayout.add(salaryBullet);
 
         // Build button:
+        if(((UserDTO) UI.getCurrent().getSession().getAttribute(Globals.CURRENT_USER)).getUserType().equals("company")) {
+            applyJobButton = new Button("Jetzt bearbeiten");
+        } else {
+            applyJobButton = new Button("Jetzt bewerben");
+        }
         applyJobButton.setIcon(new Icon(VaadinIcon.PAPERPLANE));
         applyJobButton.setIconAfterText(true);
         applyJobButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_PRIMARY);
@@ -190,8 +197,12 @@ public class SoftwareeJobCard extends Div implements SoftwareeJobCardIf{
     @Override
     public void setButtonCompanyID(int id) {
         applyJobButton.addClickListener(e -> {
-            UI.getCurrent().getSession().setAttribute( "companyID", id );
-            UI.getCurrent().navigate("kontakt");
+            if(((UserDTO) UI.getCurrent().getSession().getAttribute(Globals.CURRENT_USER)).getUserType().equals("company")) {
+                UI.getCurrent().navigate("jobOffer");
+            } else {
+                UI.getCurrent().getSession().setAttribute( "companyID", id );
+                UI.getCurrent().navigate("kontakt");
+            }
         });
     }
 }

@@ -5,6 +5,7 @@ import org.hibernate.annotations.FetchMode;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -59,6 +60,19 @@ public class Job {
     )
     @Fetch(FetchMode.JOIN)
     private  Set<Benefit> benefits = new java.util.LinkedHashSet<>();
+
+    /*
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @JoinTable(name = "job_skills", schema = "coll",
+            joinColumns = {
+                    @JoinColumn(name = "job_id", referencedColumnName = "id",
+                            nullable = false, updatable = false)},
+            inverseJoinColumns = {
+                    @JoinColumn(name = "skill_id", referencedColumnName = "id",
+                            nullable = false, updatable = false)})
+    private Set<Skill> skills = new HashSet<>();
+
+     */
 
 
     public Company getCompany() {
@@ -174,4 +188,16 @@ public class Job {
     public void setViews(Integer views) {
         this.views = views;
     }
+
+    /*
+    todo
+    public Set<Skill> getSkills(){
+        return skills;
+    }
+
+    public void setSkills(Set<Skill> skills) {
+        this.skills = skills;
+    }
+
+     */
 }
