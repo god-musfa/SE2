@@ -45,7 +45,6 @@ public class MessageTest {
     Assert.assertEquals((int)message.getJobID(), 1234);
   }
 
-  // ToDo: getSetTimeSent
   @Test
   public void getSetTimeSent() {
     message.setTimeSent(date);
