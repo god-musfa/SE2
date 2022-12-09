@@ -189,7 +189,6 @@ public class JobOfferView extends Div {
         binderBe.bind(benefit, BenefitDTO::getDescription, BenefitDTO::setDescription);
 
         if(jobID != -1) {
-            System.out.println("Hallo");
             binder2.setBean(jc.getJobFromJobID(jobID));
             binderRe.setBean(jc.getRequirementFromID(1)); //todo jobid
             binderBe.setBean(jc.getBenefitFromID(1)); //todo jobid
