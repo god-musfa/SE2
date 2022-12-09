@@ -9,8 +9,6 @@ public class MessageTest {
   Message message;
   Date date;
 
-  //ToDo: Check date vs LocalDate
-
   @Before
   public void setUp() {
     message = new Message();
@@ -48,5 +46,10 @@ public class MessageTest {
   }
 
   // ToDo: getSetTimeSent
+  @Test
+  public void getSetTimeSent() {
+    message.setTimeSent(date);
+    Assert.assertEquals(message.getTimeSent(), date);
+  }
 
 }
