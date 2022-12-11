@@ -11,9 +11,12 @@ import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import org.hbrs.se2.project.softwaree.control.JobDetailControl;
 import org.hbrs.se2.project.softwaree.dtos.UserDTO;
 import org.hbrs.se2.project.softwaree.util.Globals;
 
@@ -60,6 +63,7 @@ public class SoftwareeJobCard extends Div implements SoftwareeJobCardIf{
             VaadinIcon.MONEY, "Gehalt", "- €");
 
     private Button applyJobButton;
+    private Button blacklistButton;
 
 
     public SoftwareeJobCard() {
@@ -103,18 +107,35 @@ public class SoftwareeJobCard extends Div implements SoftwareeJobCardIf{
         innerLayout.add(qualificationBullet);
         innerLayout.add(salaryBullet);
 
-        // Build button:
-        if(((UserDTO) UI.getCurrent().getSession().getAttribute(Globals.CURRENT_USER)).getUserType().equals("company")) {
-            applyJobButton = new Button("Jetzt bearbeiten");
-        } else {
-            applyJobButton = new Button("Jetzt bewerben");
-        }
-        applyJobButton.setIcon(new Icon(VaadinIcon.PAPERPLANE));
-        applyJobButton.setIconAfterText(true);
-        applyJobButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_PRIMARY);
-
         add(innerLayout);
-        add(applyJobButton);
+
+        // Build button:
+        switch (((UserDTO) UI.getCurrent().getSession().getAttribute(Globals.CURRENT_USER)).getUserType()) {
+            case "student": {
+                applyJobButton = setButtonAttributes("Jetzt bewerben", new Icon(VaadinIcon.PAPERPLANE), false);
+                add(applyJobButton);
+                blacklistButton = setButtonAttributes("Blockiere Firma", new Icon(VaadinIcon.BAN), true);
+                add(blacklistButton);
+                break;
+            }
+            case "company": {
+                applyJobButton = setButtonAttributes("Jetzt bearbeiten", new Icon(VaadinIcon.PAPERPLANE), false);
+                add(applyJobButton);
+                break;
+            }
+        }
+    }
+
+    private Button setButtonAttributes(String buttonText, Icon icon, boolean block) {
+        Button b = new Button(buttonText);
+        b.setIcon(icon);
+        b.setIconAfterText(true);
+        if (block) {
+            b.addThemeVariants(ButtonVariant.LUMO_ERROR);
+        } else {
+            b.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_PRIMARY);
+        }
+        return b;
     }
 
     public SoftwareeJobCard(String jobTitle, String companyName, String creationDate, String editDate,
@@ -195,7 +216,7 @@ public class SoftwareeJobCard extends Div implements SoftwareeJobCardIf{
     }
 
     @Override
-    public void setButtonCompanyID(int id) {
+    public void setButtonEvents(int id, JobDetailControl jc) {
         applyJobButton.addClickListener(e -> {
             if(((UserDTO) UI.getCurrent().getSession().getAttribute(Globals.CURRENT_USER)).getUserType().equals("company")) {
                 UI.getCurrent().navigate("jobOffer");
@@ -204,5 +225,12 @@ public class SoftwareeJobCard extends Div implements SoftwareeJobCardIf{
                 UI.getCurrent().navigate("kontakt");
             }
         });
+        if(blacklistButton != null) {
+            blacklistButton.addClickListener(e -> {
+                jc.addBlacklist(((UserDTO) UI.getCurrent().getSession().getAttribute(Globals.CURRENT_USER)).getId(), id);
+                Notification.show("Unternehmen blockiert.").addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+                UI.getCurrent().navigate("jobs");
+            });
+        }
     }
 }
