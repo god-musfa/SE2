@@ -47,9 +47,6 @@ public class MainView extends VerticalLayout {
 
         }*/
 
-
-
-
         component.addLoginListener(e -> {
 
             boolean isAuthenticated = false;

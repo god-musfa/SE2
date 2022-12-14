@@ -47,16 +47,6 @@ import java.util.Optional;
             viewTitle = new Span("View Title_x");
 
 
-
-
-
-
-
-
-
-
-
-
             VerticalLayout TopHeader = new VerticalLayout();
             // TopHeader.setAlignItems(FlexComponent.Alignment.CENTER);
             TopHeader.setWidth("100px"); TopHeader.setHeight("50px");

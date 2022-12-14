@@ -129,5 +129,5 @@ public class RegisterStudentView extends VerticalLayout {
     setupComponents();
 
   }
-}
+  }
 

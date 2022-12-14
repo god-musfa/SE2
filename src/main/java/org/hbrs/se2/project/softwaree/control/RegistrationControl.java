@@ -1,15 +1,19 @@
 package org.hbrs.se2.project.softwaree.control;
 
 import org.hbrs.se2.project.softwaree.control.factories.AddressFactory;
+import org.hbrs.se2.project.softwaree.control.factories.CompanyFactory;
 import org.hbrs.se2.project.softwaree.control.factories.StudentFactory;
 import org.hbrs.se2.project.softwaree.control.factories.UserFactory;
 import org.hbrs.se2.project.softwaree.dtos.AddressDTO;
+import org.hbrs.se2.project.softwaree.dtos.CompanyDTO;
 import org.hbrs.se2.project.softwaree.dtos.StudentDTO;
 import org.hbrs.se2.project.softwaree.dtos.UserDTO;
 import org.hbrs.se2.project.softwaree.entities.Address;
+import org.hbrs.se2.project.softwaree.entities.Company;
 import org.hbrs.se2.project.softwaree.entities.Student;
 import org.hbrs.se2.project.softwaree.entities.User;
 import org.hbrs.se2.project.softwaree.repository.AddressRepository;
+import org.hbrs.se2.project.softwaree.repository.CompanyRepository;
 import org.hbrs.se2.project.softwaree.repository.StudentRepository;
 import org.hbrs.se2.project.softwaree.repository.UserRepository;
 import org.hbrs.se2.project.softwaree.security.SecurityHandler;
@@ -29,6 +33,8 @@ public class RegistrationControl {
     private StudentRepository studentRepository;
     @Autowired
     private AddressRepository addressRepository;
+    @Autowired
+    private CompanyRepository companyRepository;
 
     private List<UserDTO> userDTOList = new ArrayList<>();
 
@@ -57,8 +63,29 @@ public class RegistrationControl {
 
         return true;
     }
+    public boolean saveC(UserDTO userDTO, CompanyDTO companyDTO, AddressDTO addressDTO){
+        if (emailExists(userDTO.getEmail())){
+            System.out.println("Email is already taken!");
+            return false;
+        }
+
+        Address address = AddressFactory.createAddress(addressDTO);
+        addressRepository.save(address);
+
+        User user = UserFactory.createUser(userDTO, address);
+
+        Company company = CompanyFactory.createCompany(companyDTO);
+        user.setCompany(company);
+        company.setUser(user);
+        companyRepository.save(company);
+        userRepository.save(user);
+
+        return true;
+    }
 
     public boolean emailExists(String email){
         return userRepository.checkEmailExists(email);
     }
+
+
 }
