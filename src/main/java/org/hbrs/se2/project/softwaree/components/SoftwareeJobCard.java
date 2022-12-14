@@ -114,7 +114,7 @@ public class SoftwareeJobCard extends Div implements SoftwareeJobCardIf{
             case "student": {
                 applyJobButton = setButtonAttributes("Jetzt bewerben", new Icon(VaadinIcon.PAPERPLANE), false);
                 add(applyJobButton);
-                blacklistButton = setButtonAttributes("Blockiere Firma", new Icon(VaadinIcon.BAN), true);
+                blacklistButton = setButtonAttributes("Firma blockieren", new Icon(VaadinIcon.BAN), true);
                 add(blacklistButton);
                 break;
             }
