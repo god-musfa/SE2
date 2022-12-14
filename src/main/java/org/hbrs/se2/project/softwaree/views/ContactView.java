@@ -27,14 +27,14 @@ import org.hbrs.se2.project.softwaree.util.Globals;
 @Route(value = "kontakt", layout = NavBar.class)
 @CssImport("./styles/views/contact/contact-view.css")
 public class ContactView extends VerticalLayout  {
-    private static final int limit = 10000; //Zeichenlimit im Eingabefeld
-    UserDTO user = (UserDTO) UI.getCurrent().getSession().getAttribute(Globals.CURRENT_USER);
+    private static final int LIMIT = 10000; //Zeichenlimit im Eingabefeld
+    private UserDTO user = (UserDTO) UI.getCurrent().getSession().getAttribute(Globals.CURRENT_USER);
     private int jobID = -1;
-    private int companyID;
-    ContactControl cc;
-    Button cancel = new Button("Feld leeren");
-    Button save = new Button("Speichern");
-    Button back;
+    private int companyID = -1;
+    private ContactControl cc;
+    private Button clear = new Button("Feld leeren");
+    private Button save = new Button("Speichern");
+    private Button back;
 
     private final Binder<MessageDTO> binderContact = new Binder<>(MessageDTO.class);
 
@@ -42,14 +42,8 @@ public class ContactView extends VerticalLayout  {
         this.cc = cc;
 
         //UI.getCurrent().getSession().setAttribute( "companyID", 3 ); //Beispielwert fuer Debugging
-        if(UI.getCurrent().getSession().getAttribute("companyID") != null) {
-            companyID =  (Integer) UI.getCurrent().getSession().getAttribute("companyID");
-
-            //UI.getCurrent().getSession().setAttribute( "jobID", 1 ); //Beispielwert fuer Debugging
-            if(UI.getCurrent().getSession().getAttribute( "jobID" ) != null) {
-                jobID = (Integer) UI.getCurrent().getSession().getAttribute( "jobID" );
-            }
-
+        if(UI.getCurrent().getSession().getAttribute("companyID") != null && user.getUserType().equals("student")) {
+            setIDs();
             addClassName("contact-view");
 
             add(createTitle());
@@ -57,7 +51,8 @@ public class ContactView extends VerticalLayout  {
             add(createButton());
             setSpacing(false);
 
-            cancel.addClickListener(event -> clearForm());
+            //Button Events
+            clear.addClickListener(event -> clearForm());
 
             save.addClickListener(e -> {
                 cc.createContact(user.getId(), companyID, jobID, binderContact.getBean());
@@ -68,18 +63,32 @@ public class ContactView extends VerticalLayout  {
             });
 
             back.addClickListener(e -> {
-                if ((jobID != -1)) {
-                    UI.getCurrent().navigate("job/" + jobID);
-                } else {
-                    UI.getCurrent().getPage().executeJs("window.history.back()"); //Firmenseite
-                }
+                backButtonEvent();
             });
         }
         else {
-            add(createTitle());
-            add(new Paragraph("Fehler. Bitte das Formular über eine Firma oder ein Jobangebot aufrufen."));
-            Notification.show("Fehler! Es konnte keine Firma mit dieser Nachricht verknüpft werden")
-                    .addThemeVariants(NotificationVariant.LUMO_ERROR);
+            //Meldungen für unterschiedliche Fehlerfälle
+            if(user.getUserType().equals("company")) {
+                createErrorMessage("Fehler. Als Firma können sie keine andere Firma kontaktieren.",
+                        "Fehler! Als Firma können sie keine andere Firma kontaktieren.");
+            }
+            else if(UI.getCurrent().getSession().getAttribute("companyID") == null) {
+                createErrorMessage("Fehler. Bitte das Formular über eine Firmenseite oder eine Stellenanzeige aufrufen.",
+                        "Fehler! Es konnte keine Firma mit dieser Nachricht verknüpft werden.");
+            }
+            else {
+                createErrorMessage("Unbekannter Fehlertyp.",
+                        "Unbekannter Fehlertyp.");
+            }
+        }
+    }
+
+    private void setIDs() {
+        companyID =  (Integer) UI.getCurrent().getSession().getAttribute("companyID");
+
+        //UI.getCurrent().getSession().setAttribute( "jobID", 1 ); //Beispielwert fuer Debugging
+        if(UI.getCurrent().getSession().getAttribute( "jobID" ) != null) {
+            jobID = (Integer) UI.getCurrent().getSession().getAttribute( "jobID" );
         }
     }
 
@@ -103,10 +112,10 @@ public class ContactView extends VerticalLayout  {
         if(jobID != -1) {
             layout.add(jobBox);
             layout.setColspan(jobBox, 2);
-            back = new Button("Zum Jobprofil");
+            back = new Button("Zur Stellenanzeige");
         }
         else {
-            back = new Button("Zum Unternehmensprofil");
+            back = new Button("Zum Unternehmen");
         }
         layout.add(message);
         layout.setColspan(message, 2);
@@ -230,12 +239,12 @@ public class ContactView extends VerticalLayout  {
         TextArea message = new TextArea();
         message.setWidthFull();
         message.setLabel("Nachricht");
-        message.setMaxLength(limit);
+        message.setMaxLength(LIMIT);
         message.setMinHeight("15em");
         message.setMaxHeight("30%");
         message.setValueChangeMode(ValueChangeMode.EAGER);
         message.addValueChangeListener(e -> e.getSource()
-                .setHelperText(e.getValue().length() + "/" + limit));
+                .setHelperText(e.getValue().length() + "/" + LIMIT));
         message.setId("nachrichtenbox");
         message.setPlaceholder("Ihre Nachricht an das Unternehmen");
         binderContact.forField(message).bind(MessageDTO::getMessage, MessageDTO::setMessage);
@@ -248,7 +257,7 @@ public class ContactView extends VerticalLayout  {
         buttonLayout.addClassName("button-area");
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         buttonLayout.add(save);
-        buttonLayout.add(cancel);
+        buttonLayout.add(clear);
         buttonLayout.add(back);
         return buttonLayout;
     }
@@ -256,5 +265,29 @@ public class ContactView extends VerticalLayout  {
     private void clearForm() {
         Page page = UI.getCurrent().getPage();
         page.executeJs("document.getElementById('nachrichtenbox').value = ''");
+    }
+
+    private void backButtonEvent() {
+        if ((jobID != -1)) {
+            UI.getCurrent().navigate("job/" + jobID);
+        } else if(companyID != -1) {
+            UI.getCurrent().getPage().executeJs("window.history.back()"); //Firmenseite
+        } else {
+            UI.getCurrent().navigate("jobs/"); //Fehlerfall (unklar was die letzte Seite war)
+        }
+    }
+
+    private void createErrorMessage(String websiteMessage, String notificationMessage) {
+        addClassName("contact-view");
+        add(createTitle());
+        add(new Paragraph(websiteMessage));
+
+        back = new Button("Zur Übersicht");
+        add(back);
+        back.addClickListener(e -> {
+            backButtonEvent();
+        });
+        Notification.show(notificationMessage)
+                .addThemeVariants(NotificationVariant.LUMO_ERROR);
     }
 }
