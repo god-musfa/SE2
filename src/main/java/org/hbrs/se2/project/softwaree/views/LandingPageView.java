@@ -11,7 +11,6 @@ import com.vaadin.flow.router.Route;
 import org.hbrs.se2.project.softwaree.control.RegistrationControl;
 
 import java.awt.*;
-@CssImport("./styles/views/landingpage.css")
 @Route(value = "landingpage")
 public class LandingPageView extends HorizontalLayout {
 
