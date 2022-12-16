@@ -10,7 +10,8 @@ import java.util.Set;
 @Table(name = "benefit", schema = "coll")
 public class Benefit {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "benefit_sequence")
+    @SequenceGenerator(name = "benefit_sequence", sequenceName = "benefit_id_seq", schema = "coll")
     @Column(name = "id", nullable = false)
     private Integer id;
 

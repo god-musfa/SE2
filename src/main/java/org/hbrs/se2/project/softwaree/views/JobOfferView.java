@@ -16,16 +16,18 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
-import com.vaadin.flow.data.binder.ReadOnlyHasValue;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import org.hbrs.se2.project.softwaree.components.SkillsComponent;
+import org.hbrs.se2.project.softwaree.components.LabelsComponent;
 import org.hbrs.se2.project.softwaree.control.JobOfferControl;
 import org.hbrs.se2.project.softwaree.dtos.*;
+import org.hbrs.se2.project.softwaree.entities.Benefit;
 import org.hbrs.se2.project.softwaree.entities.Requirement;
+import org.hbrs.se2.project.softwaree.entities.Skill;
 import org.hbrs.se2.project.softwaree.util.Globals;
 import java.time.LocalDate;
 import java.util.Locale;
+import java.util.Set;
 
 @Route(value = Globals.Pages.JOB_OFFER, layout = NavBar.class)
 @PageTitle("Stellenanzeige erstellen")
@@ -35,18 +37,19 @@ public class JobOfferView extends Div {
     private final Accordion profileSettingsAccordion = new Accordion();
 
     // Base components for both user types
-    private TextField title = new TextField("Titel");
+    private final TextField title = new TextField("Titel");
     private final DatePicker creationDate = new DatePicker("Erstellungsdatum");
     private final DatePicker lastEdit = new DatePicker("Bearbeitungsdatum");
     private final DatePicker deadline = new DatePicker("Frist");
-    private TextField description = new TextField("Beschreibung");
+    private final TextField description = new TextField("Beschreibung");
     final TextField contactPerson = new TextField("Kontaktperson");
-    private TextArea requirement = new TextArea("Qualifikation");
-    private TextArea benefit = new TextArea("Wir bieten");
-    private TextField location = new TextField("Standort");
+    private final TextArea requirement = new TextArea("Qualifikation");
+    private final TextArea benefit = new TextArea("Wir bieten");
+    private final TextField location = new TextField("Standort");
     private final Locale germanLocale = new Locale("de", "DE");
-    private Button saveButton = new Button( "Speichern");
-    private Button cancelButton = new Button( "Abbrechen");
+    private final Button saveButton = new Button( "Speichern");
+
+    private final Button backButton = new Button("Zurück");
 
 
     // Form Layouts for splitting user settings into two parts (public information, personal information)
@@ -57,10 +60,9 @@ public class JobOfferView extends Div {
     // To DO  Get Company Details
 
     UserDTO userDTO = (UserDTO) UI.getCurrent().getSession().getAttribute(Globals.CURRENT_USER);
-    JobDTO jobDTO;
     JobOfferControl jc;
 
-    private Binder<JobDTO> binder2 = new Binder<>(JobDTO.class);
+    private final Binder<JobDTO> binder2 = new Binder<>(JobDTO.class);
 
 
 
@@ -83,15 +85,6 @@ public class JobOfferView extends Div {
         // Patterns and rules for input validation:
         deadline.setMin(LocalDate.now());
 
-        /*
-        // E-Mail field settings:
-        email.setLabel("E-Mail Adresse");
-        email.setPlaceholder("username@example.com");
-        email.setErrorMessage("Bitte geben Sie eine gültige E-Mail Adresse ein!");
-        email.setClearButtonVisible(true);
-
-         */
-
         // Locale settings (for birthday picker):
         deadline.setLocale(germanLocale);
 
@@ -104,10 +97,9 @@ public class JobOfferView extends Div {
         Div deadlinePlaceholder = new Div();
         Div descriptionPlaceholder = new Div();
         Div locationPlaceholder = new Div();
-        Div viewsPlaceholder = new Div();
-        Div companyPlaceholder = new Div();
         Div requirementPlaceholder = new Div();
         Div benefitPlaceholder = new Div();
+        Div skillPlaceholder = new Div();
 
 
 
@@ -122,20 +114,28 @@ public class JobOfferView extends Div {
         publicInfoForm.add(descriptionPlaceholder);
         publicInfoForm.add(location);
         publicInfoForm.add(locationPlaceholder);
-        publicInfoForm.add(requirement);
+
+        LabelsComponent requirement = new LabelsComponent(jc.getAvailableRequirements(), "requirements", "Qualifikation");
+        for (RequirementDTO requirementDTO : jc.getJobRequirements(jobID)){
+            requirement.addLabel(requirementDTO.getDescription());
+        }
+        publicInfoForm.add(requirement, 4);
         publicInfoForm.add(requirementPlaceholder);
-        publicInfoForm.add(benefit);
+
+        LabelsComponent benefit = new LabelsComponent(jc.getAvailableBenefits(), "benefits", "Leistung");
+        for (BenefitDTO benefitDTO : jc.getJobBenefits(jobID)){
+            benefit.addLabel(benefitDTO.getDescription());
+        }
+        publicInfoForm.add(benefit, 4);
         publicInfoForm.add(benefitPlaceholder);
 
-        /*
-        jobDTO = jc.getJobFromJobID(jobID);
-        SkillsComponent skills = new SkillsComponent(jc.getAvailableSkills());
-        for (SkillDTO skillDTO : jc.getJobSkills(jobDTO)){
-            skills.addSkill(skillDTO.getDescription());
+        LabelsComponent skill = new LabelsComponent(jc.getAvailableSkills(), "Skills", "Fähigkeit");
+        for (SkillDTO skillDTO : jc.getJobSkills(jobID)){
+            skill.addLabel(skillDTO.getDescription());
         }
-        publicInfoForm.add(skills, 4);
+        publicInfoForm.add(skill, 4);
+        publicInfoForm.add(skillPlaceholder);
 
-         */
 
 
 
@@ -153,10 +153,8 @@ public class JobOfferView extends Div {
         publicInfoForm.setColspan(location, 2);
         publicInfoForm.setColspan(locationPlaceholder, 6);
 
-        publicInfoForm.setColspan(requirement, 4);
         publicInfoForm.setColspan(requirementPlaceholder, 4);
 
-        publicInfoForm.setColspan(benefit, 4);
         publicInfoForm.setColspan(benefitPlaceholder, 4);
 
 
@@ -171,39 +169,46 @@ public class JobOfferView extends Div {
 
         // Button design
         saveButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        HorizontalLayout buttonLayout = new HorizontalLayout(saveButton,
-                cancelButton);
+        HorizontalLayout buttonLayout = new HorizontalLayout(saveButton, backButton);
 
         profileSettingsAccordion.add("Stellenanzeige", publicjobOfferPaddingContainer);
         publicjobOfferPaddingContainer.add(buttonLayout);
 
         binder2.bindInstanceFields(this);
 
-
-        Binder<RequirementDTO> binderRe = new Binder<>(RequirementDTO.class);
-        //binderRe.bindInstanceFields(this);
-        binderRe.bind(requirement, RequirementDTO::getDescription, RequirementDTO::setDescription);
-
-        Binder<BenefitDTO> binderBe = new Binder<>(BenefitDTO.class);
-        //binderBe.bindInstanceFields(this);
-        binderBe.bind(benefit, BenefitDTO::getDescription, BenefitDTO::setDescription);
-
         if(jobID != -1) {
             binder2.setBean(jc.getJobFromJobID(jobID));
-            binderRe.setBean(jc.getRequirementFromID(1)); //todo jobid
-            binderBe.setBean(jc.getBenefitFromID(1)); //todo jobid
         }
         else {
             binder2.setBean(new JobDTO());
-            binderRe.setBean(new RequirementDTO());
-            binderBe.setBean(new BenefitDTO());
         }
-
 
         saveButton.addClickListener(e -> {
             UserDTO userDTO = (UserDTO) UI.getCurrent().getSession().getAttribute(Globals.CURRENT_USER);
             System.out.println(binder2.getBean().getDescription());
-            jc.createJobOffer(binder2.getBean(), binderRe.getBean(), binderBe.getBean(), userDTO.getId());
+
+            JobDTO currentJob = binder2.getBean();
+
+            Set<Benefit> currentBenefitSet = jc.createBenefitSet(benefit.getNames());
+            for (Benefit b : currentBenefitSet) {
+                jc.saveBenefit(b);
+            }
+            currentJob.setBenefits(currentBenefitSet);
+
+            Set<Requirement> currentRequirementSet = jc.createRequirementSet(requirement.getNames());
+            for (Requirement r : currentRequirementSet) {
+                System.out.println(r.getId());
+                jc.saveRequirement(r);
+            }
+            currentJob.setRequirement(currentRequirementSet);
+
+            Set<Skill> currentSkillSet = jc.createSkillSet(skill.getNames());
+            for (Skill s : currentSkillSet) {
+                jc.saveSkill(s);
+            }
+            currentJob.setSkills(currentSkillSet);
+
+            jc.createJobOffer(currentJob, userDTO.getId());
 
             Notification notification = Notification
                     .show("Daten gespeichert!");
@@ -211,78 +216,10 @@ public class JobOfferView extends Div {
 
         } );
 
-
-
-
-
-
-    }
-
-
-
-
-/*
-    private void setupCompanyComponents() {
-
-        // E-Mail field:
-        email.setLabel("E-Mail Adresse");
-        email.setPlaceholder("username@example.com");
-        email.setErrorMessage("Bitte geben Sie eine gültige E-Mail Adresse ein!");
-        email.setClearButtonVisible(true);
-
-        // Public information form layout:
-        publicInfoForm.setResponsiveSteps(
-                new FormLayout.ResponsiveStep("0", 1),
-                new FormLayout.ResponsiveStep("20em", 2)
-        );
-
-
-
-        // Container to implement padding
-        VerticalLayout publicProfilePaddingContainer = new VerticalLayout();
-        publicProfilePaddingContainer.add(publicInfoForm);
-        publicProfilePaddingContainer.setPadding(true);
-
-        // Button design
-        saveButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        HorizontalLayout buttonLayout = new HorizontalLayout(saveButton,
-                cancelButton);
-
-
-        // Add the two type components to accordion:
-        profileSettingsAccordion.add("Profilangaben", publicProfilePaddingContainer);
-        publicProfilePaddingContainer.add(buttonLayout);
-
-        Binder<CompanyDTO> binder = new Binder<>(CompanyDTO.class);
-        binder.bindInstanceFields(this);
-        binder.setBean(jc.getCompanyFromUser(userDTO));
-
-        Binder<AddressDTO> binderAdress = new Binder<>(AddressDTO.class);
-        binderAdress.bindInstanceFields(this);
-        binderAdress.setBean(jc.getAdressFromUser(userDTO));
-
-        Binder<UserDTO> binderEmail = new Binder<>(UserDTO.class);
-        binderEmail.bindInstanceFields(this);
-        binderEmail.setBean(userDTO);
-
-        saveButton.addClickListener(e -> {
-            UserDTO userDTO = (UserDTO) UI.getCurrent().getSession().getAttribute(Globals.CURRENT_USER);
-
-            jc.createCompany(binder.getBean());
-            jc.createAddress(binderAdress.getBean(), userDTO);
-
-            Notification notification = Notification
-                    .show("Daten gespeichert!");
-            notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
-
+        backButton.addClickListener(e -> {
+            UI.getCurrent().getPage().executeJs("window.history.back()");
         } );
-
-
-
     }
-
-
- */
 
     public JobOfferView(JobOfferControl jc) {
         this.jc = jc;
@@ -300,6 +237,4 @@ public class JobOfferView extends Div {
 
         }
     }
-
-
 }

@@ -17,6 +17,7 @@ import org.hbrs.se2.project.softwaree.control.JobDetailControl;
 import org.hbrs.se2.project.softwaree.dtos.JobDTO;
 import org.hbrs.se2.project.softwaree.entities.Benefit;
 import org.hbrs.se2.project.softwaree.entities.Requirement;
+import org.hbrs.se2.project.softwaree.entities.Skill;
 import org.hbrs.se2.project.softwaree.util.Globals;
 import org.hbrs.se2.project.softwaree.util.Softwareeicons;
 
@@ -60,6 +61,7 @@ public class JobDetailView extends Div implements HasUrlParameter<String> {
     // Subtopics for this job:
     VerticalLayout qualificationsLayout = new VerticalLayout();
     VerticalLayout benefitsLayout = new VerticalLayout();
+    HorizontalLayout skillsLayout = new HorizontalLayout();
 
 
     // Jobcard:
@@ -119,10 +121,8 @@ public class JobDetailView extends Div implements HasUrlParameter<String> {
         jobContainer.add(benefitsLayout);
 
         // Add skills:
-        Span skill1 = new Span("Python");
-        skill1.getElement().getThemeList().add("badge");
         skillContainer.add(new Label("Benötigte Fähigkeiten"));
-        skillContainer.add(skill1);
+        skillContainer.add(skillsLayout);
 
         // Add sharing options:
         shareContainer.add(new Label("Teilen"));
@@ -150,6 +150,7 @@ public class JobDetailView extends Div implements HasUrlParameter<String> {
         JobDTO thisJob = jobDetailControl.getJob(currentJobID);
         Set<Benefit> benefits = thisJob.getBenefits();
         Set<Requirement> requirements = thisJob.getRequirements();
+        Set<Skill> skills = thisJob.getSkills();
 
         // Fill UI with Job data:
         jobTitle.setText(thisJob.getTitle());
@@ -166,6 +167,15 @@ public class JobDetailView extends Div implements HasUrlParameter<String> {
         for (Benefit benefit : benefits) {
             benefitsLayout.add(
                     new Label("- " + benefit.getDescription())
+            );
+        }
+
+        // Job skills list:
+        for (Skill skill : skills) {
+            Span skill1 = new Span(skill.getDescription());
+            skill1.getElement().getThemeList().add("badge");
+            skillsLayout.add(
+                    skill1
             );
         }
 

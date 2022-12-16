@@ -79,6 +79,21 @@ public class JobDTO implements Serializable {
         this.creation_date = LocalDate.now();
     }
 
+    public JobDTO(Integer id, String title, LocalDate creationDate, LocalDate lastEdit, LocalDate deadline, String description, String location, Integer views, Company company, Set<Benefit> benefits, Set<Requirement> requirements, Set<Skill> skills) {
+        this.id = id;
+        this.title = title;
+        this.creation_date = creation_date;
+        this.last_edit = last_edit;
+        this.deadline = deadline;
+        this.description = description;
+        this.location = location;
+        this.views = views;
+        this.company = company;
+        this.benefits = benefits;
+        this.requirements = requirements;
+        this.skills = skills;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -139,6 +154,10 @@ public class JobDTO implements Serializable {
         return this.benefits;
     }
 
+    public void setBenefits(Set<Benefit> benefits) {
+        this.benefits = benefits;
+    }
+
     public Set<Requirement> getRequirements() {
         return this.requirements;
     }
@@ -178,5 +197,9 @@ public class JobDTO implements Serializable {
 
     public void setSkills(Set<Skill> skills) {
         this.skills = skills;
+    }
+
+    public void setRequirement(Set<Requirement> requirements) {
+        this.requirements = requirements;
     }
 }

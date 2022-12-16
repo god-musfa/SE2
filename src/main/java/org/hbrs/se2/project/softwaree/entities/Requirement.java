@@ -11,6 +11,8 @@ import java.util.Set;
 @Table(name = "requirement", schema = "coll")
 public class Requirement {
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "requirement_sequence")
+    @SequenceGenerator(name = "requirement_sequence", sequenceName = "requirement_id_seq", schema = "coll")
     @Column(name = "id", nullable = false)
     private Integer id;
 

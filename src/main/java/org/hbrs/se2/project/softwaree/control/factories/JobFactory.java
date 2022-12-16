@@ -17,7 +17,8 @@ public class JobFactory {
                 job.getViews(),
                 job.getCompany(),
                 job.getBenefits(),
-                job.getRequirements()
+                job.getRequirements(),
+                job.getSkills()
         );
     }
 

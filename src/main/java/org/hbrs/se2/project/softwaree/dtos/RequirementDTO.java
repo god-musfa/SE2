@@ -1,8 +1,6 @@
 package org.hbrs.se2.project.softwaree.dtos;
 
-import java.util.Objects;
-
-public class RequirementDTO {
+public class RequirementDTO implements LabelDTO {
     private int id;
     private String description;
 

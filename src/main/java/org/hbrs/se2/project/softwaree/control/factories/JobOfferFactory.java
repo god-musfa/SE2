@@ -16,7 +16,8 @@ public class JobOfferFactory {
   CompanyRepository repoC;
   public static Job createJobOffer(JobDTO jobDTO, Company company){
     Job job = new Job();
-
+    System.out.println(jobDTO.getId());
+    job.setId(jobDTO.getId());
     job.setTitle(jobDTO.getTitle());
     job.setDescription(jobDTO.getDescription());
     job.setLocation(jobDTO.getLocation());
@@ -24,6 +25,9 @@ public class JobOfferFactory {
     job.setCreation_date(jobDTO.getCreation_date());
     job.setDeadline(jobDTO.getDeadline());
     job.setLast_edit(jobDTO.getLast_edit());
+    job.setRequirements(jobDTO.getRequirements());
+    job.setBenefits(jobDTO.getBenefits());
+    job.setSkills(jobDTO.getSkills());
 
     return job;
   }

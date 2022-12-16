@@ -1,6 +1,6 @@
 package org.hbrs.se2.project.softwaree.dtos;
 
-public class BenefitDTO {
+public class BenefitDTO implements LabelDTO {
     private int id;
     private String description;
 

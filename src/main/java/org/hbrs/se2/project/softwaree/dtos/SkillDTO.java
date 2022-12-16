@@ -6,9 +6,9 @@ import java.util.Objects;
 /**
  * A DTO for the {@link org.hbrs.se2.project.softwaree.entities.Skill} entity
  */
-public class SkillDTO implements Serializable {
-    private final Integer id;
-    private final String description;
+public class SkillDTO implements Serializable, LabelDTO {
+    private Integer id;
+    private String description;
 
     public SkillDTO(Integer id, String description) {
         this.id = id;
@@ -19,8 +19,16 @@ public class SkillDTO implements Serializable {
         return id;
     }
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public String getDescription() {
         return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @Override

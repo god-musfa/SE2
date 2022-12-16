@@ -61,6 +61,31 @@ public class Job {
     @Fetch(FetchMode.JOIN)
     private  Set<Benefit> benefits = new java.util.LinkedHashSet<>();
 
+/*
+    @NotNull
+    @ManyToMany
+    @JoinTable(name = "job_skills", schema = "coll",
+            joinColumns = @JoinColumn(name = "job_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "skill_id", referencedColumnName = "id")
+    )
+    @Fetch(FetchMode.JOIN)
+    private  Set<Skill> skills = new java.util.LinkedHashSet<>();
+
+ */
+
+
+    @NotNull
+    @ManyToMany
+    @JoinTable(name = "job_skills", schema = "coll",
+            joinColumns = {
+                    @JoinColumn(name = "job_id", referencedColumnName = "id",
+                            nullable = false, updatable = false)},
+            inverseJoinColumns = {
+                    @JoinColumn(name = "skill_id", referencedColumnName = "id",
+                            nullable = false, updatable = false)})
+    @Fetch(FetchMode.JOIN)
+    private Set<Skill> skills = new HashSet<>();
+
     /*
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinTable(name = "job_skills", schema = "coll",
@@ -189,8 +214,6 @@ public class Job {
         this.views = views;
     }
 
-    /*
-    todo
     public Set<Skill> getSkills(){
         return skills;
     }
@@ -199,5 +222,7 @@ public class Job {
         this.skills = skills;
     }
 
-     */
+    public void setBenefits(Set<Benefit> benefits) {
+        this.benefits = benefits;
+    }
 }
