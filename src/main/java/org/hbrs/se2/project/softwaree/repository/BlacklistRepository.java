@@ -12,4 +12,6 @@ public interface BlacklistRepository  extends JpaRepository<Blacklist, Integer> 
     @Query("SELECT new org.hbrs.se2.project.softwaree.dtos.BlacklistDTO(studentID, companyID) FROM Blacklist WHERE studentID = ?1")
     List<BlacklistDTO> findBlockedCompanys(Integer studentID);
 
+    @Query("SELECT new org.hbrs.se2.project.softwaree.dtos.BlacklistDTO(studentID, companyID) FROM Blacklist WHERE studentID = ?1 AND companyID = ?2")
+    BlacklistDTO findBlacklistEl(Integer studentID, Integer companyID);
 }

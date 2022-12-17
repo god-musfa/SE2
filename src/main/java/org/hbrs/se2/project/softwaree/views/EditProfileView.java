@@ -2,6 +2,7 @@ package org.hbrs.se2.project.softwaree.views;
 
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import com.vaadin.flow.component.Component;
@@ -26,10 +27,12 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import org.hbrs.se2.project.softwaree.components.BlacklistComponent;
 import org.hbrs.se2.project.softwaree.components.SkillsComponent;
 import org.hbrs.se2.project.softwaree.components.SoftwareeAvatar;
 import org.hbrs.se2.project.softwaree.control.EditProfileControl;
 import org.hbrs.se2.project.softwaree.dtos.*;
+import org.hbrs.se2.project.softwaree.entities.Company;
 import org.hbrs.se2.project.softwaree.entities.Skill;
 import org.hbrs.se2.project.softwaree.util.Globals;
 import com.vaadin.flow.component.notification.Notification;
@@ -235,6 +238,11 @@ public class EditProfileView extends Div {
         }
         publicInfoForm.add(skills, 4);
 
+        // Remove Blacklist:
+        BlacklistComponent blacklist = new BlacklistComponent(pc.getBlockedCompanys(userDTO.getId()),"Blockierte Unternehmen. Klicke zum freigeben.");
+        if(blacklist.isFilled()) {
+            publicInfoForm.add(blacklist, 4);
+        }
 
         // Second outter container to implement padding - (padding is sexy!):
         VerticalLayout publicProfilePaddingContainer = new VerticalLayout();
@@ -265,8 +273,17 @@ public class EditProfileView extends Div {
             for (Skill s : currentSkillSet) {
                 pc.saveSkill(s);
             }
-
             currentStudent.setSkills(currentSkillSet);
+
+            //Blacklist Elements
+            Set<Company> currentCompanySet = pc.createCompanySet(blacklist.getBlacklistNames());
+            List<Integer> oldCompanyList = pc.getBlockedCompanyIDs(userDTO.getId());
+            for(Company c : currentCompanySet) {
+                oldCompanyList.remove(c.getId()); //Entfernt alle weiterhin aktuellen Blacklist Elemente aus der Liste
+            }
+            for(Integer companyID : oldCompanyList) {
+                pc.removeCompFromBlacklist(userDTO.getId(), companyID);
+            }
 
             pc.createStudent(currentStudent);
             pc.createAddress(binderAdress.getBean(), userDTO);
@@ -346,6 +363,9 @@ public class EditProfileView extends Div {
 
         // Container to implement padding
         VerticalLayout publicProfilePaddingContainer = new VerticalLayout();
+        publicProfilePaddingContainer.add(publicInfoForm);
+        publicProfilePaddingContainer.setPadding(true);
+        VerticalLayout profileBlaclistContainer = new VerticalLayout();
         publicProfilePaddingContainer.add(publicInfoForm);
         publicProfilePaddingContainer.setPadding(true);
 

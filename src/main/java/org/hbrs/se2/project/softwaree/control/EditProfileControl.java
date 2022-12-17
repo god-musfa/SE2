@@ -1,19 +1,9 @@
 package org.hbrs.se2.project.softwaree.control;
 
-import org.hbrs.se2.project.softwaree.control.factories.AddressFactory;
-import org.hbrs.se2.project.softwaree.control.factories.CompanyFactory;
-import org.hbrs.se2.project.softwaree.control.factories.SkillFactory;
-import org.hbrs.se2.project.softwaree.control.factories.StudentFactory;
+import org.hbrs.se2.project.softwaree.control.factories.*;
 import org.hbrs.se2.project.softwaree.dtos.*;
-import org.hbrs.se2.project.softwaree.entities.Address;
-import org.hbrs.se2.project.softwaree.entities.Company;
-import org.hbrs.se2.project.softwaree.entities.Skill;
-import org.hbrs.se2.project.softwaree.entities.Student;
-import org.hbrs.se2.project.softwaree.repository.AddressRepository;
-import org.hbrs.se2.project.softwaree.repository.CompanyRepository;
-import org.hbrs.se2.project.softwaree.repository.SkillRepository;
-import org.hbrs.se2.project.softwaree.repository.StudentRepository;
-import org.hbrs.se2.project.softwaree.repository.UserRepository;
+import org.hbrs.se2.project.softwaree.entities.*;
+import org.hbrs.se2.project.softwaree.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +20,12 @@ public class EditProfileControl {
 
     @Autowired
     SkillRepository skillRepo;
+
+    @Autowired
+    CompanyRepository compRepo;
+
+    @Autowired
+    BlacklistRepository blacklistRepo;
 
     public StudentDTO getStudentFromUser(UserDTO userDTO) {
         Optional<Student> studentFromDB = repo.findStudentById(userDTO.getId());
@@ -73,6 +69,24 @@ public class EditProfileControl {
                 .collect(Collectors.toList());
     }
 
+    public List<CompanyDTO> getBlockedCompanys(Integer userid) {
+        List<BlacklistDTO> bList = blacklistRepo.findBlockedCompanys(userid);
+        List<CompanyDTO> cList = new ArrayList<>();
+        for (BlacklistDTO blacklistDTO : bList){
+            cList.add(compRepo.findCompany(blacklistDTO.getCompanyID()));
+        }
+        return cList;
+    }
+
+    public List<Integer> getBlockedCompanyIDs(Integer userid) {
+        List<BlacklistDTO> bList = blacklistRepo.findBlockedCompanys(userid);
+        List<Integer> intList = new ArrayList<>();
+        for (BlacklistDTO blacklistDTO : bList){
+            intList.add(blacklistDTO.getCompanyID());
+        }
+        return intList;
+    }
+
     public List<SkillDTO> getStudentSkills(UserDTO userDTO) {
         Optional<Student> targetStudent = repo.findStudentById(userDTO.getId());
         if (targetStudent.isPresent()) {
@@ -104,9 +118,27 @@ public class EditProfileControl {
         return returnSet;
     }
 
+    public Set<Company> createCompanySet(Set<CompanyDTO> companys) {
+        Set<Company> returnSet = new HashSet<>();
+
+        for (CompanyDTO company : companys) {
+            Optional<Company> companyFromDB = compRepo.findById(company.getId());
+            if (companyFromDB.isPresent()) {
+                // Take from DB and add to list:
+                returnSet.add(companyFromDB.get());
+            }
+        }
+        return returnSet;
+    }
+
     public void saveSkill(Skill skill) {
         skillRepo.save(skill);
     }
+
+    public void removeCompFromBlacklist(Integer userID, Integer companyID) {
+        blacklistRepo.delete(BlacklistFactory.getBlacklistEntity(blacklistRepo, userID,companyID));
+    }
+
     @Transactional
     public void deleteAccount(UserDTO user){
         repoU.deleteUser(user.getId());
