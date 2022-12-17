@@ -19,8 +19,7 @@ public class Requirement {
     @Column(name="description")
     private String description;
 
-    @ManyToMany(mappedBy = "requirements")
-    @Fetch(FetchMode.JOIN)
+    @ManyToMany(mappedBy = "requirements",fetch = FetchType.LAZY)
     Set<Job> job = new java.util.HashSet<>();
 
     public Integer getId() {

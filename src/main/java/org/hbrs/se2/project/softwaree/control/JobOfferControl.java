@@ -75,8 +75,8 @@ public class JobOfferControl {
             .collect(Collectors.toList());
   }
 
-  public List<BenefitDTO> getJobBenefits(Integer job) {
-    Optional<Job> targetJob = jobRepo.getFullJobInfo(job);
+  public Set<Skill> getJobBenefits(Integer job) {
+   /* Optional<Job> targetJob = jobRepo.getFullJobInfo(job);
     if (targetJob.isPresent()) {
       return targetJob.get().getBenefits().stream()
               .map(BenefitFactory::getDTO)
@@ -84,12 +84,13 @@ public class JobOfferControl {
     } else {
       System.out.println(String.format("Cannot get benefits for user with id %d", job));
       return new ArrayList<>();       // Return empty list, if user cannot be found.
-    }
+    }*/
+    return jobRepo.getSkills(job);
   }
 
 
-  public List<RequirementDTO> getJobRequirements(Integer job) {
-    Optional<Job> targetJob = jobRepo.getFullJobInfo(job);
+  public Set<Requirement> getJobRequirements(Integer job) {
+    /*Optional<Job> targetJob = jobRepo.getFullJobInfo(job);
     if (targetJob.isPresent()) {
       return targetJob.get().getRequirements().stream()
               .map(RequirementFactory::getDTO)
@@ -97,11 +98,12 @@ public class JobOfferControl {
     } else {
       System.out.println(String.format("Cannot get requirements for user with id %d", job));
       return new ArrayList<>();       // Return empty list, if user cannot be found.
-    }
+    }*/
+    return jobRepo.getRequirements(job);
   }
 
-  public List<SkillDTO> getJobSkills(Integer job) {
-    Optional<Job> targetJob = jobRepo.getFullJobInfo(job);
+  public Set<Skill> getJobSkills(Integer job) {
+    /*Optional<Job> targetJob = jobRepo.getFullJobInfo(job);
     if (targetJob.isPresent()) {
       return targetJob.get().getSkills().stream()
               .map(SkillFactory::getDTO)
@@ -109,7 +111,8 @@ public class JobOfferControl {
     } else {
       System.out.println(String.format("Cannot get requirements for user with id %d", job));
       return new ArrayList<>();       // Return empty list, if user cannot be found.
-    }
+    }*/
+    return jobRepo.getSkills(job);
   }
 
   public Set<Requirement> createRequirementSet(Set<String> requirementNames) {

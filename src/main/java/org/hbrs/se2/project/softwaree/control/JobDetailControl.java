@@ -8,6 +8,7 @@ import org.hbrs.se2.project.softwaree.repository.BlacklistRepository;
 import org.hbrs.se2.project.softwaree.repository.JobRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Component
@@ -19,7 +20,12 @@ public class JobDetailControl {
     BlacklistRepository blacklistRepo;
 
     public JobDTO getJob(int id) {
-        return JobFactory.createDTO(repo.getFullJobInfo(id).get());
+        JobDTO job = repo.getMostImportantDetails(id);
+        job.setBenefits(repo.getBenefits(job.getId()));
+        job.setRequirement(repo.getRequirements(job.getId()));
+        job.setSkills(repo.getSkills(job.getId()));
+        job.setCompany(repo.getCompany(job.getId()));
+        return job;
     }
 
     public boolean validateJobID(int id) {

@@ -17,7 +17,7 @@ public class Skill {
 
     // ManyToMany with Student:
 
-    @ManyToMany(mappedBy = "skills", fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "skills", fetch = FetchType.LAZY)
     private Set<Student> students = new HashSet<>();
 
 

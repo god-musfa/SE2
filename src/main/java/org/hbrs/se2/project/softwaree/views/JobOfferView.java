@@ -116,21 +116,21 @@ public class JobOfferView extends Div {
         publicInfoForm.add(locationPlaceholder);
 
         LabelsComponent requirement = new LabelsComponent(jc.getAvailableRequirements(), "requirements", "Qualifikation");
-        for (RequirementDTO requirementDTO : jc.getJobRequirements(jobID)){
+        for (Requirement requirementDTO : jc.getJobRequirements(jobID)){
             requirement.addLabel(requirementDTO.getDescription());
         }
         publicInfoForm.add(requirement, 4);
         publicInfoForm.add(requirementPlaceholder);
 
         LabelsComponent benefit = new LabelsComponent(jc.getAvailableBenefits(), "benefits", "Leistung");
-        for (BenefitDTO benefitDTO : jc.getJobBenefits(jobID)){
+        for (Skill benefitDTO : jc.getJobBenefits(jobID)){
             benefit.addLabel(benefitDTO.getDescription());
         }
         publicInfoForm.add(benefit, 4);
         publicInfoForm.add(benefitPlaceholder);
 
         LabelsComponent skill = new LabelsComponent(jc.getAvailableSkills(), "Skills", "Fähigkeit");
-        for (SkillDTO skillDTO : jc.getJobSkills(jobID)){
+        for (Skill skillDTO : jc.getJobSkills(jobID)){
             skill.addLabel(skillDTO.getDescription());
         }
         publicInfoForm.add(skill, 4);

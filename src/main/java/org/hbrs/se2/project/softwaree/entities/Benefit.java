@@ -18,7 +18,7 @@ public class Benefit {
     @Column(name="description", nullable = false)
     private String description;
 
-    @ManyToMany(mappedBy = "benefits")
+    @ManyToMany(mappedBy = "benefits",fetch = FetchType.LAZY)
     @Fetch(FetchMode.JOIN)
     private Set<Job> jobs = new java.util.LinkedHashSet<>();
 

@@ -21,6 +21,7 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.apache.commons.lang3.StringUtils;
 import org.hbrs.se2.project.softwaree.control.ManageJobsControl;
+import org.hbrs.se2.project.softwaree.dtos.JobDTO;
 import org.hbrs.se2.project.softwaree.dtos.UserDTO;
 import org.hbrs.se2.project.softwaree.entities.Job;
 import org.hbrs.se2.project.softwaree.util.Globals;
@@ -39,7 +40,7 @@ import java.util.Optional;
 @CssImport("./styles/views/showcars/show-cars-view.css")
 public class JobView extends Div {
 
-    private List<Job> jobList;
+    private List<JobDTO> jobList;
 
     public JobView(ManageJobsControl jobsControl) {
         addClassName("jobs");
@@ -71,7 +72,7 @@ public class JobView extends Div {
         //add(createGridTable());
     }
 
-    private Component createGridTable() {
+    /*private Component createGridTable() {
         Grid<Job> grid = new Grid<>();
 
 
@@ -144,24 +145,23 @@ public class JobView extends Div {
         });
 
         return grid;
-    }
+    }*/
 
     private Component createTitle() {
         return new H3("Stellenanzeigen");
     }
 
     private Component createCardList() {
-        Grid<Job> grid = new Grid<>();
+        Grid<JobDTO> grid = new Grid<>();
         setSizeFull();
 
         this.getStyle().set("padding", "1px 10px 1px");
         grid.setHeight("100%");
-
         grid.addThemeVariants(GridVariant.LUMO_NO_BORDER, GridVariant.LUMO_WRAP_CELL_CONTENT);
         grid.setItems(jobList);
         grid.addComponentColumn(job -> createCard(job));
         grid.addSelectionListener(selection -> {
-            Optional<Job> optionalJob = selection.getFirstSelectedItem();
+            Optional<JobDTO> optionalJob = selection.getFirstSelectedItem();
             if (optionalJob.isPresent()) {
                 UI.getCurrent().navigate(Globals.Pages.SHOW_JOB_DETAILS+"/"+optionalJob.get().getId());
                 UI.getCurrent().getSession().setAttribute( "jobID", optionalJob.get().getId() );
@@ -173,7 +173,7 @@ public class JobView extends Div {
         return grid;
     }
 
-    private HorizontalLayout createCard(Job job) {
+    private HorizontalLayout createCard(JobDTO job) {
 
         // [horizontal ] Card Wrapper
         HorizontalLayout card = new HorizontalLayout();

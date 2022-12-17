@@ -43,6 +43,15 @@ public class JobDTO implements Serializable {
         this.company = company;
     }
 
+    public JobDTO(Integer id, String title, LocalDate creation_date, String description, Integer views) {
+        this.id = id;
+        this.title = title;
+        this.creation_date = creation_date;
+        this.description = description;
+        this.views = views;
+
+    }
+
     public JobDTO(Integer id, String title, LocalDate creation_date, LocalDate deadline,
                   String description, String location) {
         this.id = id;
@@ -185,11 +194,15 @@ public class JobDTO implements Serializable {
     public Company getCompany() {
         return company;
     }
+    public void setCompany(Company company){
+        this.company = company;
+    }
 
     // Verify that attributes are not Null before calling "toString()" method
     public String getLastEditAsString() {return last_edit!= null ?  last_edit.toString() : "-";}
     public String getCreationDateAsString() {return creation_date != null ?  creation_date.toString() : "-";}
     public String getDeadlineAsString() {return deadline!= null ?  deadline.toString() : "-";}
+    public String getViewsAsString() { return views != null ? views.toString() : "-";}
 
     public Set<Skill> getSkills(){
         return skills;
@@ -202,4 +215,6 @@ public class JobDTO implements Serializable {
     public void setRequirement(Set<Requirement> requirements) {
         this.requirements = requirements;
     }
+
+
 }

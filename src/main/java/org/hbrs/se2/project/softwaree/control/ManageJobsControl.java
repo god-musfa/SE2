@@ -1,6 +1,6 @@
 package org.hbrs.se2.project.softwaree.control;
 
-import org.hbrs.se2.project.softwaree.entities.Job;
+import org.hbrs.se2.project.softwaree.dtos.JobDTO;
 import org.hbrs.se2.project.softwaree.repository.BlacklistRepository;
 import org.hbrs.se2.project.softwaree.repository.JobRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,13 +22,13 @@ public class ManageJobsControl {
      * @param userid NutzerID des aktuell eingeloggten Nutzers
      * @return Liste vom Typ Job
      */
-    public List<Job> readAllJobs(Integer userid) {
+    public List<JobDTO> readAllJobs(Integer userid) {
         List<Integer> blockedCompanys = new ArrayList<>();
         blacklistRepo.findBlockedCompanys(userid).forEach( dto -> blockedCompanys.add(dto.getCompanyID()) ); //Liste der blockierten Unternehmen
-        return blockedCompanys.isEmpty() ? repository.findAll() : repository.findAllNotBlockedCompanys(blockedCompanys);
+        return blockedCompanys.isEmpty() ? repository.getMostImportantDetailsAsList() : repository.findAllNotBlockedCompanys(blockedCompanys);
     }
 
-    public List<Job> readJobsFromCompany(Integer id) {
+    public List<JobDTO> readJobsFromCompany(Integer id) {
         return repository.readJobsFromCompany(id);
     }
 

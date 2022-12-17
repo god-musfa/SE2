@@ -20,6 +20,7 @@ import org.hbrs.se2.project.softwaree.entities.Requirement;
 import org.hbrs.se2.project.softwaree.entities.Skill;
 import org.hbrs.se2.project.softwaree.util.Globals;
 import org.hbrs.se2.project.softwaree.util.Softwareeicons;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Set;
 
@@ -75,7 +76,6 @@ public class JobDetailView extends Div implements HasUrlParameter<String> {
          */
 
         // Try to fetch job id from url query:
-        System.out.println(parameter);
         try {
             currentJobID = Integer.parseInt(parameter);
         } catch (NumberFormatException ex) {
@@ -94,6 +94,7 @@ public class JobDetailView extends Div implements HasUrlParameter<String> {
     public JobDetailView(JobDetailControl controller) {
         this.jobDetailControl = controller;
     }
+
 
     public void build() {
 
@@ -144,7 +145,7 @@ public class JobDetailView extends Div implements HasUrlParameter<String> {
 
 
 
-    private void fillJobData() {
+    void fillJobData() {
 
         // Read into new JobDTO:
         JobDTO thisJob = jobDetailControl.getJob(currentJobID);

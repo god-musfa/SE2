@@ -40,25 +40,24 @@ public class Job {
 
 
     @NotNull
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "job_requirement", schema = "coll",
             joinColumns = @JoinColumn(name = "job_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "requirement_id", referencedColumnName = "id")
     )
-    @Fetch(FetchMode.JOIN)
     private  Set<Requirement> requirements = new java.util.LinkedHashSet<>();
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id")
     private Company company;
 
     @NotNull
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "job_benefit", schema = "coll",
             joinColumns = @JoinColumn(name = "job_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "benefit_id", referencedColumnName = "id")
     )
-    @Fetch(FetchMode.JOIN)
+
     private  Set<Benefit> benefits = new java.util.LinkedHashSet<>();
 
 /*
@@ -75,7 +74,7 @@ public class Job {
 
 
     @NotNull
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "job_skills", schema = "coll",
             joinColumns = {
                     @JoinColumn(name = "job_id", referencedColumnName = "id",
@@ -83,7 +82,6 @@ public class Job {
             inverseJoinColumns = {
                     @JoinColumn(name = "skill_id", referencedColumnName = "id",
                             nullable = false, updatable = false)})
-    @Fetch(FetchMode.JOIN)
     private Set<Skill> skills = new HashSet<>();
 
     /*
