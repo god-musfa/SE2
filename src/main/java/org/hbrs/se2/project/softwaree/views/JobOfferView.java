@@ -101,7 +101,7 @@ public class JobOfferView extends Div {
         Div benefitPlaceholder = new Div();
         Div skillPlaceholder = new Div();
 
-
+        creationDate.setReadOnly(true);
 
         // Add all components to publicInfoForm container:
 
@@ -208,12 +208,14 @@ public class JobOfferView extends Div {
             }
             currentJob.setSkills(currentSkillSet);
 
+            currentJob.setLast_edit(LocalDate.now());
+
             jc.createJobOffer(currentJob, userDTO.getId());
 
             Notification notification = Notification
                     .show("Daten gespeichert!");
             notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
-
+            UI.getCurrent().navigate("jobs/");
         } );
 
         backButton.addClickListener(e -> {
