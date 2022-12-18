@@ -10,7 +10,7 @@ import java.util.Set;
 
 public class JobFactory {
 
-    public static JobDTO createDTO(Job job, Set<Benefit> ben, Set<Skill> ski, Set<Requirement> req) {
+    public static JobDTO createDTO(Job job) {
         return new JobDTO(
                 job.getId(),
                 job.getTitle(),
@@ -21,9 +21,9 @@ public class JobFactory {
                 job.getLocation(),
                 job.getViews(),
                 job.getCompany(),
-                ben,
-                req,
-                ski
+                job.getBenefits(),
+                job.getRequirements(),
+                job.getSkills()
         );
     }
 

@@ -20,17 +20,12 @@ public class JobDetailControl {
     BlacklistRepository blacklistRepo;
 
     public JobDTO getJob(int id) {
-        JobDTO job = repo.getMostImportantDetails(id);
-        job.setBenefits(repo.getBenefits(job.getId()));
-        job.setRequirement(repo.getRequirements(job.getId()));
-        job.setSkills(repo.getSkills(job.getId()));
-        job.setCompany(repo.getCompany(job.getId()));
+        JobDTO job = JobFactory.createDTO(repo.getFullJob(id));
         return job;
     }
 
     public boolean validateJobID(int id) {
-        System.out.println(repo.getFullJobInfo(id).isPresent()+" "+repo.getFullJobInfo(id).isPresent());
-        return repo.getFullJobInfo(id).isPresent() && repo.checkJobExists(id);
+        return repo.checkJobExists(id);
     }
 
     public int validateJobViews(Integer viewsFromDTO) {
