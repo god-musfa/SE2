@@ -48,21 +48,6 @@ public class JobOfferControl {
             .collect(Collectors.toList());
   }
 
-  /*
-  public List<SkillDTO> getJobSkills(JobDTO jobDTO) {
-    Optional<Job> targetJob = jobRepo.getFullJobInfo(jobDTO.getId());
-    if (targetJob.isPresent()) {
-      return targetJob.get().getSkills().stream()
-              .map(SkillFactory::getDTO)
-              .collect(Collectors.toList());
-    } else {
-      System.out.println(String.format("Cannot get skills for user with id %d", jobDTO.getId()));
-      return new ArrayList<>();       // Return empty list, if user cannot be found.
-    }
-  }
-
-   */
-
   public List<BenefitDTO> getAvailableBenefits() {
     return beneRepo.findAll().stream()
             .map(BenefitFactory::getDTO)

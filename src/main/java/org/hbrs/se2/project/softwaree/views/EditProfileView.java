@@ -365,9 +365,6 @@ public class EditProfileView extends Div {
         VerticalLayout publicProfilePaddingContainer = new VerticalLayout();
         publicProfilePaddingContainer.add(publicInfoForm);
         publicProfilePaddingContainer.setPadding(true);
-        VerticalLayout profileBlaclistContainer = new VerticalLayout();
-        publicProfilePaddingContainer.add(publicInfoForm);
-        publicProfilePaddingContainer.setPadding(true);
 
         // Button design
         saveButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);

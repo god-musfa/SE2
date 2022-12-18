@@ -13,7 +13,6 @@ import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.router.PageTitle;
@@ -39,12 +38,8 @@ public class JobOfferView extends Div {
     // Base components for both user types
     private final TextField title = new TextField("Titel");
     private final DatePicker creationDate = new DatePicker("Erstellungsdatum");
-    private final DatePicker lastEdit = new DatePicker("Bearbeitungsdatum");
     private final DatePicker deadline = new DatePicker("Frist");
     private final TextField description = new TextField("Beschreibung");
-    final TextField contactPerson = new TextField("Kontaktperson");
-    private final TextArea requirement = new TextArea("Qualifikation");
-    private final TextArea benefit = new TextArea("Wir bieten");
     private final TextField location = new TextField("Standort");
     private final Locale germanLocale = new Locale("de", "DE");
     private final Button saveButton = new Button( "Speichern");
@@ -197,7 +192,6 @@ public class JobOfferView extends Div {
 
             Set<Requirement> currentRequirementSet = jc.createRequirementSet(requirement.getNames());
             for (Requirement r : currentRequirementSet) {
-                System.out.println(r.getId());
                 jc.saveRequirement(r);
             }
             currentJob.setRequirement(currentRequirementSet);
@@ -218,9 +212,9 @@ public class JobOfferView extends Div {
             UI.getCurrent().navigate("jobs/");
         } );
 
-        backButton.addClickListener(e -> {
-            UI.getCurrent().getPage().executeJs("window.history.back()");
-        } );
+        backButton.addClickListener(e ->
+                UI.getCurrent().getPage().executeJs("window.history.back()")
+        );
     }
 
     public JobOfferView(JobOfferControl jc) {

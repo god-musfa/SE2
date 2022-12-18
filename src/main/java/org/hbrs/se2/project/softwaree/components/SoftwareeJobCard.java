@@ -112,18 +112,27 @@ public class SoftwareeJobCard extends Div implements SoftwareeJobCardIf{
         // Build button:
         switch (((UserDTO) UI.getCurrent().getSession().getAttribute(Globals.CURRENT_USER)).getUserType()) {
             case "student": {
-                applyJobButton = setButtonAttributes("Jetzt bewerben", new Icon(VaadinIcon.PAPERPLANE), false);
-                add(applyJobButton);
-                blacklistButton = setButtonAttributes("Firma blockieren", new Icon(VaadinIcon.BAN), true);
-                add(blacklistButton);
+                buildStudentButton();
                 break;
             }
             case "company": {
-                applyJobButton = setButtonAttributes("Jetzt bearbeiten", new Icon(VaadinIcon.PAPERPLANE), false);
-                add(applyJobButton);
+                buildCompanyButton();
                 break;
             }
+            default:{}
         }
+    }
+
+    private void buildStudentButton() {
+        applyJobButton = setButtonAttributes("Jetzt bewerben", new Icon(VaadinIcon.PAPERPLANE), false);
+        add(applyJobButton);
+        blacklistButton = setButtonAttributes("Firma blockieren", new Icon(VaadinIcon.BAN), true);
+        add(blacklistButton);
+    }
+
+    private void buildCompanyButton() {
+        applyJobButton = setButtonAttributes("Jetzt bearbeiten", new Icon(VaadinIcon.PAPERPLANE), false);
+        add(applyJobButton);
     }
 
     private Button setButtonAttributes(String buttonText, Icon icon, boolean block) {

@@ -62,9 +62,7 @@ public class ContactView extends VerticalLayout  {
                 clearForm();
             });
 
-            back.addClickListener(e -> {
-                backButtonEvent();
-            });
+            back.addClickListener(e -> backButtonEvent());
         }
         else {
             //Meldungen für unterschiedliche Fehlerfälle
@@ -284,9 +282,7 @@ public class ContactView extends VerticalLayout  {
 
         back = new Button("Zur Übersicht");
         add(back);
-        back.addClickListener(e -> {
-            backButtonEvent();
-        });
+        back.addClickListener(e -> backButtonEvent());
         Notification.show(notificationMessage)
                 .addThemeVariants(NotificationVariant.LUMO_ERROR);
     }

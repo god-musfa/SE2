@@ -42,7 +42,6 @@ public class BlacklistComponent extends VerticalLayout {
         // Add both parts to main component:
         add(infoLabel, layout, labelsLayout);
 
-        //setSkillComponentType("VIEWER");
         for(CompanyDTO company : companyDTO) {
             addLabel(company);
         }
@@ -51,7 +50,6 @@ public class BlacklistComponent extends VerticalLayout {
 
     /** Component logic **/
     public void removeLabel(CompanyDTO company) {
-        System.out.println(company.getName() + " Ausgabe");
         labelsLayout.remove(labels.get(company));
         labels.remove(company);
     }
@@ -59,9 +57,7 @@ public class BlacklistComponent extends VerticalLayout {
     public void addLabel(CompanyDTO company) {
         ListItem newItem = new ListItem(company.getName());
         newItem.addClassName("skill-pill");
-        newItem.addClickListener(clickEvent -> {
-            removeLabel(company);
-        });
+        newItem.addClickListener(clickEvent -> removeLabel(company));
         labelsLayout.add(newItem);
         labels.put(company, newItem);
         labelsLayout.add(newItem);

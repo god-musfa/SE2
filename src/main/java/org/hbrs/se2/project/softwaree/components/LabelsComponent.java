@@ -99,9 +99,7 @@ public class LabelsComponent<T extends LabelDTO> extends VerticalLayout {
         if (!labels.containsKey(labelName) && labels.size() < 20) {
             ListItem newItem = new ListItem(labelName);
             newItem.addClassName("skill-pill");
-            newItem.addClickListener(clickEvent -> {
-                removeLabel(labelName);
-            });
+            newItem.addClickListener(clickEvent -> removeLabel(labelName));
             labelsLayout.add(newItem);
             labels.put(labelName, newItem);
             labelsLayout.add(newItem);

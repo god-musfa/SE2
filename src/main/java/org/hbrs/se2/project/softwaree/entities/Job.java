@@ -60,18 +60,6 @@ public class Job {
 
     private  Set<Benefit> benefits = new java.util.LinkedHashSet<>();
 
-/*
-    @NotNull
-    @ManyToMany
-    @JoinTable(name = "job_skills", schema = "coll",
-            joinColumns = @JoinColumn(name = "job_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "skill_id", referencedColumnName = "id")
-    )
-    @Fetch(FetchMode.JOIN)
-    private  Set<Skill> skills = new java.util.LinkedHashSet<>();
-
- */
-
 
     @NotNull
     @ManyToMany(fetch = FetchType.LAZY)
@@ -83,19 +71,6 @@ public class Job {
                     @JoinColumn(name = "skill_id", referencedColumnName = "id",
                             nullable = false, updatable = false)})
     private Set<Skill> skills = new HashSet<>();
-
-    /*
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
-    @JoinTable(name = "job_skills", schema = "coll",
-            joinColumns = {
-                    @JoinColumn(name = "job_id", referencedColumnName = "id",
-                            nullable = false, updatable = false)},
-            inverseJoinColumns = {
-                    @JoinColumn(name = "skill_id", referencedColumnName = "id",
-                            nullable = false, updatable = false)})
-    private Set<Skill> skills = new HashSet<>();
-
-     */
 
 
     public Company getCompany() {
