@@ -8,8 +8,6 @@ import org.hbrs.se2.project.softwaree.repository.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -66,26 +64,26 @@ class EditProfileControlTest {
     void getAvailableSkills() {
 
         List <SkillDTO> available = con.getAvailableSkills();
-        SkillDTO tester = new SkillDTO(3,"Python");
-        SkillDTO tester2 = new SkillDTO(7,"Docker");
+        SkillDTO tester = new SkillDTO(-43,"Python");
+        SkillDTO tester2 = new SkillDTO(-42,"Java");
         assertTrue(available.contains(tester));
         assertTrue(available.contains(tester2));
 
         }
 
 
-    @Test
+   @Test
     void getStudentSkills() {
 
         List <SkillDTO> available = con.getStudentSkills(userRepository.findUserByID(188));
-        SkillDTO tester = new SkillDTO(6,"Englisch (A1)");
-        SkillDTO tester2 = new SkillDTO(8,"Microsoft Active Directory");
+        SkillDTO tester = new SkillDTO(-40,"HTML");
+        SkillDTO tester2 = new SkillDTO(-43,"Python");
         assertTrue(available.contains(tester));
         assertTrue(available.contains(tester2));
 
     }
-
-   /* @Test
+/*
+    @Test
     void createSkillSet() {
 
         Skill skill1 = skillRepository.getOne(3);
@@ -102,6 +100,7 @@ class EditProfileControlTest {
     void saveSkill() {
         Skill test = new Skill();
         test.setDescription("TestSkill");
+        test.setId(1111);
         con.saveSkill(test);
         assertEquals("TestSkill" , skillRepository.findByDescription("TestSkill").get().getDescription());
         skillRepository.deleteById(skillRepository.findByDescription("TestSkill").get().getId());
