@@ -42,6 +42,7 @@ public class CompanyDTO {
         this.contactPerson = contactPerson;
     }
 
+
     public Integer getId() {
         return id;
     }

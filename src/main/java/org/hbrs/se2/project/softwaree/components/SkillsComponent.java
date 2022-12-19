@@ -60,12 +60,15 @@ public class SkillsComponent extends VerticalLayout {
         // Add both parts to main component:
         add(infoLabel, addSkillLayout, skillsLayout);
 
-        // Set autocomplete set to combobox autocomplete:
-        this.newSkillField.setItems(
-                autoCompleteSet.stream()
-                        .map(SkillDTO::getDescription)
-                        .collect(Collectors.toList())
-        );
+        // Set autocomplete items if autocomplete list not null:
+        if (autoCompleteSet != null) {
+            // Set autocomplete set to combobox autocomplete:
+            this.newSkillField.setItems(
+                    autoCompleteSet.stream()
+                            .map(SkillDTO::getDescription)
+                            .collect(Collectors.toList())
+            );
+        }
 
         // Capabitlity to set own values:
         newSkillField.addCustomValueSetListener(event -> {
@@ -85,8 +88,10 @@ public class SkillsComponent extends VerticalLayout {
         });
     }
 
-
-
+    public SkillsComponent(List<SkillDTO> autoCompleteSet, ComponentType componentType) {
+        this(autoCompleteSet);
+        setSkillComponentType(componentType);
+    }
 
 
     /** Component logic **/

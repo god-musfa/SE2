@@ -57,7 +57,7 @@ public class SoftwareeAvatar extends HorizontalLayout implements SoftwareeAvatar
 
     public SoftwareeAvatar(boolean enableChangeOption) {
         this();
-        this.setChangeOption(true);
+        this.setChangeOption(enableChangeOption);
     }
 
     /**
@@ -67,6 +67,7 @@ public class SoftwareeAvatar extends HorizontalLayout implements SoftwareeAvatar
     @Override
     public void setImage(String imagePath) {
         this.avatarImage.setSrc(imagePath);
+        avatarImage.setClassName("softwaree_avatar_image");
     }
 
     /**

@@ -1,0 +1,13 @@
+.rating-container {
+    align-items: center;
+    align-content: center;
+}
+
+.rating-unchecked {
+    color: #cccccc;
+    cursor: pointer;
+}
+
+.rating-checked {
+    cursor: pointer;
+}
