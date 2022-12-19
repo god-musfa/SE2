@@ -1,5 +1,13 @@
 package org.hbrs.se2.project.softwaree.dtos;
 
+import org.hbrs.se2.project.softwaree.control.factories.CompanyFactory;
+import org.hbrs.se2.project.softwaree.control.factories.RatingFactory;
+import org.hbrs.se2.project.softwaree.control.factories.RatingIDFactory;
+import org.hbrs.se2.project.softwaree.control.factories.StudentFactory;
+import org.hbrs.se2.project.softwaree.entities.Company;
+import org.hbrs.se2.project.softwaree.entities.RatingID;
+import org.hbrs.se2.project.softwaree.entities.Student;
+
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -8,9 +16,9 @@ import java.util.Objects;
  */
 public class RatingDTO implements Serializable {
     private final RatingIDDTO ratingID;
-    private final int rating;
     private final StudentDTO student;
     private final CompanyDTO company;
+    private int rating;
 
     public RatingDTO(RatingIDDTO ratingID, int rating, StudentDTO student, CompanyDTO company) {
         this.ratingID = ratingID;
@@ -19,12 +27,23 @@ public class RatingDTO implements Serializable {
         this.company = company;
     }
 
+    public RatingDTO(RatingID ratingID, int rating, Student student, Company company) {
+        this.ratingID = RatingIDFactory.createDTO(ratingID);
+        this.student = StudentFactory.createDTO(student);
+        this.company = CompanyFactory.createDTO(company);
+        this.rating = rating;
+    }
+
     public RatingIDDTO getRatingID() {
         return ratingID;
     }
 
     public int getRating() {
         return rating;
+    }
+
+    public void setRating(int rating) {
+        this.rating = rating;
     }
 
     public StudentDTO getStudent() {

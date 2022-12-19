@@ -3,17 +3,19 @@ package org.hbrs.se2.project.softwaree.entities;
 import javax.persistence.CascadeType;
 import javax.persistence.Embeddable;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 import java.io.Serializable;
 
 @Embeddable
 public class RatingID implements Serializable {
 
-    @ManyToOne(targetEntity = Student.class, cascade = CascadeType.ALL)
+    @ManyToOne(targetEntity = Student.class)
     public Student student;
 
-    @ManyToOne(targetEntity = Company.class, cascade = CascadeType.ALL)
+    @ManyToOne(targetEntity = Company.class)
     public Company company;
 
+    @Transient
     public Student getStudent() {
         return student;
     }
@@ -22,7 +24,7 @@ public class RatingID implements Serializable {
         this.student = student;
     }
 
-
+    @Transient
     public Company getCompany() {
         return company;
     }

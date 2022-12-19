@@ -55,7 +55,7 @@ public class Student {
     // Ratings (ManyToMany):
 
 
-    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "student", orphanRemoval = true)
     private Set<Rating> ratings = new LinkedHashSet<>();
 
     public Set<Rating> getRatings() {

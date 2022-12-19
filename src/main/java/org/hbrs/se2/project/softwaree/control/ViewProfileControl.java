@@ -28,7 +28,16 @@ public class ViewProfileControl implements RatingFeedbackControl{
 
     @Override
     public void setRating(int rating, int student_id, int company_id) {
+        Optional<RatingDTO> currentRating = ratingRepo.findByIDs(student_id, company_id);
 
+        if (currentRating.isPresent()) {
+            RatingDTO currentDTO = currentRating.get();
+            currentDTO.setRating(rating);
+            Rating saveRating = RatingFactory.createRating(currentDTO);
+            ratingRepo.save(
+                 saveRating
+            );
+        }
     }
 
     @Override

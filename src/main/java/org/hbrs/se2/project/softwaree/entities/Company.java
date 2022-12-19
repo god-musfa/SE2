@@ -38,7 +38,7 @@ public class Company {
     // Rating (ManyToMany)
 
 
-    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "company", orphanRemoval = true)
     private Set<Rating> ratings = new LinkedHashSet<>();
 
     public Set<Rating> getRatings() {

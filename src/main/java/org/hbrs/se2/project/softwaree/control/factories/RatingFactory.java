@@ -1,9 +1,8 @@
 package org.hbrs.se2.project.softwaree.control.factories;
 
 import org.hbrs.se2.project.softwaree.dtos.RatingDTO;
-import org.hbrs.se2.project.softwaree.dtos.RatingIDDTO;
 import org.hbrs.se2.project.softwaree.entities.Rating;
-import org.hbrs.se2.project.softwaree.entities.RatingID;
+
 
 public class RatingFactory {
 
@@ -20,7 +19,8 @@ public class RatingFactory {
         Rating newRating = new Rating();
         newRating.setCompany(CompanyFactory.createCompany(ratingDTO.getCompany()));
         newRating.setStudent(StudentFactory.createStudent(ratingDTO.getStudent()));
-        newRating.setRatingID(newRating.getRatingID());
+        newRating.setRatingID(RatingIDFactory.createRatingID(ratingDTO.getRatingID()));
+        newRating.setRating(ratingDTO.getRating());
         return newRating;
     }
 

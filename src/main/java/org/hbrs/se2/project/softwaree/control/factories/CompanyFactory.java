@@ -7,8 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 
 public class CompanyFactory {
-    @Autowired
-    private CompanyRepository companyRepository;
 
     public static Company createCompany(CompanyDTO companyDTO){
         Company company = new Company();

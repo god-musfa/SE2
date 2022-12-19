@@ -24,6 +24,7 @@ public class Rating {
     @JoinColumn(name = "company_id", insertable = false, updatable = false)
     private Company company;
 
+    @Transient
     public Company getCompany() {
         return company;
     }
@@ -32,6 +33,7 @@ public class Rating {
         this.company = company;
     }
 
+    @Transient
     public Student getStudent() {
         return student;
     }

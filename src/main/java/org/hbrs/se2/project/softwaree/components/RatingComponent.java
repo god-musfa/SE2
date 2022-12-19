@@ -31,7 +31,7 @@ public class RatingComponent extends Div {
 
     public RatingComponent(int ratingScore, int maxScore, RatingFeedbackControl ratingFeedbackControl, int student_id, int company_id) {
         // Setup logics:
-        setFeedbackController(ratingFeedbackControl);
+        this.feedbackController = ratingFeedbackControl;
         this.student_id = student_id;
         this.company_id = company_id;
 
@@ -75,9 +75,7 @@ public class RatingComponent extends Div {
         return this.rating;
     }
 
-    public void setFeedbackController(RatingFeedbackControl controller) {
-        feedbackController = controller;
-    }
+
 
     // Logics:
 
