@@ -73,7 +73,9 @@ public class RegistrationControl {
         addressRepository.save(address);
 
         User user = UserFactory.createUser(userDTO, address);
-
+        user.setPassword(
+                SecurityHandler.hashPassword(user.getPassword())
+        );
         Company company = CompanyFactory.createCompany(companyDTO);
         user.setCompany(company);
         company.setUser(user);
