@@ -10,6 +10,9 @@ import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.data.binder.Binder;
+import com.vaadin.flow.data.validator.EmailValidator;
+import com.vaadin.flow.data.validator.RegexpValidator;
+import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.Route;
 import org.hbrs.se2.project.softwaree.dtos.UserDTO;
 import org.hbrs.se2.project.softwaree.util.Globals;
@@ -35,7 +38,8 @@ public class RegisterView extends VerticalLayout {
 
   //Passwort, mind. 12 Zeichen - Passwort-Textfeld
   PasswordField password = new PasswordField("Passwort");
-  public void initializePW() {
+  PasswordField pw2 = new PasswordField("Passwort wiederholen");
+  /*public void initializePW() {
     password.setRevealButtonVisible(false);
     password.setMaxLength(32);
     password.setMinLength(12);
@@ -51,7 +55,7 @@ public class RegisterView extends VerticalLayout {
     pw2.setMinLength(12);
     pw2.setRequired(true);
   }
-
+*/
   Select<String> userType = new Select<>();
   public void initializeKAT() {
     userType.setLabel("Benutzerkategorie");
@@ -71,10 +75,13 @@ public class RegisterView extends VerticalLayout {
 
   private Binder<UserDTO> userDTOBinder = new Binder<>(UserDTO.class);
   public void setupComponents(){
+    password.setHelperText("Mindestens 8 Zeichen lang\n" +
+            "Mindestens ein Buchstabe\n" +
+            "Mindestens eine Zahl");
     initializeEM();
     initializeUN();
-    initializePW();
-    initializePW2();
+    //initializePW();
+    //initializePW2();
     initializeKAT();
     initializeButton();
 
@@ -98,7 +105,33 @@ public class RegisterView extends VerticalLayout {
     });
   }
 
+  public void validation(){
+    String passwordreg = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$";
+
+    //email
+    userDTOBinder.forField(email)
+            .asRequired("Feld darf nicht leer sein")
+            .withValidator(new EmailValidator("Keine valide E-Mail Adresse"))
+            .bind(UserDTO::getEmail,UserDTO::setEmail);
+    userDTOBinder.bindInstanceFields(this);
+
+   /* //passwort
+    userDTOBinder.forField(password)
+            .asRequired("Feld darf nicht leer sein")
+            .withValidator(new RegexpValidator("Kein valides Passwort",passwordreg))
+            .bind(UserDTO::getPassword,UserDTO::setPassword);
+    userDTOBinder.bindInstanceFields(this);
+
+    userDTOBinder.forField(pw2)
+            .bind(UserDTO::getPassword,UserDTO::setPassword);
+
+    userDTOBinder.withValidator(
+            (userDTO,) ->pw2.equals(userDTO.getPassword()));
+*/
+  }
+
   public RegisterView() {
+    validation();
     setSizeFull();
     add(i);
     i.setMaxWidth("70%");
