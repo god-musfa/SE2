@@ -13,20 +13,24 @@ import org.hbrs.se2.project.softwaree.entities.Student;
 
 @CssImport("./styles/components/ratingComponent.css")
 public class RatingComponent extends Div {
+
+    // Rating value defaults:
     private int maxScore = 5;
     private int rating = 0;
 
+    // FeedbackController (used for handling "rating" event):
     private RatingFeedbackControl feedbackController;
-
-    private HorizontalLayout starsLayout = new HorizontalLayout();
-    private VerticalLayout mainLayout = new VerticalLayout();
-
-    Icon[] starIcons = new Icon[10];
-    private Label ratingLabel = new Label("0/5");
 
     // References to DB:
     private int student_id;
     private int company_id;
+
+    // UI components:
+    private HorizontalLayout starsLayout = new HorizontalLayout();
+    private VerticalLayout mainLayout = new VerticalLayout();
+
+    private Icon[] starIcons = new Icon[10];
+    private Label ratingLabel = new Label("0/5");
 
 
     public RatingComponent(int ratingScore, int maxScore, RatingFeedbackControl ratingFeedbackControl, int student_id, int company_id) {
@@ -35,18 +39,22 @@ public class RatingComponent extends Div {
         this.student_id = student_id;
         this.company_id = company_id;
 
+        // Check maxScore value not being negative:
         if (maxScore > 0) {
             this.maxScore = maxScore;
         } else {
             this.maxScore = 5;
         }
 
+        // Build stars:
+        buildStars();
+
+        // Check ratingScore being in interval [0,maxScore]:
         if (ratingScore > 0) {
             setRating(ratingScore % maxScore);
         } else {
             setRating(0);
         }
-
 
         // Visual:
         mainLayout.add(starsLayout);
@@ -62,12 +70,17 @@ public class RatingComponent extends Div {
 
 
     public void setRating(int ratingScore) {
+        // Check if rating is invalid (-> not rated):
         if (ratingScore == 0) {
             ratingLabel.setText("noch nicht bewertet");
         } else {
             this.rating = ratingScore;
         }
+
+        // Use feedback controller to handle rating event:
         feedbackController.setRating(ratingScore, this.student_id, this.company_id);
+
+        // Render new rating:
         renderStars(ratingScore);
     }
 
@@ -76,10 +89,9 @@ public class RatingComponent extends Div {
     }
 
 
-
-    // Logics:
-
-    private void renderStars(int ratingScore) {
+    // Old (deprecated function); working, but slow
+    /*
+    private void renderStarsOLD(int ratingScore) {
         starsLayout.removeAll();
 
         for (int i=0; i<maxScore; i++) {
@@ -92,6 +104,44 @@ public class RatingComponent extends Div {
                     clickEvent -> {setRating(currentRating+1);}
             );
 
+            if (ratingScore > i) {
+                starIcons[i].addClassName("rating-checked");
+            } else {
+                starIcons[i].addClassName("rating-unchecked");
+            }
+            starsLayout.add(starIcons[i]);
+        }
+
+        ratingLabel.setText(String.format("%d/%d", ratingScore, maxScore));
+    }
+*/
+
+    /** Build stars UI and add event listener **/
+    private void buildStars() {
+        starsLayout.removeAll();
+
+        for (int i=0; i<maxScore; i++) {
+            starIcons[i] = new Icon(VaadinIcon.STAR);
+            final int currentRating = i;
+            starIcons[i].addClickListener(
+                    clickEvent -> {
+                        setRating(currentRating + 1);
+                    }
+            );
+            starsLayout.add(starIcons[i]);
+        }
+    }
+
+
+    private void renderStars(int ratingScore) {
+        // Go through all star objects and assign the corresponding state (checked, unchecked):
+        for (int i=0; i<maxScore; i++) {
+
+            // Remove the beforehand states to reset the state to new value:
+            starIcons[i].removeClassName("rating-checked");
+            starIcons[i].removeClassName("rating-unchecked");
+
+            // Set corresponding state:
             if (ratingScore > i) {
                 starIcons[i].addClassName("rating-checked");
             } else {

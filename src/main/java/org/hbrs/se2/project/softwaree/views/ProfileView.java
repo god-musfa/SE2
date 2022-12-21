@@ -58,27 +58,33 @@ public class ProfileView extends VerticalLayout implements HasDynamicTitle, HasU
         setAlignItems(Alignment.CENTER);
         setPadding(true);
 
-        // Fetch student:
+        // Fetch student for profile:
         StudentDTO currentStudent = viewProfileControl.getStudentFromUser(profileUser);
 
-        // Build page infos
+        // Set page info to current profile name
         profileTitle = String.format(
                 "%s %s",
                 currentStudent.getFirstName(),
                 currentStudent.getLastName()
         );
 
-        // Get the CompanyDTO from current visitor:
+        // Get the profile user information:
         AddressDTO userAddress = viewProfileControl.getAddressOfUser(profileUser);
 
+        /* Determine whether the rating should be enabled or disabled:
+        *
+        *   enabled: company visits student's profile
+        *   disabled: student visit's student profile
+        *   (rating is disabled by default)
+         */
         UserDTO currentVisitorUserDTO = (UserDTO) UI.getCurrent().getSession().getAttribute(Globals.CURRENT_USER);
-
 
         if (viewProfileControl.getUserType(currentVisitorUserDTO) == ViewProfileControl.UserType.COMPANY) {
             // Enable rating on ProfileCard:
             ratingEnabled = true;
         }
 
+        // Build up new profile card component with profile information:
         profileCard = new SoftwareeProfileCard(
                 profileTitle,
                 profileUser.getProfilePic(),
@@ -96,10 +102,12 @@ public class ProfileView extends VerticalLayout implements HasDynamicTitle, HasU
                 ratingEnabled
         );
 
+        // Get profile user's skills:
         profileSkills = new SkillsComponent(null, SkillsComponent.ComponentType.SKILL_VIEWER);
         currentStudent.getSkills().stream()
                 .forEach(skill -> {profileSkills.addSkill(skill.getDescription());});
 
+        // Add all components to page:
         add(profileCard);
         add(skillsHeader);
         add(profileSkills);
@@ -128,14 +136,18 @@ public class ProfileView extends VerticalLayout implements HasDynamicTitle, HasU
         if (viewProfileControl.validateProfileID(currentProfileID)) {
             profileUser = viewProfileControl.getUserByID(currentProfileID);
 
+            // Differentiate between profile user type:
             switch (viewProfileControl.getUserType(profileUser)) {
                 case STUDENT:
                     build_student();
                     break;
+                case COMPANY:
+                    // TODO!
+                    break;
                 default:
                     UI.getCurrent().navigate("");
+                    break;
             }
-
         } else {
             // Route to main page if invalid profile id has been supplied:
             UI.getCurrent().navigate("");
@@ -148,8 +160,5 @@ public class ProfileView extends VerticalLayout implements HasDynamicTitle, HasU
     public String getPageTitle() {
         return profileTitle;
     }
-
-
-
 
 }
