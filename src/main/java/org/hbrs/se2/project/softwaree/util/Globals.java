@@ -2,6 +2,7 @@ package org.hbrs.se2.project.softwaree.util;
 
 public class Globals {
     public static String CURRENT_USER = "current_User";
+    public static final String DEFAULT_PROFILE_PICTURE = "/images/profile_pictures/default.png";
 
     public static class Pages {
         public static final String SHOW_CARS = "show";
@@ -22,6 +23,7 @@ public class Globals {
         public static final String JOB_OFFER = "jobOffer";
 
         public static final String VIEW_PROFILE = "profile";
+
     }
 
     public static class Roles {
