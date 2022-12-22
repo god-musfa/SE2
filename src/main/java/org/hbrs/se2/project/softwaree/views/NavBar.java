@@ -48,6 +48,7 @@ import java.util.Optional;
 
 
             VerticalLayout TopHeader = new VerticalLayout();
+            TopHeader.setClassName("TopHeadLogo");
             // TopHeader.setAlignItems(FlexComponent.Alignment.CENTER);
             TopHeader.setWidth("100px"); TopHeader.setHeight("50px");
 
@@ -55,6 +56,7 @@ import java.util.Optional;
             Span home = new Span (i);
             i.setMaxHeight(TopHeader.getHeight());
             i.setMaxWidth(TopHeader.getWidth());
+            i.addClickListener(e -> logoEvent());
             //home.setMaxWidth("50%");
 
             home.setTitle("Welcome to Colab@HBRS");
@@ -67,7 +69,11 @@ import java.util.Optional;
             return TopHeader;
         }
 
-        private boolean checkIfUserIsLoggedIn() {
+    private void logoEvent() {
+        UI.getCurrent().navigate("jobs/");
+    }
+
+    private boolean checkIfUserIsLoggedIn() {
             // Falls der Benutzer nicht eingeloggt ist, dann wird er auf die Startseite gelenkt
             UserDTO userDTO = this.getCurrentUser();
             if (userDTO == null) {
@@ -101,6 +107,7 @@ import java.util.Optional;
 
             // Setting up the Route for the Tab
             Span tabTitle = new Span(navigationTarget.getSimpleName());
+            tabTitle.setClassName("tabTitle");
             tabTitle.getStyle().set("font-size", "10px");
             VerticalLayout tabLayout = new VerticalLayout();
             tabLayout.setAlignItems(FlexComponent.Alignment.CENTER);
