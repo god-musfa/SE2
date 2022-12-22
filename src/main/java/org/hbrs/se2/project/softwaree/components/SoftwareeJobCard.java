@@ -111,15 +111,12 @@ public class SoftwareeJobCard extends Div implements SoftwareeJobCardIf{
 
         // Build button:
         switch (((UserDTO) UI.getCurrent().getSession().getAttribute(Globals.CURRENT_USER)).getUserType()) {
-            case "student": {
+            case "student":
                 buildStudentButton();
                 break;
-            }
-            case "company": {
+            case "company":
                 buildCompanyButton();
                 break;
-            }
-            default:{}
         }
     }
 

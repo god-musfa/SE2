@@ -6,6 +6,10 @@ import java.util.Date;
 
 public class MessageFactory {
 
+    private MessageFactory() {
+        //MessageFactory is a utility class
+    }
+
     public static Message createMessage(Date now, String messageString, Integer studentID, Integer companyID, Integer jobID) {
         Message message = new Message();
 

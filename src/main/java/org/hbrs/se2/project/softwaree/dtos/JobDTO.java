@@ -88,11 +88,12 @@ public class JobDTO implements Serializable {
         this.creation_date = LocalDate.now();
     }
 
-    public JobDTO(Integer id, String title, LocalDate creationDate, LocalDate lastEdit, LocalDate deadline, String description, String location, Integer views, Company company, Set<Benefit> benefits, Set<Requirement> requirements, Set<Skill> skills) {
+    public JobDTO(Integer id, String title, LocalDate creationDate, LocalDate lastEdit, LocalDate deadline, String description,
+                  String location, Integer views, Company company, Set<Benefit> benefits, Set<Requirement> requirements, Set<Skill> skills) {
         this.id = id;
         this.title = title;
-        this.creation_date = creation_date;
-        this.last_edit = last_edit;
+        this.creation_date = creationDate;
+        this.last_edit = lastEdit;
         this.deadline = deadline;
         this.description = description;
         this.location = location;

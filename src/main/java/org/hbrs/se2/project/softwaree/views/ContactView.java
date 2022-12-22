@@ -42,8 +42,9 @@ public class ContactView extends VerticalLayout  {
         this.cc = cc;
 
         //UI.getCurrent().getSession().setAttribute( "companyID", 3 ); //Beispielwert fuer Debugging
-        if(UI.getCurrent().getSession().getAttribute("companyID") != null && user.getUserType().equals("student")) {
-            setIDs();
+        companyID = (UI.getCurrent().getSession().getAttribute("companyID") != null) ? (Integer) UI.getCurrent().getSession().getAttribute("companyID") : -1;
+        if(companyID != -1 && user.getUserType().equals("student")) {
+            setJobID();
             addClassName("contact-view");
 
             add(createTitle());
@@ -70,7 +71,7 @@ public class ContactView extends VerticalLayout  {
                 createErrorMessage("Fehler. Als Firma können sie keine andere Firma kontaktieren.",
                         "Fehler! Als Firma können sie keine andere Firma kontaktieren.");
             }
-            else if(UI.getCurrent().getSession().getAttribute("companyID") == null) {
+            else if(companyID == -1) {
                 createErrorMessage("Fehler. Bitte das Formular über eine Firmenseite oder eine Stellenanzeige aufrufen.",
                         "Fehler! Es konnte keine Firma mit dieser Nachricht verknüpft werden.");
             }
@@ -81,9 +82,7 @@ public class ContactView extends VerticalLayout  {
         }
     }
 
-    private void setIDs() {
-        companyID =  (Integer) UI.getCurrent().getSession().getAttribute("companyID");
-
+    private void setJobID() {
         //UI.getCurrent().getSession().setAttribute( "jobID", 1 ); //Beispielwert fuer Debugging
         if(UI.getCurrent().getSession().getAttribute( "jobID" ) != null) {
             jobID = (Integer) UI.getCurrent().getSession().getAttribute( "jobID" );
