@@ -91,7 +91,7 @@ public class RatingComponent extends Div {
 
     // Old (deprecated function); working, but slow
     /*
-    private void renderStarsOLD(int ratingScore) {
+    private void renderStars(int ratingScore) {
         starsLayout.removeAll();
 
         for (int i=0; i<maxScore; i++) {
@@ -114,7 +114,8 @@ public class RatingComponent extends Div {
 
         ratingLabel.setText(String.format("%d/%d", ratingScore, maxScore));
     }
-*/
+    */
+
 
     /** Build stars UI and add event listener **/
     private void buildStars() {

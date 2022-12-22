@@ -31,12 +31,28 @@ public class ViewProfileControl implements RatingFeedbackControl{
         Optional<RatingDTO> currentRating = ratingRepo.findByIDs(student_id, company_id);
 
         if (currentRating.isPresent()) {
+            // Overwrite existing rating:
             RatingDTO currentDTO = currentRating.get();
             currentDTO.setRating(rating);
             Rating saveRating = RatingFactory.createRating(currentDTO);
             ratingRepo.save(
                  saveRating
             );
+        } else {
+            // Create new rating:
+
+            // Get student and company:
+            Optional<StudentDTO> studentDTO = studentRepository.findFullStudentByID(student_id);
+            Optional<CompanyDTO> companyDTO = companyRepo.getCompanyDTOByID(company_id);
+
+            if (studentDTO.isPresent() && companyDTO.isPresent()) {
+                RatingIDDTO newRatingIDDTO = new RatingIDDTO(studentDTO.get(), companyDTO.get());
+                RatingDTO newRatingDTO = new RatingDTO(newRatingIDDTO, rating, studentDTO.get(), companyDTO.get());
+                Rating saveRating = RatingFactory.createRating(newRatingDTO);
+                ratingRepo.save(
+                        saveRating
+                );
+            }
         }
     }
 
@@ -62,7 +78,6 @@ public class ViewProfileControl implements RatingFeedbackControl{
         }
 
         return 0;
-
     }
 
     public enum UserType {

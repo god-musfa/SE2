@@ -14,5 +14,7 @@ public interface CompanyRepository extends JpaRepository<Company, Integer> {
     @Query("select c from Company c where c.id = ?1")
     Optional<CompanyDTO> getCompanyDTO(Integer id);
 
+    @Query("SELECT new org.hbrs.se2.project.softwaree.dtos.CompanyDTO(c.id,c.name,c.phoneNumber,c.website,c.field,c.size,c.contactPerson) from Company c where c.id = ?1")
+    Optional<CompanyDTO> getCompanyDTOByID(Integer id);
 
 }
