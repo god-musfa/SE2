@@ -3,6 +3,7 @@ package org.hbrs.se2.project.softwaree.entities;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 
@@ -50,6 +51,20 @@ public class Student {
                             nullable = false, updatable = false)})
     private Set<Skill> skills = new HashSet<>();
 
+
+    // Ratings (ManyToMany):
+
+
+    @OneToMany(mappedBy = "student", orphanRemoval = true)
+    private Set<Rating> ratings = new LinkedHashSet<>();
+
+    public Set<Rating> getRatings() {
+        return ratings;
+    }
+
+    public void setRatings(Set<Rating> ratings) {
+        this.ratings = ratings;
+    }
 
     public User getUser() {
         return user;
@@ -130,5 +145,6 @@ public class Student {
     public void setSkills(Set<Skill> skills) {
         this.skills = skills;
     }
+
 
 }

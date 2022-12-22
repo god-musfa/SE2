@@ -1,8 +1,10 @@
 package org.hbrs.se2.project.softwaree.entities;
 
 import javax.persistence.*;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
-@Entity
+@Entity(name = "Company")
 @Table(name = "company", schema = "coll")
 public class Company {
     @Id
@@ -31,6 +33,21 @@ public class Company {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id")
     private User user;
+
+
+    // Rating (ManyToMany)
+
+
+    @OneToMany(mappedBy = "company", orphanRemoval = true)
+    private Set<Rating> ratings = new LinkedHashSet<>();
+
+    public Set<Rating> getRatings() {
+        return ratings;
+    }
+
+    public void setRatings(Set<Rating> ratings) {
+        this.ratings = ratings;
+    }
 
     public User getUser() {
         return user;

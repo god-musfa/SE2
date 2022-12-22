@@ -98,6 +98,8 @@ public class JobDetailView extends Div implements HasUrlParameter<String> {
 
     public void build() {
 
+
+
         // Get data from DB and fill out information:
         fillJobData();
 
@@ -139,6 +141,7 @@ public class JobDetailView extends Div implements HasUrlParameter<String> {
         cardContainer.add(jobcard);
         pageContainer.add(jobContainer, 1);
         pageContainer.add(cardContainer, 1);
+
 
         add(pageContainer);
     }
