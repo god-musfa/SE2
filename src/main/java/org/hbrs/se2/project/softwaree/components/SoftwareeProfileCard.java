@@ -129,16 +129,16 @@ public class SoftwareeProfileCard extends Div {
                                 int student_id, int company_id, boolean ratingEnabled) {
 
         this(ratingFeedbackControl, student_id, company_id, ratingEnabled);
-        this.setLocation(location);
-        this.setTitle(profileTitle);
-        this.setFirstname(firstName);
-        this.setLastName(lastName);
-        this.setBirthday(birthday);
-        this.setStudySubject(subject);
-        this.setStudyDegree(degree);
-        this.setStudySemester(semester);
-        this.setStudyUniversity(university);
-        this.setProfileImage(profileImage);
+        this.setLocation((location == null)?("-"):location);
+        this.setTitle((profileTitle == null)?("-"):profileTitle);
+        this.setFirstname((firstName == null)?("-"):firstName);
+        this.setLastName((lastName == null)?("-"):lastName);
+        this.setBirthday((birthday == null)?("-"):birthday);
+        this.setStudySubject((subject == null)?("-"):subject);
+        this.setStudyDegree((degree == null)?("-"):degree);
+        this.setStudySemester((semester == null)?("-"):semester);
+        this.setStudyUniversity((university == null)?("-"):university);
+        this.setProfileImage((profileImage == null)?(Globals.DEFAULT_PROFILE_PICTURE):profileImage);
     }
 
     private void addContactButton() {
