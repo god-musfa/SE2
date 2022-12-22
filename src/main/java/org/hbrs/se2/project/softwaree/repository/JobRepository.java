@@ -22,7 +22,7 @@ public interface JobRepository extends JpaRepository<Job, Integer> {
     @Query("  SELECT new org.hbrs.se2.project.softwaree.dtos.JobDTO(id, title, creation_date, deadline, description, location) FROM Job  WHERE id = ?1")
     JobDTO findJobWithTitleCreationDateDeadlineDescriptionLocation(int jobID);
 
-    @Query("select j from Job j JOIN FETCH j.skills JOIN FETCH j.benefits JOIN FETCH j.requirements JOIN FETCH j.company where j.id = ?1")
+    @Query("select j from Job j LEFT JOIN FETCH j.skills LEFT JOIN FETCH j.benefits LEFT JOIN FETCH j.requirements JOIN FETCH j.company where j.id = ?1")
     Job getFullJob(Integer id);
 
     @Query("select (count(j) > 0) from Job j where j.id = ?1")
