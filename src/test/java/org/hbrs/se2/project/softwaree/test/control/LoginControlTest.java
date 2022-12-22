@@ -13,8 +13,6 @@ class LoginControlTest {
     @Autowired
     LoginControl lc ;
 
-    @Autowired
-    UserRepository repository;
 
     @Test
     void authentificate() throws Exception{

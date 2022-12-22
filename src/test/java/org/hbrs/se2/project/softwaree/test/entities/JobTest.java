@@ -1,11 +1,15 @@
 package org.hbrs.se2.project.softwaree.test.entities;
 
+import org.hbrs.se2.project.softwaree.entities.Benefit;
 import org.hbrs.se2.project.softwaree.entities.Company;
 import org.hbrs.se2.project.softwaree.entities.Job;
+import org.hbrs.se2.project.softwaree.entities.Requirement;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.Assert;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 
 public class JobTest {
@@ -13,6 +17,12 @@ public class JobTest {
   Job jobnull;
   Job jobprefilled;
   Company company;
+  Requirement requirement1;
+  Requirement requirement2;
+  Benefit benefit1;
+  Benefit benefit2;
+  Set<Benefit> benefitSet;
+  Set <Requirement> requirementSet;
 
   @Before
   public void setUp() {
@@ -37,6 +47,28 @@ public class JobTest {
     company.setWebsite("https://www.coca-cola-deutschland.de/");
 
 
+    benefit1 = new Benefit();
+    benefit1.setDescription("WLAN");
+    benefit1.setId(555);
+    benefit2 = new Benefit();
+    benefit2.setDescription("Coffee");
+    benefit1.setId(444);
+
+
+    requirement1 = new Requirement();
+    requirement1.setDescription("HTML");
+    requirement1.setId(333);
+    requirement2 = new Requirement();
+    requirement2.setDescription("Java");
+    requirement2.setId(222);
+
+    benefitSet = new HashSet<>();
+    benefitSet.add(benefit1);
+    benefitSet.add(benefit2);
+
+    requirementSet = new HashSet<>();
+    requirementSet.add(requirement1);
+    requirementSet.add(requirement2);
   }
 
   @Test
@@ -119,6 +151,27 @@ public class JobTest {
     Assert.assertEquals(jobnull.getViewsAsString(), "-");
   }
 
-  // ToDo: getSetRequirements, getSetBenefits
+
+
+  @Test
+  public void getSetRequirements(){
+    jobprefilled.setBenefits(benefitSet);
+    Set <Benefit> getSet = jobprefilled.getBenefits();
+    Assert.assertTrue(getSet.contains(benefit1));
+    Assert.assertTrue(getSet.contains(benefit2));
+
+
+  }
+
+  @Test
+  public void getSetBenefits(){
+
+    jobprefilled.setRequirements(requirementSet);
+    Set <Requirement> getSet = jobprefilled.getRequirements();
+    Assert.assertTrue(getSet.contains(requirement1));
+    Assert.assertTrue(getSet.contains(requirement1));
+
+
+  }
 
 }

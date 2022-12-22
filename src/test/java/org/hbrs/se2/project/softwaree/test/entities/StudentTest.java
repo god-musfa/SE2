@@ -1,19 +1,28 @@
 package org.hbrs.se2.project.softwaree.test.entities;
 
+import org.hbrs.se2.project.softwaree.entities.Skill;
 import org.hbrs.se2.project.softwaree.entities.Student;
 import org.hbrs.se2.project.softwaree.entities.User;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.Assert;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class StudentTest {
   Student student;
   User user;
+  Skill skill1 ;
+  Skill skill2;
+
   @Before
   public void setUp() {
     student = new Student();
     user = new User();
+    skill1 = new Skill();
+    skill2 = new Skill();
   }
 
   @Test
@@ -71,5 +80,24 @@ public class StudentTest {
   }
 
   // ToDo: getSetSkills
+
+  @Test
+  public void getSetSkills(){
+
+    skill1.setDescription("Java");
+    skill2.setDescription("C#");
+    Set<Skill> skills = new HashSet<>();
+    skills.add(skill1);
+    skills.add(skill2);
+    student.setSkills(skills);
+    Set<Skill> getSet = student.getSkills();
+    assertTrue(getSet.contains(skill1));
+    assertTrue(getSet.contains(skill2));
+
+
+
+
+
+  }
 
 }
