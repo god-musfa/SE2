@@ -20,7 +20,6 @@ import org.hbrs.se2.project.softwaree.entities.Requirement;
 import org.hbrs.se2.project.softwaree.entities.Skill;
 import org.hbrs.se2.project.softwaree.util.Globals;
 import org.hbrs.se2.project.softwaree.util.Softwareeicons;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Set;
 
@@ -32,7 +31,7 @@ import java.util.Set;
 public class JobDetailView extends Div implements HasUrlParameter<String> {
 
     // Controller and currentJobID temp variable:
-    JobDetailControl jobDetailControl = new JobDetailControl();
+    JobDetailControl jobDetailControl;
     int currentJobID;           // Used to temporary save current job ID (fetched from URL query)
 
 
@@ -84,6 +83,9 @@ public class JobDetailView extends Div implements HasUrlParameter<String> {
         System.out.println(currentJobID);
         // Validate job id from query:
         if (jobDetailControl.validateJobID(currentJobID)) {
+            //increment views for this job
+            jobDetailControl.incrementViews(currentJobID, 1);
+
             build();
         } else {
             // Route to main page if invalid job id has been supplied:

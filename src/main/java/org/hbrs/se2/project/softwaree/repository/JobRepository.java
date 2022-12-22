@@ -3,13 +3,13 @@ package org.hbrs.se2.project.softwaree.repository;
 import org.hbrs.se2.project.softwaree.dtos.JobDTO;
 import org.hbrs.se2.project.softwaree.entities.*;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 @Component
@@ -43,5 +43,13 @@ public interface JobRepository extends JpaRepository<Job, Integer> {
     Set<Skill> getSkills(Integer id);
     @Query(value = "SELECT j.benefits FROM Job j WHERE j.id=?1")
     Set<Benefit> getBenefits(Integer id);
+    @Transactional
+    @Modifying
+    @Query(value = "UPDATE Job j SET j.views = j.views + ?2 WHERE j.id=?1")
+    void incrementViews(Integer id, Integer increment);
 
+    @Transactional
+    @Modifying
+    @Query(value = "UPDATE Job j SET j.views=1 WHERE j.id=?1")
+    void setViewsToOne(Integer id);
 }
