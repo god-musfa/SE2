@@ -1,6 +1,7 @@
 package org.hbrs.se2.project.softwaree.control;
 
 import org.hbrs.se2.project.softwaree.dtos.StudentDTO;
+import org.hbrs.se2.project.softwaree.dtos.UserDTO;
 import org.hbrs.se2.project.softwaree.entities.Student;
 import org.hbrs.se2.project.softwaree.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ public class StudentListControl {
     @Autowired
     private StudentRepository studentRepository;
 
+
     public List<StudentDTO> findAllDTO(){
         List<Student> studentList = studentRepository.findAll();
         List<StudentDTO> studentDTOList = new ArrayList<>();
@@ -27,6 +29,28 @@ public class StudentListControl {
         }
 
         return studentDTOList;
+    }
+
+    public enum UserType {
+        UNKNOWN,
+        STUDENT,
+        COMPANY
+    }
+
+    public UserType getUserType(UserDTO user) {
+        if (user == null){
+            return UserType.UNKNOWN;
+        }
+
+        if (user.getUserType().equals("student")) {
+            return UserType.STUDENT;
+        }
+
+        if (user.getUserType().equals("company")) {
+            return UserType.COMPANY;
+        }
+
+        return UserType.UNKNOWN;
     }
 
     public List<StudentDTO> findAllDTO(String filter){
