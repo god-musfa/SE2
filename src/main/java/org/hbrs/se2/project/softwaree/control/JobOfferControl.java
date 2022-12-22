@@ -60,7 +60,7 @@ public class JobOfferControl {
             .collect(Collectors.toList());
   }
 
-  public Set<Skill> getJobBenefits(Integer job) {
+  public Set<Benefit> getJobBenefits(Integer job) {
    /* Optional<Job> targetJob = jobRepo.getFullJobInfo(job);
     if (targetJob.isPresent()) {
       return targetJob.get().getBenefits().stream()
@@ -70,7 +70,7 @@ public class JobOfferControl {
       System.out.println(String.format("Cannot get benefits for user with id %d", job));
       return new ArrayList<>();       // Return empty list, if user cannot be found.
     }*/
-    return jobRepo.getSkills(job);
+    return jobRepo.getBenefits(job);
   }
 
 

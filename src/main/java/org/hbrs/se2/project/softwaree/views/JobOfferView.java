@@ -118,7 +118,7 @@ public class JobOfferView extends Div {
         publicInfoForm.add(requirementPlaceholder);
 
         LabelsComponent benefit = new LabelsComponent(jc.getAvailableBenefits(), "benefits", "Leistung");
-        for (Skill benefitDTO : jc.getJobBenefits(jobID)){
+        for (Benefit benefitDTO : jc.getJobBenefits(jobID)){
             benefit.addLabel(benefitDTO.getDescription());
         }
         publicInfoForm.add(benefit, 4);
