@@ -1,6 +1,7 @@
 package org.hbrs.se2.project.softwaree.views;
 
 
+import java.awt.*;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Locale;
@@ -13,8 +14,10 @@ import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.dependency.CssImport;
+import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -420,6 +423,7 @@ public class EditProfileView extends Div {
                 break;
             }
             case "company": {
+                add(createLocalNavigation());
                 setupCompanyComponents();
                 add(profileSettingsAccordion);
                 break;
@@ -435,13 +439,15 @@ public class EditProfileView extends Div {
             ui.getSession().close();
             ui.getPage().setLocation("/");
         });
+        Dialog d = createConfirmDialog();
 
         Button delete = createButton("Konto löschen");
         delete.addClickListener(event -> {
-            pc.deleteAccount(userDTO);
+            d.open();
+            /*pc.deleteAccount(userDTO);
             UI ui = this.getUI().get();
             ui.getSession().close();
-            ui.getPage().setLocation("/");
+            ui.getPage().setLocation("/");*/
         });
 
         super.setSizeFull();
@@ -458,5 +464,26 @@ public class EditProfileView extends Div {
         Button button = new Button(name);
         button.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
         return button;
+    }
+    private Dialog createConfirmDialog(){
+        Span s = new Span("Möchten Sie Ihren Account wirklich löschen?");
+        Dialog d = new Dialog(s);
+        HorizontalLayout h = new HorizontalLayout();
+        Button deleteDialogButton = new Button();
+        deleteDialogButton.setText("Account löschen");
+        deleteDialogButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        Button cancel = new Button();
+        cancel.setText("Abbrechen");
+        cancel.addThemeVariants(ButtonVariant.LUMO_ERROR);
+        h.add(cancel,deleteDialogButton);
+        d.add(h);
+        deleteDialogButton.addClickListener(event ->{
+                pc.deleteAccount(userDTO);
+                UI ui = this.getUI().get();
+                ui.getSession().close();
+                ui.getPage().setLocation("/");});
+        cancel.addClickListener(event -> d.close());
+        return d;
+
     }
 }
