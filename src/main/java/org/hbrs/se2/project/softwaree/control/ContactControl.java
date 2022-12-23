@@ -37,11 +37,7 @@ public class ContactControl {
     StudentRepository repoStudent;
     public StudentDTO getStudentFromUser(UserDTO user) {
         Optional<Student> studentFromDB = repoStudent.findStudentById(user.getId());
-        if (studentFromDB.isPresent()) {
-            return StudentFactory.createDTO(studentFromDB.get());
-        } else {
-            return null;
-        }
+        return studentFromDB.isPresent() ? StudentFactory.createDTO(studentFromDB.get()) : null;
     }
 
     @Autowired
@@ -51,31 +47,36 @@ public class ContactControl {
     }
 
     public static String getFullName(StudentDTO student) {
-        return student.getLastName() + ", " + student.getFirstName();
+        return ((student.getLastName() != null) ? student.getLastName() + ", " : "")
+                + ((student.getFirstName() != null) ? student.getFirstName() : "");
     }
 
     public static String getFullAddress(AddressDTO address) {
-        return address.getStreet() + " " + address.getNumber() + ", " + address.getPostalCode() + " " + address.getCity();
+        return ((address.getStreet() != null) ? address.getStreet() + " " : "")
+                + ((address.getNumber() != null) ? address.getNumber() + ", " : "")
+                + ((address.getPostalCode() != null) ? address.getPostalCode() + " " : "")
+                + ((address.getCity() != null) ? address.getCity() : "");
     }
 
     public static String getBirthdayString(StudentDTO student) {
-        return "Geboren am: " + student.getBirthday().format(DateTimeFormatter.ofPattern("dd.MM.uuuu"));
+        return (student.getBirthday() != null) ? "Geboren am: " + student.getBirthday().format(DateTimeFormatter.ofPattern("dd.MM.uuuu")) : "";
     }
 
     public static String getSemesterString(StudentDTO student) {
-        return "Fachsemester: " + student.getSemester();
+        return (student.getSemester() != null) ? "Fachsemester: " + student.getSemester() : "";
     }
 
     public static String getDegreeString(StudentDTO student) {
-        return "Abschluss: " + student.getDegree();
+        return ((student.getDegree() != null) ? "Abschluss: " + student.getDegree() : "");
     }
 
     public static String getUniSubString(StudentDTO student) {
-        return student.getUniversity() + ", " + student.getSubject();
+        return ((student.getUniversity() != null) ? student.getUniversity() + ", " : "")
+                + ((student.getSubject() != null) ? student.getSubject() : "");
     }
 
     public static String getLocationString(JobDTO job) {
-        return "Standort: " + job.getLocation();
+        return (job.getLocation() != null) ? "Standort: " + job.getLocation() : "";
     }
 
     @Autowired
@@ -83,6 +84,5 @@ public class ContactControl {
     public void createContact(int studentid, int companyid, int jobid, MessageDTO message) {
         Message messageEntity = MessageFactory.createMessage(new Date(),message.getMessage(), studentid, companyid, jobid);
         repoMessage.save(messageEntity);
-
     }
 }
