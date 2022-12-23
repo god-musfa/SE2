@@ -121,15 +121,18 @@ class ContactControlTest {
 
     @Test
     void getDegreeString() {
-        StudentDTO studentDTO = studentRepository.findStudentWithBirthdayAndSemester(188);
-        String s1 = "Abschluss: " + studentDTO.getDegree();
+        StudentDTO studentDTO = new StudentDTO();
+        studentDTO.setDegree("Master");
+        String s1 = "Abschluss: " + "Master";
         String s2 = ContactControl.getDegreeString(studentDTO);
         assertEquals(s1, s2);
     }
 
     @Test
     void getUniSubString() {
-        StudentDTO studentDTO = studentRepository.findStudentWithBirthdayAndSemester(188);
+        StudentDTO studentDTO = new StudentDTO();
+        studentDTO.setUniversity("HBRS");
+        studentDTO.setSubject("Mathe");
         String s1 = studentDTO.getUniversity() + ", " + studentDTO.getSubject();
         String s2 = ContactControl.getUniSubString(studentDTO);
         assertEquals(s1, s2);
