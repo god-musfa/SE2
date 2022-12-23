@@ -70,7 +70,7 @@ public class DataExtractionControl {
         try {
             stream = new FileInputStream(file);
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            System.out.println("Datei nicht gefunden!");
         }
 
         return stream;

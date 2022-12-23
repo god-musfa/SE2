@@ -55,17 +55,17 @@ public class ShowApplicationsBusiness extends Div  {
         grid.setDataProvider(dataProvider);
 
         Grid.Column<ApplicationDTO> title = grid
-                .addColumn(org.hbrs.se2.project.softwaree.dtos.ApplicationDTO::getTitle).setHeader("Job title");
+                .addColumn(org.hbrs.se2.project.softwaree.dtos.ApplicationDTO::getTitle).setHeader("Jobtitel");
         Grid.Column<ApplicationDTO> deadline = grid.addColumn(ApplicationDTO::getDeadline)
                 .setHeader("Deadline");
 
         Grid.Column<ApplicationDTO> firstName = grid
                 .addColumn(ApplicationDTO::getFirstName)
-                .setHeader("First Name");
+                .setHeader("Vorname");
 
         Grid.Column<ApplicationDTO> lastName = grid
                 .addColumn(ApplicationDTO::getLastName)
-                .setHeader("Last Name");
+                .setHeader("Nachname");
 
         Grid.Column<ApplicationDTO> semester = grid
                 .addColumn(ApplicationDTO::getSemester)
@@ -73,15 +73,15 @@ public class ShowApplicationsBusiness extends Div  {
 
         Grid.Column<ApplicationDTO> subject = grid
                 .addColumn(ApplicationDTO::getSubject)
-                .setHeader("Subject");
+                .setHeader("Studienfach");
 
         Grid.Column<ApplicationDTO> university = grid
                 .addColumn(ApplicationDTO::getUniversity)
-                .setHeader("University");
+                .setHeader("Universität");
 
         Grid.Column<ApplicationDTO> degree = grid
                 .addColumn(ApplicationDTO::getDegree)
-                .setHeader("Degree");
+                .setHeader("Abschluss");
 
         HeaderRow filterRow = grid.appendHeaderRow();
 
@@ -97,7 +97,7 @@ public class ShowApplicationsBusiness extends Div  {
 
         filterRow.getCell(degree).setComponent(degreeFilter);
         degreeFilter.setSizeFull();
-        degreeFilter.setPlaceholder("Ort...");
+        degreeFilter.setPlaceholder("Abschluss...");
 
         // Filter nach der Hochschule
         TextField universityFilter = new TextField();
@@ -109,13 +109,13 @@ public class ShowApplicationsBusiness extends Div  {
 
         filterRow.getCell(university).setComponent(universityFilter);
         universityFilter.setSizeFull();
-        universityFilter.setPlaceholder("Beschreibung...");
+        universityFilter.setPlaceholder("Universität...");
 
 
         grid.addSelectionListener(selection -> {
             Optional<ApplicationDTO> optionalApplicationDTO = selection.getFirstSelectedItem();
             if (optionalApplicationDTO.isPresent()) {
-                UI.getCurrent().navigate(Globals.Pages.SHOW_JOB_DETAILS+"/"+optionalApplicationDTO.get().getTitle());
+                UI.getCurrent().navigate("profile/"+optionalApplicationDTO.get().getId());
 
                 /*System.out.printf("Selected person: %s%n",
                 optionalJob.get());*/
@@ -127,7 +127,7 @@ public class ShowApplicationsBusiness extends Div  {
 
 
     private Component createTitle() {
-        return new H3("Stellenanzeigen");
+        return new H3("Bewerbungen");
     }
 
 

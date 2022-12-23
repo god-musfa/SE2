@@ -9,6 +9,8 @@ import java.time.LocalDate;
  * A DTO for the {@link Application} entity
  */
 public class ApplicationDTO  {
+
+    private Integer id;
     private String firstName;
     private String lastName;
     private Integer semester;
@@ -17,6 +19,14 @@ public class ApplicationDTO  {
     private String subject;
     private String title;
     private LocalDate deadline;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getFirstName() {
         return firstName;
@@ -86,7 +96,8 @@ public class ApplicationDTO  {
     public ApplicationDTO() {
     }
 
-    public ApplicationDTO(String firstName, String lastName, Integer semester, String degree, String university, String subject, String title, LocalDate deadline) {
+    public ApplicationDTO(Integer id,String firstName, String lastName, Integer semester, String degree, String university, String subject, String title, LocalDate deadline) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.semester = semester;
