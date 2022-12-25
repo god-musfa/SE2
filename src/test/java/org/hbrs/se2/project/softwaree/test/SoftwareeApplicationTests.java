@@ -29,9 +29,7 @@ class SoftwareeApplicationTests {
     @Autowired
     JobRepository jobRepository ;
 
-   /* @Autowired
-    private CarRepository carRepository;
-*/
+
     @Test
     void testUserDTOByAttribute() {
         UserDTO personDTO = userRepository.findUserByID(188);
@@ -59,35 +57,4 @@ class SoftwareeApplicationTests {
             assertEquals("sascha" , user.getEmail());
         }
     }
-/*
-
-
-    @Test
-    void testFindCarsAndTheirUsers() {
-        List<Object[]> list = this.carRepository.findAllCarsAndTheirUsers();
-        for (Object[] item: list) {
-            System.out.println("Brand: " + item[0] );
-            System.out.println("Model: " + item[1] );
-            System.out.println("Price: " + item[2] );
-            System.out.println("First Name: " + item[3] );
-            System.out.println("Last Name: " + item[4] );
-        }
-        // Todo: Definition von passenden Assertions
-    }
-
-
-
-    @Test
-    void testFindCarsWithMostImportantValues() {
-        List<CarDTO> list = this.carRepository.findCarsByDateIsNotNull();
-        for (CarDTO item: list) {
-            System.out.println("Brand: " + item.getBrand() );
-            System.out.println("Model: " + item.getModel() );
-            System.out.println("Price: " + item.getPrice() );
-            System.out.println("Phone: " + item.getPhone() );
-        }
-        // Todo: Definition von passenden Assertions
-    }
-
-*/
 }
