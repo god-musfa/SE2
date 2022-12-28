@@ -1,6 +1,8 @@
 package org.hbrs.se2.project.softwaree.views;
 
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.UI;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.*;
@@ -8,47 +10,76 @@ import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.router.RouteAlias;
 import org.hbrs.se2.project.softwaree.control.RegistrationControl;
 
 import java.awt.*;
-@Route(value = "landingpage")
-public class LandingPageView extends HorizontalLayout {
+@Route(value = "")
+@RouteAlias(value = "landingpage")
+public class LandingPageView extends VerticalLayout {
 
-    private H3 text = new H3("Jobsuche einfach gemacht!");
-    private Paragraph t =new Paragraph("Jetzt Registrieren und so schnell wie noch nie einen Job oder Mitarbieter finden");
-    //private TextArea t = new TextArea("Loremipsum");
+    public void setup() {
 
-    private Image i = new Image("images/handshake.png","bild");
-    private Button Login = new Button("Login");
-    private Button Registrieren = new Button("Registrieren");
-
-    /*public void setupTopBar(){
-        HorizontalLayout a = new HorizontalLayout();
-        a.add(Login,Registrieren);
-    }*/
-
-
-
-    public void setup(){
-
-        i.setMaxHeight("50%");
-        i.setMaxWidth("50%");
-        text.setMaxHeight("50%");
-        text.setMaxWidth("50%");
-        text.getStyle().set("fontsize","100");
-
-
-        VerticalLayout vl1 = new VerticalLayout();
-
-        VerticalLayout vl2 = new VerticalLayout();
+        setWidthFull();
+        setHeightFull();
+        VerticalLayout vl = new VerticalLayout();
         HorizontalLayout hl = new HorizontalLayout();
-        vl1.add( text, t);
-        vl2.add(i);
-        hl.add(vl1,vl2);
-        hl.setAlignItems(Alignment.CENTER);
-        hl.getStyle().set("background-color", "Yellow");
-        hl.setHeight("100%");
-        add(hl);
+        VerticalLayout txxt = new VerticalLayout();
+
+
+
+        Image logo = new Image("images/Softwaree_Logo.png", "Vaadin logo");
+
+
+        Image i = new Image("images/handshake.png","logo");
+        i.setWidth("50%");
+        i.setWidth("50%");
+
+
+
+
+        H3 text = new H3("Jetzt Registrieren und so schnell wie noch nie \n einen Job oder Mitarbieter finden");
+        text.getStyle().set("font-size", "40px");
+        text.getStyle().set("color", "#333333");
+        text.getStyle().set("text-align", "left");
+        text.setMaxWidth("700px");
+
+        Paragraph label = new Paragraph("Willkommen auf unserer Plattform für Studenten und Unternehmen! Wir bieten Unternehmen die Möglichkeit, talentierte Studenten zu finden und einzustellen, \n während Studenten auf unserer Seite nach Arbeitsmöglichkeiten suchen können.");
+        label.getStyle().set("font-size", "20px");
+        label.getStyle().set("color", "#333333");
+        label.getStyle().set("text-align", "left");
+        label.setMaxWidth("500px");
+
+
+        HorizontalLayout buttons = new HorizontalLayout();
+
+        com.vaadin.flow.component.button.Button loginButton = new com.vaadin.flow.component.button.Button("Log in");
+        loginButton.getStyle().set("background-color", "green");
+        loginButton.getStyle().set("color", "white");
+        //loginButton.getStyle().set("padding", "10px 20px");
+        loginButton.getStyle().set("border-radius", "4px");
+        loginButton.addClickListener(event -> {
+            // Navigate to login page
+            UI.getCurrent().navigate("main");
+        });
+        buttons.add(loginButton);
+
+        com.vaadin.flow.component.button.Button registerButton = new Button("Jetzt kostenlos registrieren!");
+        registerButton.getStyle().set("background-color", "white");
+        registerButton.getStyle().set("color", "green");
+        //registerButton.getStyle().set("padding", "10px 20px");
+        registerButton.getStyle().set("border-radius", "4px");
+        registerButton.getStyle().set("border", "3px solid green");
+        registerButton.addClickListener(event -> {
+            // Navigate to registration page
+            UI.getCurrent().navigate("register");
+        });
+        txxt.add(text,label);
+        buttons.add(registerButton);
+        hl.add(txxt,i);
+        vl.add(logo,hl,buttons);
+        add(vl);
+
     }
 
     RegistrationControl registrationControl;

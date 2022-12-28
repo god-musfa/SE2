@@ -20,8 +20,8 @@ import org.springframework.beans.factory.annotation.Autowired;
  * View zur Darstellung der Startseite. Diese zeigt dem Benutzer ein Login-Formular an.
  * ToDo: Integration einer Seite zur Registrierung von Benutzern
  */
-@Route(value = "")
-@RouteAlias(value = "login")
+
+@Route(value = "login")
 public class MainView extends VerticalLayout {
     @Autowired
     private LoginControl loginControl;

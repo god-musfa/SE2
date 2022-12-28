@@ -88,6 +88,8 @@ public class RegisterView extends VerticalLayout {
     VerticalLayout layout = new VerticalLayout();
     layout.setWidth("250px");
     setHorizontalComponentAlignment(Alignment.CENTER, layout);
+    layout.add(i);
+
     layout.add(email,un,password,pw2,agb,userType,registerButton);
     add(layout);
 
@@ -133,8 +135,7 @@ public class RegisterView extends VerticalLayout {
   public RegisterView() {
     validation();
     setSizeFull();
-    add(i);
-    i.setMaxWidth("70%");
+
     addClassName("RegisterView");
 
     setId("registerView");
