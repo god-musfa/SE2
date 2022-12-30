@@ -60,7 +60,7 @@ public class LandingPageView extends VerticalLayout {
         loginButton.getStyle().set("border-radius", "4px");
         loginButton.addClickListener(event -> {
             // Navigate to login page
-            UI.getCurrent().navigate("main");
+            UI.getCurrent().navigate("login");
         });
         buttons.add(loginButton);
 
