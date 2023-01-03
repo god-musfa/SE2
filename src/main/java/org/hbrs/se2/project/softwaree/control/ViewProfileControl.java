@@ -96,6 +96,15 @@ public class ViewProfileControl implements RatingFeedbackControl{
         }
     }
 
+    public CompanyDTO getCompanyFromUser(UserDTO userDTO) {
+        Optional<Company> companyFromDB = companyRepo.findById(userDTO.getId());
+        if (companyFromDB.isPresent()) {
+            return CompanyFactory.createDTO(companyFromDB.get());
+        } else {
+            return null;
+        }
+    }
+
 
     @Autowired
     AddressRepository addressRepository;

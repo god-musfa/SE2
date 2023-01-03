@@ -14,6 +14,7 @@ import org.hbrs.se2.project.softwaree.control.ViewProfileControl;
 import org.hbrs.se2.project.softwaree.control.factories.CompanyFactory;
 import org.hbrs.se2.project.softwaree.control.factories.UserFactory;
 import org.hbrs.se2.project.softwaree.dtos.AddressDTO;
+import org.hbrs.se2.project.softwaree.dtos.CompanyDTO;
 import org.hbrs.se2.project.softwaree.dtos.StudentDTO;
 import org.hbrs.se2.project.softwaree.dtos.UserDTO;
 import org.hbrs.se2.project.softwaree.entities.User;
@@ -115,6 +116,60 @@ public class ProfileView extends VerticalLayout implements HasDynamicTitle, HasU
 
 
 
+    private void build_company() {
+        // Styling:
+        setAlignItems(Alignment.CENTER);
+        setPadding(true);
+
+        // Fetch company for profile:
+        CompanyDTO currentCompany = viewProfileControl.getCompanyFromUser(profileUser);
+
+
+        // Set page info to current profile name
+        profileTitle = String.format(
+                "%s %s",
+                currentCompany.getName()
+        );
+
+        // Get the profile user information:
+        AddressDTO userAddress = viewProfileControl.getAddressOfUser(profileUser);
+
+        /* Determine whether the rating should be enabled or disabled:
+         *
+         *   enabled: company visits student's profile / student visits company's profile
+         *   disabled: student visit's student profile
+         *   (rating is disabled by default)
+         */
+        UserDTO currentVisitorUserDTO = (UserDTO) UI.getCurrent().getSession().getAttribute(Globals.CURRENT_USER);
+
+        // Already a company profile, just check the visitor type:
+        if (viewProfileControl.getUserType(currentVisitorUserDTO) == ViewProfileControl.UserType.STUDENT) {
+            // Enable rating on ProfileCard:
+            ratingEnabled = true;
+        }
+
+        // Build up new profile card component with profile information:
+        profileCard = new SoftwareeProfileCard(
+                profileTitle,
+                currentCompany.getName(),
+                profileUser.getProfilePic(),
+                String.format("%s %s", userAddress.getPostalCode(), userAddress.getCity()),
+                currentCompany.getPhoneNumber(),
+                currentCompany.getContactPerson(),
+                currentCompany.getWebsite(),
+                currentCompany.getField(),
+                currentCompany.getSize(),
+                viewProfileControl,
+                currentProfileID,
+                currentVisitorUserDTO.getId(),
+                ratingEnabled
+        );
+
+        // Add all components to page:
+        add(profileCard);
+    }
+
+
 
 
     // Header
@@ -142,7 +197,7 @@ public class ProfileView extends VerticalLayout implements HasDynamicTitle, HasU
                     build_student();
                     break;
                 case COMPANY:
-                    // TODO!
+                    build_company();
                     break;
                 default:
                     UI.getCurrent().navigate("");
