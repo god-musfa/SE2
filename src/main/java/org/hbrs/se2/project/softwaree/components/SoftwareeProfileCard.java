@@ -128,10 +128,11 @@ public class SoftwareeProfileCard extends Div {
         // If enabled, add rating component:
         if (ratingEnabled) {
             ratingComponent = new RatingComponent(
-                    ratingFeedbackControl.getRating(student_id, company_id),
+                    ratingFeedbackControl.getRating(student_id, company_id, false ),
                     ratingFeedbackControl,
                     student_id,
-                    company_id
+                    company_id,
+                    isCompany
             );
             innerLayout.add(ratingComponent);
         }

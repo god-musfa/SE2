@@ -1,8 +1,9 @@
 package org.hbrs.se2.project.softwaree.dtos;
 
-import org.hbrs.se2.project.softwaree.entities.Rating;
+import org.hbrs.se2.project.softwaree.entities.StudentRating;
 import org.hbrs.se2.project.softwaree.entities.Skill;
 import org.hbrs.se2.project.softwaree.entities.Student;
+
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Set;
@@ -21,7 +22,7 @@ public class StudentDTO implements Serializable {
     private String subject;
     private Set<Skill> skills;
 
-    private Set<Rating> ratings;
+    private Set<StudentRating> studentRatings;
 
     public StudentDTO() {}
 
@@ -115,12 +116,12 @@ public class StudentDTO implements Serializable {
         this.skills = skills;
     }
 
-    public Set<Rating> getRatings() {
-        return ratings;
+    public Set<StudentRating> getRatings() {
+        return studentRatings;
     }
 
-    public void setRatings(Set<Rating> ratings) {
-        this.ratings = ratings;
+    public void setRatings(Set<StudentRating> studentRatings) {
+        this.studentRatings = studentRatings;
     }
 
 

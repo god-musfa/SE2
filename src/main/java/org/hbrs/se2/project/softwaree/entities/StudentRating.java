@@ -4,14 +4,14 @@ import javax.persistence.*;
 
 @Entity(name="Rating")
 @Table(name="student_rating", schema = "coll")
-public class Rating {
+public class StudentRating {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @EmbeddedId
     @AssociationOverrides({
             @AssociationOverride(name = "student", joinColumns = @JoinColumn(name = "student_id")),
             @AssociationOverride(name = "company", joinColumns = @JoinColumn(name = "company_id"))
     })
-    private RatingID ratingID;
+    private StudentRatingID studentRatingID;
 
     @Column(name = "rating")
     private int rating;
@@ -50,11 +50,11 @@ public class Rating {
         this.rating = rating;
     }
 
-    public RatingID getRatingID() {
-        return ratingID;
+    public StudentRatingID getRatingID() {
+        return studentRatingID;
     }
 
-    public void setRatingID(RatingID ratingID) {
-        this.ratingID = ratingID;
+    public void setRatingID(StudentRatingID studentRatingID) {
+        this.studentRatingID = studentRatingID;
     }
 }

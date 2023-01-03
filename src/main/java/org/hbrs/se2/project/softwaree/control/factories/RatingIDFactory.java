@@ -1,21 +1,21 @@
 package org.hbrs.se2.project.softwaree.control.factories;
 
-import org.hbrs.se2.project.softwaree.dtos.RatingIDDTO;
-import org.hbrs.se2.project.softwaree.entities.RatingID;
+import org.hbrs.se2.project.softwaree.dtos.StudentRatingIDDTO;
+import org.hbrs.se2.project.softwaree.entities.StudentRatingID;
 
 public class RatingIDFactory {
 
-    public static RatingID createRatingID(RatingIDDTO ratingIDDTO) {
-        RatingID newID = new RatingID();
-        newID.setStudent(StudentFactory.createStudent(ratingIDDTO.getStudent()));
-        newID.setCompany(CompanyFactory.createCompany(ratingIDDTO.getCompany()));
+    public static StudentRatingID createRatingID(StudentRatingIDDTO studentRatingIDDTO) {
+        StudentRatingID newID = new StudentRatingID();
+        newID.setStudent(StudentFactory.createStudent(studentRatingIDDTO.getStudent()));
+        newID.setCompany(CompanyFactory.createCompany(studentRatingIDDTO.getCompany()));
         return newID;
     }
 
-    public static RatingIDDTO createDTO(RatingID ratingID) {
-        return new RatingIDDTO(
-                StudentFactory.createDTO(ratingID.getStudent()),
-                CompanyFactory.createDTO(ratingID.getCompany())
+    public static StudentRatingIDDTO createDTO(StudentRatingID studentRatingID) {
+        return new StudentRatingIDDTO(
+                StudentFactory.createDTO(studentRatingID.getStudent()),
+                CompanyFactory.createDTO(studentRatingID.getCompany())
         );
     }
 }

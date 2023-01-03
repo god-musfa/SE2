@@ -56,14 +56,14 @@ public class Student {
 
 
     @OneToMany(mappedBy = "student", orphanRemoval = true)
-    private Set<Rating> ratings = new LinkedHashSet<>();
+    private Set<StudentRating> studentRatings = new LinkedHashSet<>();
 
-    public Set<Rating> getRatings() {
-        return ratings;
+    public Set<StudentRating> getRatings() {
+        return studentRatings;
     }
 
-    public void setRatings(Set<Rating> ratings) {
-        this.ratings = ratings;
+    public void setRatings(Set<StudentRating> studentRatings) {
+        this.studentRatings = studentRatings;
     }
 
     public User getUser() {

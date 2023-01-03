@@ -4,7 +4,7 @@ package org.hbrs.se2.project.softwaree.control;
 import org.hbrs.se2.project.softwaree.control.factories.*;
 import org.hbrs.se2.project.softwaree.dtos.*;
 import org.hbrs.se2.project.softwaree.entities.Company;
-import org.hbrs.se2.project.softwaree.entities.Rating;
+import org.hbrs.se2.project.softwaree.entities.StudentRating;
 import org.hbrs.se2.project.softwaree.entities.Student;
 import org.hbrs.se2.project.softwaree.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,19 +24,19 @@ public class ViewProfileControl implements RatingFeedbackControl{
     @Autowired
     SkillRepository skillRepo;
     @Autowired
-    RatingRepository ratingRepo;
+    StudentRatingRepository ratingRepo;
 
     @Override
-    public void setRating(int rating, int student_id, int company_id) {
-        Optional<RatingDTO> currentRating = ratingRepo.findByIDs(student_id, company_id);
+    public void setRating(int rating, int student_id, int company_id, boolean studentRatesCompany) {
+        Optional<StudentRatingDTO> currentRating = ratingRepo.findByIDs(student_id, company_id);
 
         if (currentRating.isPresent()) {
             // Overwrite existing rating:
-            RatingDTO currentDTO = currentRating.get();
+            StudentRatingDTO currentDTO = currentRating.get();
             currentDTO.setRating(rating);
-            Rating saveRating = RatingFactory.createRating(currentDTO);
+            StudentRating saveStudentRating = RatingFactory.createRating(currentDTO);
             ratingRepo.save(
-                 saveRating
+                    saveStudentRating
             );
         } else {
             // Create new rating:
@@ -46,18 +46,18 @@ public class ViewProfileControl implements RatingFeedbackControl{
             Optional<CompanyDTO> companyDTO = companyRepo.getCompanyDTOByID(company_id);
 
             if (studentDTO.isPresent() && companyDTO.isPresent()) {
-                RatingIDDTO newRatingIDDTO = new RatingIDDTO(studentDTO.get(), companyDTO.get());
-                RatingDTO newRatingDTO = new RatingDTO(newRatingIDDTO, rating, studentDTO.get(), companyDTO.get());
-                Rating saveRating = RatingFactory.createRating(newRatingDTO);
+                StudentRatingIDDTO newStudentRatingIDDTO = new StudentRatingIDDTO(studentDTO.get(), companyDTO.get());
+                StudentRatingDTO newStudentRatingDTO = new StudentRatingDTO(newStudentRatingIDDTO, rating, studentDTO.get(), companyDTO.get());
+                StudentRating saveStudentRating = RatingFactory.createRating(newStudentRatingDTO);
                 ratingRepo.save(
-                        saveRating
+                        saveStudentRating
                 );
             }
         }
     }
 
     @Override
-    public int getRating(int student_id, int company_id) {
+    public int getRating(int student_id, int company_id, boolean studentRatesCompany) {
         Optional<Student> speculativeStudent = studentRepository.findStudentById(student_id);
         Optional<Company> speculativeCompany = companyRepo.findById(company_id);
 
@@ -65,13 +65,13 @@ public class ViewProfileControl implements RatingFeedbackControl{
             StudentDTO tmpStudentDTO = StudentFactory.createDTO(speculativeStudent.get());
             CompanyDTO tmpCompanyDTO = CompanyFactory.createDTO(speculativeCompany.get());
 
-            RatingIDDTO tmpID = new RatingIDDTO(
+            StudentRatingIDDTO tmpID = new StudentRatingIDDTO(
                     tmpStudentDTO,
                     tmpCompanyDTO
             );
 
-            // Now get the Rating using the RatingID:
-            Optional<Rating> speculativeRating = ratingRepo.getRatingByID(RatingIDFactory.createRatingID(tmpID));
+            // Now get the StudentRating using the StudentRatingID:
+            Optional<StudentRating> speculativeRating = ratingRepo.getRatingByID(RatingIDFactory.createRatingID(tmpID));
             if (speculativeRating.isPresent()) {
                 return speculativeRating.get().getRating();
             }

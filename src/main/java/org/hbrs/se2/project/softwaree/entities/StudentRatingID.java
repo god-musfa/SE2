@@ -1,13 +1,12 @@
 package org.hbrs.se2.project.softwaree.entities;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Embeddable;
 import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 import java.io.Serializable;
 
 @Embeddable
-public class RatingID implements Serializable {
+public class StudentRatingID implements Serializable {
 
     @ManyToOne(targetEntity = Student.class)
     public Student student;
