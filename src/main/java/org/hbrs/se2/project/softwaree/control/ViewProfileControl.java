@@ -28,6 +28,8 @@ public class ViewProfileControl implements RatingFeedbackControl{
     StudentRatingRepository studentRatingRepo;
     @Autowired
     CompanyRatingRepository companyRatingRepo;
+    @Autowired
+    AddressRepository addressRepository;
 
     @Override
     public void setRating(int rating, int student_id, int company_id, boolean studentRatesCompany) {
@@ -51,7 +53,6 @@ public class ViewProfileControl implements RatingFeedbackControl{
                 Optional<StudentDTO> studentDTO = studentRepository.findFullStudentByID(student_id);
                 Optional<CompanyDTO> companyDTO = companyRepo.getCompanyDTOByID(company_id);
 
-                System.out.println("[RATING] USER OBJECTS : " + studentDTO.isPresent() + companyDTO.isPresent());
                 if (studentDTO.isPresent() && companyDTO.isPresent()) {
                     System.out.println("[RATING] Both users present!");
                     CompanyRatingIDDTO newCompanyRatingIDDTO = new CompanyRatingIDDTO(studentDTO.get(), companyDTO.get());
@@ -106,10 +107,8 @@ public class ViewProfileControl implements RatingFeedbackControl{
             StudentDTO tmpStudentDTO = StudentFactory.createDTO(speculativeStudent.get());
             CompanyDTO tmpCompanyDTO = CompanyFactory.createDTO(speculativeCompany.get());
 
-
             /* Differentiate between userRating and companyRating: */
             if (studentRatesCompany) {                                      /* COMPANY RATING */
-
                 CompanyRatingIDDTO tmpID = new CompanyRatingIDDTO(
                         tmpStudentDTO,
                         tmpCompanyDTO
@@ -121,9 +120,7 @@ public class ViewProfileControl implements RatingFeedbackControl{
                     return speculativeRating.get().getRating();
                 }
 
-
             } else {                                                        /* STUDENT RATING */
-
                 StudentRatingIDDTO tmpID = new StudentRatingIDDTO(
                         tmpStudentDTO,
                         tmpCompanyDTO
@@ -134,7 +131,6 @@ public class ViewProfileControl implements RatingFeedbackControl{
                 if (speculativeRating.isPresent()) {
                     return speculativeRating.get().getRating();
                 }
-
             }
         }
         return 0;
@@ -166,8 +162,7 @@ public class ViewProfileControl implements RatingFeedbackControl{
     }
 
 
-    @Autowired
-    AddressRepository addressRepository;
+
     public AddressDTO getAdressFromUser(UserDTO userDTO){
         return addressRepository.findAdress(userDTO.getAddressId());
     }
