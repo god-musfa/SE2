@@ -66,6 +66,21 @@ public class Student {
         this.studentRatings = studentRatings;
     }
 
+
+
+    @OneToMany(mappedBy = "student", orphanRemoval = true)
+    private Set<CompanyRating> companyRatings = new LinkedHashSet<>();
+
+    public Set<CompanyRating> getCompanyRatings() {
+        return companyRatings;
+    }
+
+    public void setCompanyRatings(Set<CompanyRating> studentRatings) {
+        this.companyRatings = companyRatings;
+    }
+
+
+
     public User getUser() {
         return user;
     }

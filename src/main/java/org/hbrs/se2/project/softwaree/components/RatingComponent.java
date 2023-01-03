@@ -81,7 +81,7 @@ public class RatingComponent extends Div {
         }
 
         // Use feedback controller to handle rating event:
-        feedbackController.setRating(ratingScore, this.student_id, this.company_id, false);
+        feedbackController.setRating(ratingScore, this.student_id, this.company_id, this.studentRatesCompany);
 
         // Render new rating:
         renderStars(ratingScore);
@@ -123,7 +123,6 @@ public class RatingComponent extends Div {
             } else {
                 starIcons[i].addClassName("rating-unchecked");
             }
-            starsLayout.add(starIcons[i]);
         }
 
         ratingLabel.setText(String.format("%d/%d", ratingScore, maxScore));

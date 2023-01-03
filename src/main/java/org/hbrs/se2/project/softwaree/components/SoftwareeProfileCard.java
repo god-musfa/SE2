@@ -128,7 +128,7 @@ public class SoftwareeProfileCard extends Div {
         // If enabled, add rating component:
         if (ratingEnabled) {
             ratingComponent = new RatingComponent(
-                    ratingFeedbackControl.getRating(student_id, company_id, false ),
+                    ratingFeedbackControl.getRating(student_id, company_id, isCompany),
                     ratingFeedbackControl,
                     student_id,
                     company_id,

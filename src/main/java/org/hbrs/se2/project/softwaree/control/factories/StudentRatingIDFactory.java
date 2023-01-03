@@ -3,7 +3,7 @@ package org.hbrs.se2.project.softwaree.control.factories;
 import org.hbrs.se2.project.softwaree.dtos.StudentRatingIDDTO;
 import org.hbrs.se2.project.softwaree.entities.StudentRatingID;
 
-public class RatingIDFactory {
+public class StudentRatingIDFactory {
 
     public static StudentRatingID createRatingID(StudentRatingIDDTO studentRatingIDDTO) {
         StudentRatingID newID = new StudentRatingID();

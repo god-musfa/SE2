@@ -127,7 +127,7 @@ public class ProfileView extends VerticalLayout implements HasDynamicTitle, HasU
 
         // Set page info to current profile name
         profileTitle = String.format(
-                "%s %s",
+                "%s",
                 currentCompany.getName()
         );
 
@@ -160,8 +160,8 @@ public class ProfileView extends VerticalLayout implements HasDynamicTitle, HasU
                 currentCompany.getField(),
                 currentCompany.getSize(),
                 viewProfileControl,
-                currentProfileID,
                 currentVisitorUserDTO.getId(),
+                currentProfileID,
                 ratingEnabled
         );
 
