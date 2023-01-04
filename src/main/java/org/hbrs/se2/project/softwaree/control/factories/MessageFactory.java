@@ -15,8 +15,8 @@ public class MessageFactory {
 
         message.setTimeSent(now);
         message.setMessage(messageString);
-        message.setStudentID(studentID);
-        message.setCompanyID(companyID);
+        message.setSenderID(studentID);
+        message.setRecipientID(companyID);
         if(jobID != -1) {
             message.setJobID(jobID);
         }

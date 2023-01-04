@@ -29,14 +29,14 @@ public class MessageTest {
 
   @Test
   public void getSetStudentId() {
-    message.setStudentID(1234);
-    Assert.assertEquals((int)message.getStudentID(), 1234);
+    message.setSenderID(1234);
+    Assert.assertEquals((int)message.getSenderID(), 1234);
   }
 
   @Test
   public void getSetCompanyId() {
-    message.setCompanyID(1234);
-    Assert.assertEquals((int)message.getCompanyID(), 1234);
+    message.setRecipientID(1234);
+    Assert.assertEquals((int)message.getRecipientID(), 1234);
   }
 
   @Test

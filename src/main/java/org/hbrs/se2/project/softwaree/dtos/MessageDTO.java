@@ -15,7 +15,7 @@ public class MessageDTO implements Serializable {
     private Integer studentID;
     private Integer companyID;
     private Integer jobID;
-
+    private String name;
     public MessageDTO(Integer id, Date timeSent, String message, Integer studentID, Integer companyID, Integer jobID) {
         this.id = id;
         this.timeSent = timeSent;
@@ -23,6 +23,18 @@ public class MessageDTO implements Serializable {
         this.studentID = studentID;
         this.companyID = companyID;
         this.jobID = jobID;
+    }
+
+    public MessageDTO(Date timeSent, String message, String firstName, String lastName) {
+        this.timeSent = timeSent;
+        this.message = message;
+        this.name = firstName +" " + lastName;
+    }
+
+    public MessageDTO(Date timeSent, String message, String companyName) {
+        this.timeSent = timeSent;
+        this.message = message;
+        this.name = companyName;
     }
 
     public MessageDTO() {
@@ -74,5 +86,13 @@ public class MessageDTO implements Serializable {
 
     public void setJobID(Integer jobID) {
         this.jobID = jobID;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

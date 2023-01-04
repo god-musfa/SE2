@@ -10,6 +10,7 @@ import java.time.LocalDate;
  */
 public class ApplicationDTO  {
 
+    private String company_name;
     private Integer id;
     private String firstName;
     private String lastName;
@@ -19,6 +20,7 @@ public class ApplicationDTO  {
     private String subject;
     private String title;
     private LocalDate deadline;
+    private Integer jobId;
 
     public Integer getId() {
         return id;
@@ -92,6 +94,21 @@ public class ApplicationDTO  {
         this.deadline = deadline;
     }
 
+    public Integer getJobId() {
+        return jobId;
+    }
+
+    public void setJobId(Integer jobId) {
+        this.jobId = jobId;
+    }
+
+    public String getCompany_name() {
+        return company_name;
+    }
+
+    public void setCompany_name(String company_name) {
+        this.company_name = company_name;
+    }
 
     public ApplicationDTO() {
     }
@@ -106,5 +123,20 @@ public class ApplicationDTO  {
         this.subject = subject;
         this.title = title;
         this.deadline = deadline;
+    }
+
+    public ApplicationDTO(String firstName, String lastName, String title, LocalDate deadline,Integer jobId) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.title = title;
+        this.deadline = deadline;
+        this.jobId =jobId;
+    }
+
+    public ApplicationDTO(String title,String company_name, LocalDate deadline,Integer jobId) {
+        this.company_name = company_name;
+        this.title = title;
+        this.deadline = deadline;
+        this.jobId =jobId;
     }
 }

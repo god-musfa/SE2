@@ -24,7 +24,6 @@ public class JobDTO implements Serializable {
     private Integer views;
 
     public Company company;
-
     private Set<Benefit> benefits;
     private Set<Requirement> requirements;
     private Set<Skill> skills;

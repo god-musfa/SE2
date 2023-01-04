@@ -17,11 +17,11 @@ public class Message {
     @Column(name = "message", nullable = false)
     private String message;
 
-    @Column(name = "student_id", nullable = false)
-    private Integer studentID;
+    @Column(name = "sender_id", nullable = false)
+    private Integer senderID;
 
-    @Column(name = "company_id", nullable = false)
-    private Integer companyID;
+    @Column(name = "recipient_id", nullable = false)
+    private Integer recipientID;
 
     @Column(name = "job_id")
     private Integer jobID;
@@ -51,20 +51,20 @@ public class Message {
         this.message = message;
     }
 
-    public Integer getStudentID() {
-        return studentID;
+    public Integer getSenderID() {
+        return senderID;
     }
 
-    public void setStudentID(Integer studentID) {
-        this.studentID = studentID;
+    public void setSenderID(Integer studentID) {
+        this.senderID = studentID;
     }
 
-    public Integer getCompanyID() {
-        return companyID;
+    public Integer getRecipientID() {
+        return recipientID;
     }
 
-    public void setCompanyID(Integer companyID) {
-        this.companyID = companyID;
+    public void setRecipientID(Integer companyID) {
+        this.recipientID = companyID;
     }
 
     public Integer getJobID() {
