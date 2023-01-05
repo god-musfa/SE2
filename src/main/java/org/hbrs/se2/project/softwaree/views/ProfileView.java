@@ -10,6 +10,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.*;
 import org.hbrs.se2.project.softwaree.components.*;
+import org.hbrs.se2.project.softwaree.control.DataExtractionControl;
 import org.hbrs.se2.project.softwaree.control.ViewProfileControl;
 import org.hbrs.se2.project.softwaree.control.factories.CompanyFactory;
 import org.hbrs.se2.project.softwaree.control.factories.UserFactory;
@@ -25,6 +26,7 @@ public class ProfileView extends VerticalLayout implements HasDynamicTitle, HasU
 
     //Logic elements
     private ViewProfileControl viewProfileControl;
+    private DataExtractionControl dataExtractionControl;
     private int currentProfileID = -1;
     private boolean ratingEnabled = false;
 
@@ -45,8 +47,9 @@ public class ProfileView extends VerticalLayout implements HasDynamicTitle, HasU
 
     /** Logic **/
 
-    public ProfileView(ViewProfileControl controller) {
+    public ProfileView(ViewProfileControl controller,DataExtractionControl dataExtractionControl) {
         this.viewProfileControl = controller;
+        this.dataExtractionControl = dataExtractionControl;
     }
 
 
@@ -85,6 +88,7 @@ public class ProfileView extends VerticalLayout implements HasDynamicTitle, HasU
         }
 
         // Build up new profile card component with profile information:
+
         profileCard = new SoftwareeProfileCard(
                 profileTitle,
                 profileUser.getProfilePic(),
@@ -99,7 +103,8 @@ public class ProfileView extends VerticalLayout implements HasDynamicTitle, HasU
                 viewProfileControl,
                 currentProfileID,
                 currentVisitorUserDTO.getId(),
-                ratingEnabled
+                ratingEnabled,
+                dataExtractionControl
         );
 
         // Get profile user's skills:

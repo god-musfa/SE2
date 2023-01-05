@@ -1,14 +1,12 @@
 package org.hbrs.se2.project.softwaree.components;
 
 
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.CssImport;
-import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.Header;
-import com.vaadin.flow.component.html.Image;
-import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
@@ -16,6 +14,8 @@ import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.server.StreamResource;
+import org.hbrs.se2.project.softwaree.control.DataExtractionControl;
 import org.hbrs.se2.project.softwaree.control.JobDetailControl;
 import org.hbrs.se2.project.softwaree.control.RatingFeedbackControl;
 import org.hbrs.se2.project.softwaree.dtos.UserDTO;
@@ -23,6 +23,10 @@ import org.hbrs.se2.project.softwaree.entities.Company;
 import org.hbrs.se2.project.softwaree.entities.Student;
 import org.hbrs.se2.project.softwaree.entities.User;
 import org.hbrs.se2.project.softwaree.util.Globals;
+
+import javax.xml.crypto.Data;
+import java.io.File;
+import java.io.IOException;
 
 
 /**@author dheil2s
@@ -39,7 +43,7 @@ public class SoftwareeProfileCard extends Div {
     private HorizontalLayout titleLayout = new HorizontalLayout();
     private VerticalLayout labelLayout = new VerticalLayout();
     private HorizontalLayout locationLayout = new HorizontalLayout();
-
+    private HorizontalLayout buttonLayout = new HorizontalLayout();
 
     // Properties for title layout:
     private Image profileImage = new Image();
@@ -64,10 +68,13 @@ public class SoftwareeProfileCard extends Div {
 
     private Button contactButton;
     private Button blacklistButton;
+    private Button pdfButton;
 
-
-    public SoftwareeProfileCard(RatingFeedbackControl ratingFeedbackControl, int student_id, int company_id, boolean ratingEnabled) {
-
+    private DataExtractionControl dataExtractionControl;
+    private int student_id;
+    public SoftwareeProfileCard(RatingFeedbackControl ratingFeedbackControl, DataExtractionControl dataExtractionControl, int student_id, int company_id, boolean ratingEnabled) {
+        this.dataExtractionControl = dataExtractionControl;
+        this.student_id = student_id;
         // Styling settings (CSS):
         addClassName("profilecard");
         this.setMaxWidth("25rem");
@@ -121,14 +128,17 @@ public class SoftwareeProfileCard extends Div {
         // Build contact button if company is viewing:
         if (((UserDTO) UI.getCurrent().getSession().getAttribute(Globals.CURRENT_USER)).getUserType().equals("company")) {
             addContactButton();
+            addPdfButton();
+            buttonLayout.setPadding(true);
+            add(buttonLayout);
         }
     }
 
     public SoftwareeProfileCard(String profileTitle, String profileImage, String location, String firstName, String lastName, String birthday,
                                 String subject, String degree, String semester, String university, RatingFeedbackControl ratingFeedbackControl,
-                                int student_id, int company_id, boolean ratingEnabled) {
+                                int student_id, int company_id, boolean ratingEnabled, DataExtractionControl dataExtractionControl) {
 
-        this(ratingFeedbackControl, student_id, company_id, ratingEnabled);
+        this(ratingFeedbackControl,dataExtractionControl, student_id, company_id, ratingEnabled);
         this.setLocation((location == null)?("-"):location);
         this.setTitle((profileTitle == null)?("-"):profileTitle);
         this.setFirstname((firstName == null)?("-"):firstName);
@@ -147,7 +157,20 @@ public class SoftwareeProfileCard extends Div {
         contactButton.addClickListener(clickEvent -> {
             // TODO!
         });
-        add(contactButton);
+        buttonLayout.add(contactButton);
+    }
+    private void addPdfButton() {
+
+            File file;
+            try {
+                file = dataExtractionControl.createPDFFromStudent(student_id);
+                buttonLayout.add(addLinkToFile(file));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+
+
     }
 
     public void setTitle(String title) {
@@ -190,4 +213,16 @@ public class SoftwareeProfileCard extends Div {
         profileStudyUniversity.setValue(university);
     }
 
+    private Component addLinkToFile(File file) {
+        StreamResource streamResource = new StreamResource(file.getName(), () -> dataExtractionControl.getStream(file));
+        Anchor link = new Anchor(streamResource, String.format("%s (%d KB)", file.getName(),
+                (int) file.length() / 1024));
+        link.getElement().setAttribute("download", true);
+        link.removeAll();
+        Button button = new Button("Pdf erstellen");
+        button.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_PRIMARY);;
+        link.add(button);
+
+        return link;
+    }
 }
