@@ -1,41 +1,47 @@
 package org.hbrs.se2.project.softwaree.util;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+
+import org.hbrs.se2.project.softwaree.entities.User;
+import org.hbrs.se2.project.softwaree.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import java.math.BigInteger;
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
-import java.util.Random;
+import java.util.Base64;
+import java.util.HashSet;
+import java.util.Optional;
 
-
+/** Service to support profile picture operations **/
 public class ProfilePictureService {
+    @Autowired
+    UserRepository userRepo;
 
-    private static String FILENAME_REGEX = "";
+    private static String FILENAME_REGEX = "(^\\S{1,255})\\.(jpg)|(png)|(bmp)$";
     private static int MAX_FILENAME_LEN = 512;
-    private static int MAX_FILESIZE = 1024 * 1024;
-    private static String PROFILE_PICTURE_PATH = "src/main/resources/META-INF/resources/images/profile_pictures/";
-    private static String[] ALLOWED_MIMETYPES = {
-            "jpg",
-            "jpeg",
-            "png",
-            "bmp"
+    public static int MAX_FILESIZE = 1024 * 1024;
+
+    private static final String[] ALLOWED_MIMETYPES = {
+            "*.jpg",
+            "image/jpeg",
+            "*.png",
+            "image/png",
+            "*.bmp",
+            "image/bmp"
     };
 
-
-    public static boolean checkPicture(String filename, Integer fileSize, String mimeType) {
+    /** Check a picture for guideline conformity **/
+    public static boolean checkPicture(String filename, Long fileSize, String mimeType) {
         // Check filename:
         if (!(filename.toLowerCase().matches(FILENAME_REGEX) && filename.length() < MAX_FILENAME_LEN)) {
             return false;
         }
 
         // Check MIME-type:
-        if ( !(Arrays.asList(ALLOWED_MIMETYPES).stream()
-                .map(String::toLowerCase)
-                .anyMatch(mimeType::equals)) ) {
+        HashSet<String> allowed_mimetypes = new HashSet<>();
+        allowed_mimetypes.add("");
+
+        if (Arrays.asList(ALLOWED_MIMETYPES).stream()
+                .noneMatch(mimeType::equals)) {
             return false;
         }
 
@@ -47,53 +53,10 @@ public class ProfilePictureService {
         return true;
     }
 
-    public static String hashName(String name) {
-        String rawString = String.format("%s.%d", name, getRandomValue());
-        try {
-            MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            byte[] hashBytes = digest.digest(
-                    rawString.getBytes(StandardCharsets.UTF_8)
-            );
-            return toHexString(hashBytes);
-        } catch (NoSuchAlgorithmException ex) {
-            return "";
-        }
+    /** Convert byte array to base64 string **/
+    public static String toBase64(byte[] inputBytes) {
+        return Base64.getEncoder().encodeToString(inputBytes);
     }
 
-    public static boolean saveImage(String filename, InputStream fileStream) {
-        try {
-            byte [] fileBuffer = fileStream.readAllBytes();
-            File targetFile = new File(PROFILE_PICTURE_PATH + filename);
-            FileOutputStream outputStream = new FileOutputStream(targetFile);
-            outputStream.write(fileBuffer);
-            outputStream.close();
-            return true;
-        } catch (IOException ioException) {
-            return false;
-        }
-    }
-
-    public static boolean deleteImage(String filename) {
-        try {
-            File targetFile = new File(PROFILE_PICTURE_PATH + filename);
-            targetFile.delete();
-            return true;
-        } catch (Exception ex) {
-            return false;
-        }
-    }
-
-    private static int getRandomValue() {
-        return new Random().nextInt();
-    }
-
-    private static String toHexString(byte[] inputBytes) {
-        BigInteger inputInt = new BigInteger(1, inputBytes);
-        StringBuilder hexString = new StringBuilder(inputInt.toString(16));
-        while (hexString.length() < 64) {
-            hexString.insert(0, '0');
-        }
-        return hexString.toString();
-    }
 
 }
