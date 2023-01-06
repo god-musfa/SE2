@@ -15,10 +15,10 @@
     <name>Softwaree</name>
     <description>Demo project for SE-2</description>
     <packaging>war</packaging>
-    
+
     <properties>
         <java.version>11</java.version>
-        <vaadin.version>14.8.17</vaadin.version>
+        <vaadin.version>14.9.4</vaadin.version>
     </properties>
 
     <dependencies>
@@ -71,9 +71,9 @@
         </dependency>
 
         <dependency>
-          <groupId>org.springframework.boot</groupId>
-          <artifactId>spring-boot-starter-tomcat</artifactId>
-          <scope>provided</scope>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
+            <scope>provided</scope>
         </dependency>
 
         <!-- New spring security dependency -->
@@ -84,17 +84,17 @@
         <!-- END of new dependency -->
 
         <dependency>
-          <groupId>org.junit.jupiter</groupId>
-          <artifactId>junit-jupiter-engine</artifactId>
-          <version>5.7.0</version>
-          <scope>test</scope>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>5.7.0</version>
+            <scope>test</scope>
         </dependency>
 
         <dependency>
-          <groupId>org.junit.vintage</groupId>
-          <artifactId>junit-vintage-engine</artifactId>
-          <version>5.7.0</version>
-          <scope>test</scope>
+            <groupId>org.junit.vintage</groupId>
+            <artifactId>junit-vintage-engine</artifactId>
+            <version>5.7.0</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.pdfbox</groupId>
@@ -121,7 +121,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
-            
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -134,121 +134,119 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.0.0-M5</version>
-            <configuration>
-                <excludes>
-                    <exclude>**/SeleniumTest.java</exclude>
+                <configuration>
+                    <excludes>
+                        <exclude>**/SeleniumTest.java</exclude>
 
-                </excludes>
-            </configuration>
-        </plugin>
+                    </excludes>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
     <profiles>
         <profile>
-          <id>production</id>
-          <build>
-            <plugins>
-              <plugin>
-                <groupId>com.vaadin</groupId>
-                <artifactId>vaadin-maven-plugin</artifactId>
-                <version>${vaadin.version}</version>
-                <executions>
-                  <execution>
-                    <id>frontend</id>
-                    <phase>compile</phase>
-                    <goals>
-                      <goal>prepare-frontend</goal>
-                      <goal>build-frontend</goal>
-                    </goals>
-                    <configuration>
-                      <productionMode>true</productionMode>
-                      <nodeVersion>v14.21.2</nodeVersion>
-                      <requireHomeNodeExec>true</requireHomeNodeExec>
-                    </configuration>
-                  </execution>
-                </executions>
-              </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-surefire-plugin</artifactId>
-                    <version>3.0.0-M5</version>
-                    <configuration>
-                        <excludes>
-                            <exclude>**/SeleniumTest.java</exclude>
+            <id>production</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.vaadin</groupId>
+                        <artifactId>vaadin-maven-plugin</artifactId>
+                        <version>${vaadin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>frontend</id>
+                                <phase>compile</phase>
+                                <goals>
+                                    <goal>prepare-frontend</goal>
+                                    <goal>build-frontend</goal>
+                                </goals>
+                                <configuration>
+                                    <productionMode>true</productionMode>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <version>3.0.0-M5</version>
+                        <configuration>
+                            <excludes>
+                                <exclude>**/SeleniumTest.java</exclude>
 
-                        </excludes>
-                    </configuration>
-                </plugin>
-            </plugins>
-          </build>
+                            </excludes>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
         </profile>
-        
+
         <profile>
-          <id>sonar-coverage</id>
-          <build>
-            <pluginManagement>
-              <plugins>
-                <plugin>
-                  <groupId>org.jacoco</groupId>
-                  <artifactId>jacoco-maven-plugin</artifactId>
-                  <version>0.8.6</version>
-                </plugin>
+            <id>sonar-coverage</id>
+            <build>
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <groupId>org.jacoco</groupId>
+                            <artifactId>jacoco-maven-plugin</artifactId>
+                            <version>0.8.6</version>
+                        </plugin>
 
-                <plugin>
-                  <groupId>org.sonarsource.scanner.maven</groupId>
-                  <artifactId>sonar-maven-plugin</artifactId>
-                  <version>3.9.0.2155</version>
-                </plugin>
+                        <plugin>
+                            <groupId>org.sonarsource.scanner.maven</groupId>
+                            <artifactId>sonar-maven-plugin</artifactId>
+                            <version>3.9.0.2155</version>
+                        </plugin>
 
-                  <plugin>
-                      <groupId>org.apache.maven.plugins</groupId>
-                      <artifactId>maven-surefire-plugin</artifactId>
-                      <version>3.0.0-M5</version>
-                      <configuration>
-                          <excludes>
-                              <exclude>**/SeleniumTest.java</exclude>
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-surefire-plugin</artifactId>
+                            <version>3.0.0-M5</version>
+                            <configuration>
+                                <excludes>
+                                    <exclude>**/SeleniumTest.java</exclude>
 
-                          </excludes>
-                      </configuration>
-                  </plugin>
-                
-              </plugins>
-            </pluginManagement>
+                                </excludes>
+                            </configuration>
+                        </plugin>
 
-            <plugins>
-              <plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
-                <configuration>
-                  <append>true</append>
-                </configuration>
-                <executions>
-                  <execution>
-                    <id>agent-for-ut</id>
-                    <goals>
-                      <goal>prepare-agent</goal>
-                    </goals>
-                  </execution>
-                  <execution>
-                    <id>agent-for-it</id>
-                    <goals>
-                      <goal>prepare-agent-integration</goal>
-                    </goals>
-                  </execution>
-                  <execution>
-                    <id>jacoco-site</id>
-                    <phase>verify</phase>
-                    <goals>
-                      <goal>report</goal>
-                    </goals>
-                  </execution>
-                </executions>
-              </plugin>
-            </plugins>
-          </build>
+                    </plugins>
+                </pluginManagement>
+
+                <plugins>
+                    <plugin>
+                        <groupId>org.jacoco</groupId>
+                        <artifactId>jacoco-maven-plugin</artifactId>
+                        <configuration>
+                            <append>true</append>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>agent-for-ut</id>
+                                <goals>
+                                    <goal>prepare-agent</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>agent-for-it</id>
+                                <goals>
+                                    <goal>prepare-agent-integration</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>jacoco-site</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>report</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
         </profile>
-        
+
     </profiles>
 
 </project>
