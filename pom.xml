@@ -164,6 +164,7 @@
                     <configuration>
                       <productionMode>true</productionMode>
                       <nodeVersion>v14.21.2</nodeVersion>
+                      <requireHomeNodeExec>true</requireHomeNodeExec>
                     </configuration>
                   </execution>
                 </executions>
