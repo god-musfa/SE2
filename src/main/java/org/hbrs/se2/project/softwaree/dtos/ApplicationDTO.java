@@ -2,7 +2,6 @@ package org.hbrs.se2.project.softwaree.dtos;
 
 import org.hbrs.se2.project.softwaree.entities.Application;
 
-import java.io.Serializable;
 import java.time.LocalDate;
 
 /**
@@ -11,7 +10,7 @@ import java.time.LocalDate;
 public class ApplicationDTO  {
 
     private String company_name;
-    private Integer id;
+    private Integer student_id;
     private String firstName;
     private String lastName;
     private Integer semester;
@@ -22,12 +21,13 @@ public class ApplicationDTO  {
     private LocalDate deadline;
     private Integer jobId;
 
-    public Integer getId() {
-        return id;
+
+    public Integer getStudent_id() {
+        return student_id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setStudent_id(Integer student_id) {
+        this.student_id = student_id;
     }
 
     public String getFirstName() {
@@ -113,8 +113,8 @@ public class ApplicationDTO  {
     public ApplicationDTO() {
     }
 
-    public ApplicationDTO(Integer id,String firstName, String lastName, Integer semester, String degree, String university, String subject, String title, LocalDate deadline) {
-        this.id = id;
+    public ApplicationDTO(Integer student_id, String firstName, String lastName, Integer semester, String degree, String university, String subject, Integer jobId, String title, LocalDate deadline) {
+        this.student_id = student_id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.semester = semester;
@@ -123,6 +123,7 @@ public class ApplicationDTO  {
         this.subject = subject;
         this.title = title;
         this.deadline = deadline;
+        this.jobId = jobId;
     }
 
     public ApplicationDTO(String firstName, String lastName, String title, LocalDate deadline,Integer jobId) {

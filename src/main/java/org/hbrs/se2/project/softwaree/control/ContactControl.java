@@ -7,7 +7,9 @@ import org.hbrs.se2.project.softwaree.entities.Message;
 import org.hbrs.se2.project.softwaree.entities.Student;
 import org.hbrs.se2.project.softwaree.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
@@ -84,5 +86,11 @@ public class ContactControl {
     public void createContact(int studentid, int companyid, int jobid, MessageDTO message) {
         Message messageEntity = MessageFactory.createMessage(new Date(),message.getMessage(), studentid, companyid, jobid);
         repoMessage.save(messageEntity);
+    }
+    @Transactional
+    @Modifying
+    public void createMessageWithCompanyAsSender(MessageDTO messageDTO){
+        Message message = MessageFactory.createMessageWithCompanyAsSender(messageDTO);
+        repoMessage.save(message);
     }
 }

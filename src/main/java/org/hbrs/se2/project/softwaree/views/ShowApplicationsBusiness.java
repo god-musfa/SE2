@@ -2,11 +2,13 @@ package org.hbrs.se2.project.softwaree.views;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.HeaderRow;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H3;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.provider.ListDataProvider;
 import com.vaadin.flow.data.value.ValueChangeMode;
@@ -15,8 +17,12 @@ import com.vaadin.flow.router.Route;
 import org.apache.commons.lang3.StringUtils;
 import org.hbrs.se2.project.softwaree.control.ManageApplicationControl;
 import org.hbrs.se2.project.softwaree.dtos.ApplicationDTO;
+import org.hbrs.se2.project.softwaree.dtos.MessageDTO;
 import org.hbrs.se2.project.softwaree.dtos.UserDTO;
 import org.hbrs.se2.project.softwaree.util.Globals;
+
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,11 +39,14 @@ import java.util.Optional;
 public class ShowApplicationsBusiness extends Div  {
 
     private List<ApplicationDTO> applicationList;
+    Button button = new Button("Alle Bewerber kontaktieren");
+    UserDTO user;
     public ShowApplicationsBusiness(ManageApplicationControl applicationControl) {
         addClassName("jobs");
-        UserDTO user = (UserDTO) UI.getCurrent().getSession().getAttribute(Globals.CURRENT_USER);
+        user = (UserDTO) UI.getCurrent().getSession().getAttribute(Globals.CURRENT_USER);
         // Auslesen alle abgespeicherten Autos aus der DB (über das Control)
         applicationList = applicationControl.readAllApplications(user.getId());
+
 
         // Titel überhalb der Tabelle
         add(this.createTitle());
@@ -115,7 +124,7 @@ public class ShowApplicationsBusiness extends Div  {
         grid.addSelectionListener(selection -> {
             Optional<ApplicationDTO> optionalApplicationDTO = selection.getFirstSelectedItem();
             if (optionalApplicationDTO.isPresent()) {
-                UI.getCurrent().navigate("profile/"+optionalApplicationDTO.get().getId());
+                UI.getCurrent().navigate("profile/"+optionalApplicationDTO.get().getStudent_id());
 
                 /*System.out.printf("Selected person: %s%n",
                 optionalJob.get());*/
@@ -127,7 +136,21 @@ public class ShowApplicationsBusiness extends Div  {
 
 
     private Component createTitle() {
-        return new H3("Bewerbungen");
+        VerticalLayout layout = new VerticalLayout();
+        layout.add(new H3("Bewerbungen"));
+        if (!applicationList.isEmpty()){
+            layout.add(button);
+            List<MessageDTO> mlist = new ArrayList<>();
+            for(ApplicationDTO a:applicationList){
+                MessageDTO m = new MessageDTO(null, null,null,a.getStudent_id(),user.getId(),a.getJobId());
+                mlist.add(m);
+            };
+            button.addClickListener(event-> {
+                UI.getCurrent().getSession().setAttribute("userList", mlist);
+                UI.getCurrent().navigate("messageAllStudents");
+            });}
+
+        return layout;
     }
 
 

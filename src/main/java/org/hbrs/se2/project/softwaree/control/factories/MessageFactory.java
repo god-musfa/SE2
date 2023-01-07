@@ -1,5 +1,6 @@
 package org.hbrs.se2.project.softwaree.control.factories;
 
+import org.hbrs.se2.project.softwaree.dtos.MessageDTO;
 import org.hbrs.se2.project.softwaree.entities.Message;
 
 import java.util.Date;
@@ -21,6 +22,15 @@ public class MessageFactory {
             message.setJobID(jobID);
         }
 
+        return message;
+    }
+    public static Message createMessageWithCompanyAsSender(MessageDTO messageDTO){
+        Message message = new Message();
+        message.setMessage(messageDTO.getMessage());
+        message.setRecipientID(messageDTO.getStudentID());
+        message.setSenderID(messageDTO.getCompanyID());
+        message.setTimeSent(messageDTO.getTimeSent());
+        message.setJobID(messageDTO.getJobID());
         return message;
     }
 }

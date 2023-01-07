@@ -12,7 +12,7 @@ import java.util.Set;
 
 public interface ApplicationRepository extends JpaRepository<Application, ApplicationId> {
     @Query("  SELECT new org.hbrs.se2.project.softwaree.dtos.ApplicationDTO(a.student.id,a.student.firstName,a.student.lastName," +
-            "a.student.semester,a.student.degree,a.student.university,a.student.subject,a.job.title,a.job.deadline)" +
+            "a.student.semester,a.student.degree,a.student.university,a.student.subject,a.job.id,a.job.title,a.job.deadline)" +
             " FROM Application a WHERE a.job.company.id = ?1 ")
     List<ApplicationDTO> findAllApplicationByCompanyId(int id);
 }
