@@ -25,16 +25,16 @@ public class MessageControl {
         return mess.getJobsForCompany(id);
     }
 
-    public Collection<MessageListItem> getMessagesForStudentAndJob(Integer id, Integer jobID) {
-        List<MessageDTO> studentMessages = mess.getMessagesSentByStudent(id,jobID);
-        List<MessageDTO> companyMessages = mess.getMessagesReceivedByStudent(id,jobID);
+    public Collection<MessageListItem> getMessagesForStudentAndJob(Integer id, Integer jobID, Integer companyId) {
+        List<MessageDTO> studentMessages = mess.getMessagesSentByStudent(id,jobID,companyId);
+        List<MessageDTO> companyMessages = mess.getMessagesReceivedByStudent(id,jobID,companyId);
         studentMessages.addAll(companyMessages);
         return MessageListItemFactory.createMessageListItemList(studentMessages);
     }
 
-    public Collection<MessageListItem> getMessagesForCompanyAndJob(Integer id, Integer jobID) {
-        List<MessageDTO> studentMessages = mess.getMessagesSentByCompany(id,jobID);
-        List<MessageDTO> companyMessages = mess.getMessagesReceivedByCompany(id,jobID);
+    public Collection<MessageListItem> getMessagesForCompanyAndJob(Integer id, Integer jobID,Integer studentID) {
+        List<MessageDTO> studentMessages = mess.getMessagesSentByCompany(id,jobID,studentID);
+        List<MessageDTO> companyMessages = mess.getMessagesReceivedByCompany(id,jobID,studentID);
         studentMessages.addAll(companyMessages);
         return MessageListItemFactory.createMessageListItemList(studentMessages);
     }

@@ -45,11 +45,12 @@ public class MessageView extends HorizontalLayout{
         }
         else{
         for(ApplicationDTO job: jobs){
+            Integer companyId = job.getCompanyID();
             CardComponent c = new CardComponent(job,user.getUserType());
             CardComponent finalC1 = c;
             listLayout.add(finalC1);
             c.addClickListener(event -> {
-                messageList.setItems(msg.getMessagesForStudentAndJob(user.getId(), finalC1.getJobID()));
+                messageList.setItems(msg.getMessagesForStudentAndJob(user.getId(), finalC1.getJobID(),companyId));
                 layout.add(messageList);});
         }
         layout.add(listLayout);
@@ -63,12 +64,12 @@ public class MessageView extends HorizontalLayout{
             else {
                 for (ApplicationDTO job : jobs) {
                     CardComponent c = new CardComponent(job, user.getUserType());
-
+                    Integer studentId = job.getStudent_id();
 
                     CardComponent finalC1 = c;
                     listLayout.add(finalC1);
                     c.addClickListener(event -> {
-                        messageList.setItems(msg.getMessagesForCompanyAndJob(user.getId(), finalC1.getJobID()));
+                        messageList.setItems(msg.getMessagesForCompanyAndJob(user.getId(), finalC1.getJobID(),studentId));
                         layout.add(messageList);
                     });
                 }

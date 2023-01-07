@@ -1,6 +1,7 @@
 package org.hbrs.se2.project.softwaree.dtos;
 
 import org.hbrs.se2.project.softwaree.entities.Application;
+import org.springframework.data.relational.core.sql.In;
 
 import java.time.LocalDate;
 
@@ -20,6 +21,7 @@ public class ApplicationDTO  {
     private String title;
     private LocalDate deadline;
     private Integer jobId;
+    private Integer companyID;
 
 
     public Integer getStudent_id() {
@@ -110,6 +112,14 @@ public class ApplicationDTO  {
         this.company_name = company_name;
     }
 
+    public Integer getCompanyID() {
+        return companyID;
+    }
+
+    public void setCompanyID(Integer companyID) {
+        this.companyID = companyID;
+    }
+
     public ApplicationDTO() {
     }
 
@@ -126,18 +136,21 @@ public class ApplicationDTO  {
         this.jobId = jobId;
     }
 
-    public ApplicationDTO(String firstName, String lastName, String title, LocalDate deadline,Integer jobId) {
+    public ApplicationDTO(String firstName, String lastName, String title, LocalDate deadline,Integer jobId,Integer student_id) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.title = title;
         this.deadline = deadline;
         this.jobId =jobId;
+        this.student_id = student_id;
     }
 
-    public ApplicationDTO(String title,String company_name, LocalDate deadline,Integer jobId) {
+    public ApplicationDTO(String title,String company_name, LocalDate deadline,Integer jobId,Integer student_id,Integer companyID) {
         this.company_name = company_name;
         this.title = title;
         this.deadline = deadline;
         this.jobId =jobId;
+        this.student_id = student_id;
+        this.companyID = companyID;
     }
 }
