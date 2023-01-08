@@ -66,8 +66,8 @@ class EditProfileControlTest {
     void getAvailableSkills() {
 
         List <SkillDTO> available = con.getAvailableSkills();
-        SkillDTO tester = new SkillDTO(-43,"Python");
-        SkillDTO tester2 = new SkillDTO(-42,"Java");
+        SkillDTO tester = new SkillDTO(42,"Python");
+        SkillDTO tester2 = new SkillDTO(38,"Java");
         assertTrue(available.contains(tester));
         assertTrue(available.contains(tester2));
 
@@ -78,8 +78,8 @@ class EditProfileControlTest {
     void getStudentSkills() {
 
         List <SkillDTO> available = con.getStudentSkills(userRepository.findUserByID(188));
-        SkillDTO tester = new SkillDTO(-40,"HTML");
-        SkillDTO tester2 = new SkillDTO(-43,"Python");
+        SkillDTO tester = new SkillDTO(39,"Perl");
+        SkillDTO tester2 = new SkillDTO(42,"Python");
         assertTrue(available.contains(tester));
         assertTrue(available.contains(tester2));
 
