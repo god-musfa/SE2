@@ -22,7 +22,6 @@ import org.hbrs.se2.project.softwaree.dtos.UserDTO;
 import org.hbrs.se2.project.softwaree.util.Globals;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -124,10 +123,8 @@ public class ShowApplicationsBusiness extends Div  {
         grid.addSelectionListener(selection -> {
             Optional<ApplicationDTO> optionalApplicationDTO = selection.getFirstSelectedItem();
             if (optionalApplicationDTO.isPresent()) {
-                UI.getCurrent().navigate("profile/"+optionalApplicationDTO.get().getStudent_id());
+                UI.getCurrent().navigate("profile/"+optionalApplicationDTO.get().getStudentId());
 
-                /*System.out.printf("Selected person: %s%n",
-                optionalJob.get());*/
             }
         });
 
@@ -142,9 +139,9 @@ public class ShowApplicationsBusiness extends Div  {
             layout.add(button);
             List<MessageDTO> mlist = new ArrayList<>();
             for(ApplicationDTO a:applicationList){
-                MessageDTO m = new MessageDTO(null, null,null,a.getStudent_id(),user.getId(),a.getJobId());
+                MessageDTO m = new MessageDTO(null, null,null,a.getStudentId(),user.getId(),a.getJobId());
                 mlist.add(m);
-            };
+            }
             button.addClickListener(event-> {
                 UI.getCurrent().getSession().setAttribute("userList", mlist);
                 UI.getCurrent().navigate("kontakt");

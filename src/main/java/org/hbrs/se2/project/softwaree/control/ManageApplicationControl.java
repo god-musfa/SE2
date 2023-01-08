@@ -19,7 +19,5 @@ public class ManageApplicationControl {
     }
 
 
-/*    public  List<JobDTO> readAllJobsNative() {
-        return repository.findAllJobsNative();
-    }*/
+
 }

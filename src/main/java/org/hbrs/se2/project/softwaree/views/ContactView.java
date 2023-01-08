@@ -39,7 +39,9 @@ public class ContactView extends VerticalLayout  {
     private Button clear = new Button("Feld leeren");
     private Button save = new Button("Speichern");
     private Button back;
-
+    private final String userTypeStudent ="student";
+    private final String userTypeCompany = "company";
+    private final String className = "contact-view";
     private final Binder<MessageDTO> binderContact = new Binder<>(MessageDTO.class);
 
     public ContactView(ContactControl cc) {
@@ -47,10 +49,10 @@ public class ContactView extends VerticalLayout  {
 
         //UI.getCurrent().getSession().setAttribute( "companyID", 3 ); //Beispielwert fuer Debugging
         companyID = (UI.getCurrent().getSession().getAttribute("companyID") != null) ? (Integer) UI.getCurrent().getSession().getAttribute("companyID") : -1;
-        if(companyID != -1 && user.getUserType().equals("student")) {
+        if(companyID != -1 && user.getUserType().equals(userTypeStudent)) {
 
             setJobID();
-            addClassName("contact-view");
+            addClassName(className);
 
             add(createTitle());
             add(createContentboxStudent());
@@ -72,9 +74,9 @@ public class ContactView extends VerticalLayout  {
         }
         else {
             //Meldungen für unterschiedliche Fehlerfälle
-            if(user.getUserType().equals("company")) {
+            if(user.getUserType().equals(userTypeCompany)) {
                 userList = (UI.getCurrent().getSession().getAttribute("userList") != null) ? (List<MessageDTO>) UI.getCurrent().getSession().getAttribute("userList") : null;
-                addClassName("contact-view");
+                addClassName(className);
 
                 add(createTitle());
                 add(createContentboxCompany());
@@ -89,7 +91,6 @@ public class ContactView extends VerticalLayout  {
                     for(MessageDTO m: userList){
                         m.setMessage(binderContact.getBean().getMessage());
                         m.setTimeSent(date);
-                        System.out.println(m.getMessage()+ " "+ m.getTimeSent()+" "+ " "+m.getStudentID()+ " " + m.getCompanyID()+" "+ m.getJobID());
                         cc.createMessageWithCompanyAsSender(m);
                     }
                     Notification.show("Nachricht übermittelt!")
@@ -298,7 +299,7 @@ public class ContactView extends VerticalLayout  {
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         buttonLayout.add(save);
         buttonLayout.add(clear);
-        if(user.getUserType().equals("student")){buttonLayout.add(back);}
+        if(user.getUserType().equals(userTypeStudent)){buttonLayout.add(back);}
         return buttonLayout;
     }
 
@@ -318,7 +319,7 @@ public class ContactView extends VerticalLayout  {
     }
 
     private void createErrorMessage(String websiteMessage, String notificationMessage) {
-        addClassName("contact-view");
+        addClassName(className);
         add(createTitle());
         add(new Paragraph(websiteMessage));
 

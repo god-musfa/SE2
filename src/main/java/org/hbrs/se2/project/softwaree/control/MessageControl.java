@@ -17,8 +17,7 @@ public class MessageControl {
     @Autowired
     MessageRepository mess;
     public Set<ApplicationDTO> getJobsForStudent(Integer id) {
-        System.out.println("Here");
-        System.out.println(mess.getJobsForStudent(id).isEmpty());
+
         return mess.getJobsForStudent(id);
     }
     public Set<ApplicationDTO> getJobsForCompany(Integer id) {

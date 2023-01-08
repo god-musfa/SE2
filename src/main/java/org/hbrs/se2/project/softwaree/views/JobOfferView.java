@@ -202,7 +202,7 @@ public class JobOfferView extends Div {
             }
             currentJob.setSkills(currentSkillSet);
 
-            currentJob.setLast_edit(LocalDate.now());
+            currentJob.setLastEdit(LocalDate.now());
 
             jc.createJobOffer(currentJob, userDTO.getId());
 

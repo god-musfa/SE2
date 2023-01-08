@@ -53,15 +53,15 @@ public class CardComponent extends HorizontalLayout{
         date.getStyle().set("margin-left", "auto");
 
         header.add(title, date);
-        Paragraph job_description;
+        Paragraph applicationDescription;
         // 2. Job Description and
         if(usertype.equals("student")) {
-            job_description = new Paragraph(application.getCompany_name());
-            job_description.addClassName("job_description");
+            applicationDescription = new Paragraph(application.getCompanyName());
+            applicationDescription.addClassName("job_description");
         }
         else {
-            job_description = new Paragraph(application.getFirstName() + " " + application.getLastName());
-            job_description.addClassName("job_description");
+            applicationDescription = new Paragraph(application.getFirstName() + " " + application.getLastName());
+            applicationDescription.addClassName("job_description");
         }
         HorizontalLayout actions = new HorizontalLayout();
         actions.addClassName("actions");
@@ -72,18 +72,10 @@ public class CardComponent extends HorizontalLayout{
         likeIcon.addClassName("icon");
 
 
-        /*Icon commentIcon = VaadinIcon.COMMENT.create();
-        commentIcon.addClassName("icon");
-        Span comments = new Span(job.getComments());
-        comments.addClassName("comments");
-        Icon shareIcon = VaadinIcon.CONNECT.create();
-        shareIcon.addClassName("icon");
-        Span shares = new Span(job.getShares());
-        shares.addClassName("shares");*/
 
-       //, commentIcon, comments, shareIcon, shares);
 
-        contentWrapper.add(header, job_description);
+
+        contentWrapper.add(header, applicationDescription);
         card.add(image, contentWrapper);
         card.addClickListener(event -> {
 

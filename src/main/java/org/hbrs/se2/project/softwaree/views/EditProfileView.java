@@ -452,10 +452,7 @@ public class EditProfileView extends Div {
         Button delete = createButton("Konto löschen");
         delete.addClickListener(event -> {
             d.open();
-            /*pc.deleteAccount(userDTO);
-            UI ui = this.getUI().get();
-            ui.getSession().close();
-            ui.getPage().setLocation("/");*/
+
         });
 
         super.setSizeFull();
@@ -489,7 +486,7 @@ public class EditProfileView extends Div {
                 pc.deleteAccount(userDTO);
                 UI ui = this.getUI().get();
                 ui.getSession().close();
-                ui.getPage().setLocation("/");});
+                ui.getPage().setLocation("landingpage");});
         cancel.addClickListener(event -> d.close());
         return d;
 

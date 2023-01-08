@@ -1,7 +1,7 @@
 package org.hbrs.se2.project.softwaree.dtos;
 
 import org.hbrs.se2.project.softwaree.entities.Application;
-import org.springframework.data.relational.core.sql.In;
+
 
 import java.time.LocalDate;
 
@@ -10,8 +10,8 @@ import java.time.LocalDate;
  */
 public class ApplicationDTO  {
 
-    private String company_name;
-    private Integer student_id;
+    private String companyName;
+    private Integer studentId;
     private String firstName;
     private String lastName;
     private Integer semester;
@@ -24,12 +24,12 @@ public class ApplicationDTO  {
     private Integer companyID;
 
 
-    public Integer getStudent_id() {
-        return student_id;
+    public Integer getStudentId() {
+        return studentId;
     }
 
-    public void setStudent_id(Integer student_id) {
-        this.student_id = student_id;
+    public void setStudentId(Integer studentId) {
+        this.studentId = studentId;
     }
 
     public String getFirstName() {
@@ -104,12 +104,12 @@ public class ApplicationDTO  {
         this.jobId = jobId;
     }
 
-    public String getCompany_name() {
-        return company_name;
+    public String getCompanyName() {
+        return companyName;
     }
 
-    public void setCompany_name(String company_name) {
-        this.company_name = company_name;
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
     }
 
     public Integer getCompanyID() {
@@ -123,8 +123,8 @@ public class ApplicationDTO  {
     public ApplicationDTO() {
     }
 
-    public ApplicationDTO(Integer student_id, String firstName, String lastName, Integer semester, String degree, String university, String subject, Integer jobId, String title, LocalDate deadline) {
-        this.student_id = student_id;
+    public ApplicationDTO(Integer studentId, String firstName, String lastName, Integer semester, String degree, String university, String subject, Integer jobId, String title, LocalDate deadline) {
+        this.studentId = studentId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.semester = semester;
@@ -136,21 +136,21 @@ public class ApplicationDTO  {
         this.jobId = jobId;
     }
 
-    public ApplicationDTO(String firstName, String lastName, String title, LocalDate deadline,Integer jobId,Integer student_id) {
+    public ApplicationDTO(String firstName, String lastName, String title, LocalDate deadline,Integer jobId,Integer studentId) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.title = title;
         this.deadline = deadline;
         this.jobId =jobId;
-        this.student_id = student_id;
+        this.studentId = studentId;
     }
 
-    public ApplicationDTO(String title,String company_name, LocalDate deadline,Integer jobId,Integer student_id,Integer companyID) {
-        this.company_name = company_name;
+    public ApplicationDTO(String title, String companyName, LocalDate deadline, Integer jobId, Integer studentId, Integer companyID) {
+        this.companyName = companyName;
         this.title = title;
         this.deadline = deadline;
         this.jobId =jobId;
-        this.student_id = student_id;
+        this.studentId = studentId;
         this.companyID = companyID;
     }
 }

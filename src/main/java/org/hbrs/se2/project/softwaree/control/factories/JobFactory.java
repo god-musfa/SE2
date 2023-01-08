@@ -1,12 +1,8 @@
 package org.hbrs.se2.project.softwaree.control.factories;
 
 import org.hbrs.se2.project.softwaree.dtos.JobDTO;
-import org.hbrs.se2.project.softwaree.entities.Benefit;
 import org.hbrs.se2.project.softwaree.entities.Job;
-import org.hbrs.se2.project.softwaree.entities.Requirement;
-import org.hbrs.se2.project.softwaree.entities.Skill;
 
-import java.util.Set;
 
 public class JobFactory {
 

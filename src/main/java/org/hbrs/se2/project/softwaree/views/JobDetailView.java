@@ -80,7 +80,7 @@ public class JobDetailView extends Div implements HasUrlParameter<String> {
         } catch (NumberFormatException ex) {
             currentJobID = -1;
         }
-        System.out.println(currentJobID);
+
         // Validate job id from query:
         if (jobDetailControl.validateJobID(currentJobID)) {
             //increment views for this job

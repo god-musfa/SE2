@@ -64,7 +64,7 @@ public class MessageView extends HorizontalLayout{
             else {
                 for (ApplicationDTO job : jobs) {
                     CardComponent c = new CardComponent(job, user.getUserType());
-                    Integer studentId = job.getStudent_id();
+                    Integer studentId = job.getStudentId();
 
                     CardComponent finalC1 = c;
                     listLayout.add(finalC1);

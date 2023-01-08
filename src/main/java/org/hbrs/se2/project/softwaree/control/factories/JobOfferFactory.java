@@ -21,9 +21,9 @@ public class JobOfferFactory {
     job.setDescription(jobDTO.getDescription());
     job.setLocation(jobDTO.getLocation());
     job.setCompany(company);
-    job.setCreation_date(jobDTO.getCreation_date());
+    job.setCreation_date(jobDTO.getCreationDate());
     job.setDeadline(jobDTO.getDeadline());
-    job.setLast_edit(jobDTO.getLast_edit());
+    job.setLast_edit(jobDTO.getLastEdit());
     job.setRequirements(jobDTO.getRequirements());
     job.setBenefits(jobDTO.getBenefits());
     job.setSkills(jobDTO.getSkills());

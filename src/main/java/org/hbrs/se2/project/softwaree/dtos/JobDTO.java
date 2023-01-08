@@ -16,8 +16,8 @@ import java.time.LocalDate;
 public class JobDTO implements Serializable {
     private Integer id;
     private String title;
-    private LocalDate creation_date;
-    private LocalDate last_edit;
+    private LocalDate creationDate;
+    private LocalDate lastEdit;
     private LocalDate deadline;
     private String description;
     private String location;
@@ -29,12 +29,12 @@ public class JobDTO implements Serializable {
     private Set<Skill> skills;
 
 
-    public JobDTO(Integer id, String title, LocalDate creation_date, LocalDate last_edit, LocalDate deadline,
+    public JobDTO(Integer id, String title, LocalDate creationDate, LocalDate lastEdit, LocalDate deadline,
                   String description, String location, Integer views, Company company) {
         this.id = id;
         this.title = title;
-        this.creation_date = creation_date;
-        this.last_edit = last_edit;
+        this.creationDate = creationDate;
+        this.lastEdit = lastEdit;
         this.deadline = deadline;
         this.description = description;
         this.location = location;
@@ -42,31 +42,31 @@ public class JobDTO implements Serializable {
         this.company = company;
     }
 
-    public JobDTO(Integer id, String title, LocalDate creation_date, String description, Integer views) {
+    public JobDTO(Integer id, String title, LocalDate creationDate, String description, Integer views) {
         this.id = id;
         this.title = title;
-        this.creation_date = creation_date;
+        this.creationDate = creationDate;
         this.description = description;
         this.views = views;
 
     }
 
-    public JobDTO(Integer id, String title, LocalDate creation_date, LocalDate deadline,
+    public JobDTO(Integer id, String title, LocalDate creationDate, LocalDate deadline,
                   String description, String location) {
         this.id = id;
         this.title = title;
-        this.creation_date = creation_date;
+        this.creationDate = creationDate;
         this.deadline = deadline;
         this.description = description;
         this.location = location;
     }
 
-    public JobDTO(Integer id, String title, LocalDate creation_date, LocalDate last_edit, LocalDate deadline,
+    public JobDTO(Integer id, String title, LocalDate creationDate, LocalDate lastEdit, LocalDate deadline,
                   String description, String location, Integer views, Company company, Set<Benefit> benefits, Set<Requirement> requirements) {
         this.id = id;
         this.title = title;
-        this.creation_date = creation_date;
-        this.last_edit = last_edit;
+        this.creationDate = creationDate;
+        this.lastEdit = lastEdit;
         this.deadline = deadline;
         this.description = description;
         this.location = location;
@@ -84,15 +84,15 @@ public class JobDTO implements Serializable {
     }
 
     public JobDTO() {
-        this.creation_date = LocalDate.now();
+        this.creationDate = LocalDate.now();
     }
 
     public JobDTO(Integer id, String title, LocalDate creationDate, LocalDate lastEdit, LocalDate deadline, String description,
                   String location, Integer views, Company company, Set<Benefit> benefits, Set<Requirement> requirements, Set<Skill> skills) {
         this.id = id;
         this.title = title;
-        this.creation_date = creationDate;
-        this.last_edit = lastEdit;
+        this.creationDate = creationDate;
+        this.lastEdit = lastEdit;
         this.deadline = deadline;
         this.description = description;
         this.location = location;
@@ -115,18 +115,18 @@ public class JobDTO implements Serializable {
     public String getTitle() {
         return title;
     }
-    public void setCreation_date(LocalDate creation_date) {
-        this.creation_date = creation_date;
+    public void setCreationDate(LocalDate creationDate) {
+        this.creationDate = creationDate;
     }
-    public LocalDate getCreation_date() {
-        return creation_date;
+    public LocalDate getCreationDate() {
+        return creationDate;
     }
 
-    public void setLast_edit(LocalDate last_edit) {
-        this.last_edit = last_edit;
+    public void setLastEdit(LocalDate lastEdit) {
+        this.lastEdit = lastEdit;
     }
-    public LocalDate getLast_edit() {
-        return last_edit;
+    public LocalDate getLastEdit() {
+        return lastEdit;
     }
 
     public void setDeadline(LocalDate deadline) {
@@ -178,8 +178,8 @@ public class JobDTO implements Serializable {
         JobDTO entity = (JobDTO) o;
         return Objects.equals(this.id, entity.id) &&
                 Objects.equals(this.title, entity.title) &&
-                Objects.equals(this.creation_date, entity.creation_date) &&
-                Objects.equals(this.last_edit, entity.last_edit) &&
+                Objects.equals(this.creationDate, entity.creationDate) &&
+                Objects.equals(this.lastEdit, entity.lastEdit) &&
                 Objects.equals(this.deadline, entity.deadline) &&
                 Objects.equals(this.description, entity.description) &&
                 Objects.equals(this.location, entity.location) &&
@@ -188,7 +188,7 @@ public class JobDTO implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, creation_date, last_edit, deadline, description, location, views, company);
+        return Objects.hash(id, title, creationDate, lastEdit, deadline, description, location, views, company);
     }
 
     public Company getCompany() {
@@ -199,8 +199,8 @@ public class JobDTO implements Serializable {
     }
 
     // Verify that attributes are not Null before calling "toString()" method
-    public String getLastEditAsString() {return last_edit!= null ?  last_edit.toString() : "-";}
-    public String getCreationDateAsString() {return creation_date != null ?  creation_date.toString() : "-";}
+    public String getLastEditAsString() {return lastEdit != null ?  lastEdit.toString() : "-";}
+    public String getCreationDateAsString() {return creationDate != null ?  creationDate.toString() : "-";}
     public String getDeadlineAsString() {return deadline!= null ?  deadline.toString() : "-";}
     public String getViewsAsString() { return views != null ? views.toString() : "-";}
 

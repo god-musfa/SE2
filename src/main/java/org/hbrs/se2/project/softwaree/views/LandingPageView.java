@@ -55,7 +55,7 @@ public class LandingPageView extends VerticalLayout {
         com.vaadin.flow.component.button.Button loginButton = new com.vaadin.flow.component.button.Button("Log in");
         loginButton.getStyle().set("background-color", "green");
         loginButton.getStyle().set("color", "white");
-        //loginButton.getStyle().set("padding", "10px 20px");
+
         loginButton.getStyle().set("border-radius", "4px");
         loginButton.addClickListener(event -> {
             // Navigate to login page
@@ -66,7 +66,6 @@ public class LandingPageView extends VerticalLayout {
         com.vaadin.flow.component.button.Button registerButton = new Button("Jetzt kostenlos registrieren!");
         registerButton.getStyle().set("background-color", "white");
         registerButton.getStyle().set("color", "green");
-        //registerButton.getStyle().set("padding", "10px 20px");
         registerButton.getStyle().set("border-radius", "4px");
         registerButton.getStyle().set("border", "3px solid green");
         registerButton.addClickListener(event -> {

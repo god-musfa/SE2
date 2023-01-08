@@ -20,5 +20,5 @@ public interface StudentRepository extends JpaRepository<Student, Integer> {
     Optional<StudentDTO> findFullStudentByID(Integer id);
 
     @Query("select s.skills from Student s where s.id = ?1")
-    Optional<Set<Skill>> getSkillsByStudentID(Integer ID);
+    Optional<Set<Skill>> getSkillsByStudentID(Integer id);
 }

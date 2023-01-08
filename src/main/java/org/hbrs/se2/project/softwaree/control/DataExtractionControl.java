@@ -60,7 +60,7 @@ public class DataExtractionControl {
         File file = File.createTempFile("student_"+ student.getId(), ".pdf");
         document.save(file);
 //prints the message if the PDF is created successfully
-        System.out.println("PDF created at " + file.getAbsolutePath());
+
 //closes the document
         document.close();
         return file;

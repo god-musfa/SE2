@@ -72,12 +72,12 @@ public class SoftwareeProfileCard extends Div {
     private Button contactButton;
 
     private DataExtractionControl dataExtractionControl;
-    private int student_id;
+    private int studentId;
     public SoftwareeProfileCard(RatingFeedbackControl ratingFeedbackControl,
                                 DataExtractionControl dataExtractionControl,
-                                int student_id, int company_id, boolean ratingEnabled, boolean isCompany) {
+                                int studentId, int company_id, boolean ratingEnabled, boolean isCompany) {
         this.dataExtractionControl = dataExtractionControl;
-        this.student_id = student_id;
+        this.studentId = studentId;
         // Styling settings (CSS):
         addClassName("profilecard");
         this.setMaxWidth("25rem");
@@ -128,9 +128,9 @@ public class SoftwareeProfileCard extends Div {
         // If enabled, add rating component:
         if (ratingEnabled) {
             ratingComponent = new RatingComponent(
-                    ratingFeedbackControl.getRating(student_id, company_id, isCompany),
+                    ratingFeedbackControl.getRating(studentId, company_id, isCompany),
                     ratingFeedbackControl,
-                    student_id,
+                    studentId,
                     company_id,
                     isCompany
             );
@@ -153,9 +153,9 @@ public class SoftwareeProfileCard extends Div {
     // STUDENT CONSTRUCTOR:
     public SoftwareeProfileCard(String profileTitle, String profileImage, String location, String firstName, String lastName, String birthday,
                                 String subject, String degree, String semester, String university, RatingFeedbackControl ratingFeedbackControl,
-                                int student_id, int company_id, boolean ratingEnabled, DataExtractionControl dataExtractionControl) {
+                                int studentId, int company_id, boolean ratingEnabled, DataExtractionControl dataExtractionControl) {
 
-        this(ratingFeedbackControl,dataExtractionControl, student_id, company_id, ratingEnabled, false);
+        this(ratingFeedbackControl,dataExtractionControl, studentId, company_id, ratingEnabled, false);
         this.setLocation((location == null)?("-"):location);
         this.setTitle((profileTitle == null)?("-"):profileTitle);
         this.setFirstname((firstName == null)?("-"):firstName);
@@ -172,9 +172,9 @@ public class SoftwareeProfileCard extends Div {
     public SoftwareeProfileCard(String profileTitle, String companyName, String profileImage, String location, String phoneNumber,
                                 String contactPerson, String website, String field, String size,
                                 RatingFeedbackControl ratingFeedbackControl, DataExtractionControl dataExtractionControl,
-                                int student_id, int company_id, boolean ratingEnabled) {
+                                int studentId, int company_id, boolean ratingEnabled) {
 
-        this(ratingFeedbackControl,dataExtractionControl, student_id, company_id, ratingEnabled, true);
+        this(ratingFeedbackControl,dataExtractionControl, studentId, company_id, ratingEnabled, true);
 
         this.setLocation((location == null)?("-"):location);
         this.setTitle((profileTitle == null)?("-"):profileTitle);
@@ -199,10 +199,10 @@ public class SoftwareeProfileCard extends Div {
 
             File file;
             try {
-                file = dataExtractionControl.createPDFFromStudent(student_id);
+                file = dataExtractionControl.createPDFFromStudent(studentId);
                 buttonLayout.add(addLinkToFile(file));
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                System.out.println("Something went wrong!");
             }
 
 

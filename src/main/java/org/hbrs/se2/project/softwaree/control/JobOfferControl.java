@@ -61,42 +61,15 @@ public class JobOfferControl {
   }
 
   public Set<Benefit> getJobBenefits(Integer job) {
-   /* Optional<Job> targetJob = jobRepo.getFullJobInfo(job);
-    if (targetJob.isPresent()) {
-      return targetJob.get().getBenefits().stream()
-              .map(BenefitFactory::getDTO)
-              .collect(Collectors.toList());
-    } else {
-      System.out.println(String.format("Cannot get benefits for user with id %d", job));
-      return new ArrayList<>();       // Return empty list, if user cannot be found.
-    }*/
     return jobRepo.getBenefits(job);
   }
 
 
   public Set<Requirement> getJobRequirements(Integer job) {
-    /*Optional<Job> targetJob = jobRepo.getFullJobInfo(job);
-    if (targetJob.isPresent()) {
-      return targetJob.get().getRequirements().stream()
-              .map(RequirementFactory::getDTO)
-              .collect(Collectors.toList());
-    } else {
-      System.out.println(String.format("Cannot get requirements for user with id %d", job));
-      return new ArrayList<>();       // Return empty list, if user cannot be found.
-    }*/
     return jobRepo.getRequirements(job);
   }
 
   public Set<Skill> getJobSkills(Integer job) {
-    /*Optional<Job> targetJob = jobRepo.getFullJobInfo(job);
-    if (targetJob.isPresent()) {
-      return targetJob.get().getSkills().stream()
-              .map(SkillFactory::getDTO)
-              .collect(Collectors.toList());
-    } else {
-      System.out.println(String.format("Cannot get requirements for user with id %d", job));
-      return new ArrayList<>();       // Return empty list, if user cannot be found.
-    }*/
     return jobRepo.getSkills(job);
   }
 

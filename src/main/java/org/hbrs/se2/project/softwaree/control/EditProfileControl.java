@@ -147,7 +147,7 @@ public class EditProfileControl implements PictureUploadController{
     public void deleteAccount(UserDTO user){
         repoU.deleteUser(user.getId());
         repoA.deleteById(user.getAddressId());
-        System.out.println("Account Deleted");
+
     }
 
 

@@ -4,6 +4,7 @@ import org.hbrs.se2.project.softwaree.dtos.AddressDTO;
 import org.hbrs.se2.project.softwaree.entities.Address;
 
 public class AddressFactory {
+    private AddressFactory(){}
     public static Address createAddress(AddressDTO addressDTO){
         Address address = new Address();
         address.setId(addressDTO.getId());
