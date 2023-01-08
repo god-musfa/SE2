@@ -1,11 +1,9 @@
 package org.hbrs.se2.project.softwaree.control;
 
-import com.vaadin.flow.component.UI;
 import org.hbrs.se2.project.softwaree.control.factories.*;
 import org.hbrs.se2.project.softwaree.dtos.*;
 import org.hbrs.se2.project.softwaree.entities.*;
 import org.hbrs.se2.project.softwaree.repository.*;
-import org.hbrs.se2.project.softwaree.util.Globals;
 import org.hbrs.se2.project.softwaree.util.ProfilePictureService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
