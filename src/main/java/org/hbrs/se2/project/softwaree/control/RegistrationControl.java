@@ -17,11 +17,13 @@ import org.hbrs.se2.project.softwaree.repository.CompanyRepository;
 import org.hbrs.se2.project.softwaree.repository.StudentRepository;
 import org.hbrs.se2.project.softwaree.repository.UserRepository;
 import org.hbrs.se2.project.softwaree.security.SecurityHandler;
+import org.hbrs.se2.project.softwaree.util.Globals;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 @Component
@@ -89,5 +91,15 @@ public class RegistrationControl {
         return userRepository.checkEmailExists(email);
     }
 
+    public void setDefaultProfilePicture(UserDTO targetUser) {
+        targetUser.setProfilePic(Globals.DEFAULT_PROFILE_PICTURE);
+
+        UserDTO userFromDB = userRepository.findUserByID(targetUser.getId());
+        Optional<Address> userAddress = addressRepository.findById(userFromDB.getAddressId());
+
+        if (userAddress.isPresent()) {
+            userRepository.save(UserFactory.createUser(targetUser, userAddress.get()));
+        }
+    }
 
 }

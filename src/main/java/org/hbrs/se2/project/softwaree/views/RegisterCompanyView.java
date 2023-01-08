@@ -86,6 +86,7 @@ public class RegisterCompanyView extends VerticalLayout {
         registerButton.addClickListener(e -> {
 
             registrationControl.saveC(userDTOBinder.getBean(), companyDTOBinder.getBean(), addressDTOBinder.getBean());
+            registrationControl.setDefaultProfilePicture(userDTOBinder.getBean());
             UI ui = this.getUI().get();
             ui.getSession().close();
             ui.getPage().setLocation("/");
@@ -143,13 +144,8 @@ public class RegisterCompanyView extends VerticalLayout {
             //add(i);
             this.registrationControl = registrationControl;
             addClassName("RegisterCompanyView");
-
             setId("registerCompanyView");
             setupComponents();
-
-
-
-
     }
 }
 

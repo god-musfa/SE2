@@ -13,6 +13,7 @@ import com.vaadin.flow.component.upload.receivers.MemoryBuffer;
 import com.vaadin.flow.server.StreamResource;
 import org.hbrs.se2.project.softwaree.control.PictureUploadController;
 import org.hbrs.se2.project.softwaree.dtos.UserDTO;
+import org.hbrs.se2.project.softwaree.util.Globals;
 import org.hbrs.se2.project.softwaree.util.ProfilePictureService;
 import org.hbrs.se2.project.softwaree.views.MainView;
 
@@ -78,7 +79,11 @@ public class SoftwareeAvatar extends HorizontalLayout implements SoftwareeAvatar
      */
     @Override
     public void setImage(String imageData) {
-        avatarImage.setSrc(imageData);
+        if (imageData != null) {
+            avatarImage.setSrc(imageData);
+        } else {
+            avatarImage.setSrc(Globals.DEFAULT_PROFILE_PICTURE);
+        }
         avatarImage.setClassName("softwaree_avatar_image");
     }
 

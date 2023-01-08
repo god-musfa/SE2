@@ -113,6 +113,7 @@ public class RegisterStudentView extends VerticalLayout {
     registerButton.addClickListener(e -> {
 
       registrationControl.save(userDTOBinder.getBean(), studentDTOBinder.getBean(), addressDTOBinder.getBean());
+      registrationControl.setDefaultProfilePicture(userDTOBinder.getBean());
       UI ui = this.getUI().get();
       ui.getSession().close();
       ui.getPage().setLocation("/");
