@@ -4,13 +4,17 @@ import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.H3;
+import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteAlias;
+import com.vaadin.flow.server.VaadinSession;
+import com.vaadin.flow.server.WebBrowser;
 import org.hbrs.se2.project.softwaree.control.RegistrationControl;
+
 @Route(value = "")
 @RouteAlias(value = "landingpage")
 @CssImport("./styles/views/landingpage/landing.css")
@@ -18,16 +22,22 @@ public class LandingPageView extends VerticalLayout {
 
     public void setup() {
 
+        // Get user agent:
+        WebBrowser webBrowser = VaadinSession.getCurrent().getBrowser();
+        boolean isMobile = webBrowser.isAndroid() || webBrowser.isIPhone() || webBrowser.isWindowsPhone();
+
         setWidthFull();
         setHeightFull();
         VerticalLayout vl = new VerticalLayout();
         HorizontalLayout hl = new HorizontalLayout();
+        VerticalLayout mobileVL = new VerticalLayout();
         VerticalLayout txxt = new VerticalLayout();
 
 
 
-        Image logo = new Image("images/Softwaree_Logo.png", "Vaadin logo");
 
+        Image logo = new Image("images/Softwaree_Logo.png", "Vaadin logo");
+        logo.setMaxWidth("100%");
 
         Image i = new Image("images/handshake.png","logo");
         i.setWidth("50%");
@@ -74,8 +84,14 @@ public class LandingPageView extends VerticalLayout {
         });
         txxt.add(text,label);
         buttons.add(registerButton);
-        hl.add(txxt,i);
-        vl.add(logo,hl,buttons);
+
+        if (isMobile) {
+            mobileVL.add(i, txxt);
+            vl.add(logo, mobileVL, buttons);
+        } else {
+            hl.add(txxt, i);
+            vl.add(logo,hl,buttons);
+        }
         add(vl);
 
     }

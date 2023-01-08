@@ -150,7 +150,7 @@ public class ProfileView extends VerticalLayout implements HasDynamicTitle, HasU
         profileCard = new SoftwareeProfileCard(
                 profileTitle,
                 currentCompany.getName(),
-                profileUser.getProfilePic(),
+                (profileUser.getProfilePic() == null)?(Globals.DEFAULT_PROFILE_PICTURE):(profileUser.getProfilePic()),
                 String.format("%s %s", userAddress.getPostalCode(), userAddress.getCity()),
                 currentCompany.getPhoneNumber(),
                 currentCompany.getContactPerson(),
