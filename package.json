@@ -14,6 +14,7 @@
     "@vaadin/avatar-group": "23.2.11",
     "@vaadin/bundles": "23.2.11",
     "@vaadin/button": "23.2.11",
+    "@vaadin/charts": "23.2.11",
     "@vaadin/checkbox": "23.2.11",
     "@vaadin/checkbox-group": "23.2.11",
     "@vaadin/combo-box": "23.2.11",
@@ -64,6 +65,7 @@
     "@vaadin/vaadin-app-layout": "23.2.11",
     "@vaadin/vaadin-avatar": "23.2.11",
     "@vaadin/vaadin-button": "23.2.11",
+    "@vaadin/vaadin-charts": "23.2.11",
     "@vaadin/vaadin-checkbox": "23.2.11",
     "@vaadin/vaadin-combo-box": "23.2.11",
     "@vaadin/vaadin-confirm-dialog": "23.2.11",
@@ -137,6 +139,7 @@
       "@vaadin/avatar-group": "23.2.11",
       "@vaadin/bundles": "23.2.11",
       "@vaadin/button": "23.2.11",
+      "@vaadin/charts": "23.2.11",
       "@vaadin/checkbox": "23.2.11",
       "@vaadin/checkbox-group": "23.2.11",
       "@vaadin/combo-box": "23.2.11",
@@ -186,6 +189,7 @@
       "@vaadin/vaadin-app-layout": "23.2.11",
       "@vaadin/vaadin-avatar": "23.2.11",
       "@vaadin/vaadin-button": "23.2.11",
+      "@vaadin/vaadin-charts": "23.2.11",
       "@vaadin/vaadin-checkbox": "23.2.11",
       "@vaadin/vaadin-combo-box": "23.2.11",
       "@vaadin/vaadin-confirm-dialog": "23.2.11",
@@ -245,7 +249,7 @@
       "workbox-core": "6.5.0",
       "workbox-precaching": "6.5.0"
     },
-    "hash": "02a564a4b5053dfd056081a754d98d53da6a79dedd94423c62bf7b8802b5ee9d"
+    "hash": "3ec8ec10c3561a11f1eb1466be1ecfd0aabdcfd631fced067264a277a3f97b4d"
   },
   "overrides": {
     "@vaadin/bundles": "$@vaadin/bundles",
@@ -350,6 +354,8 @@
     "construct-style-sheets-polyfill": "$construct-style-sheets-polyfill",
     "@vaadin/common-frontend": "$@vaadin/common-frontend",
     "lit": "$lit",
-    "date-fns": "$date-fns"
+    "date-fns": "$date-fns",
+    "@vaadin/vaadin-charts": "$@vaadin/vaadin-charts",
+    "@vaadin/charts": "$@vaadin/charts"
   }
 }

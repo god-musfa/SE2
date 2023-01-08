@@ -1,0 +1,29 @@
+.TopHeader {
+    width: 150px;
+    height: 80px;
+    padding: 0 0;
+}
+.RouterLinks {
+    margin: 0;
+}
+.SoftwareeLogo {
+    height: 50px;
+}
+.navigationTabs {
+ height: 200px;
+}
+.homeTab {
+height: 150px;
+    width: 100%;
+    padding: 0;
+}
+.tabIcons {
+    width: 24px;
+    height: 24px;
+}
+.tabTitle {
+    font-size: 12px;
+}
+vaadin-tab {
+    height: 80px;
+}

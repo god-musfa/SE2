@@ -21,9 +21,12 @@ public class Globals {
         public static final String SHOW_JOBS = "jobs";
         public static final String SHOW_JOB_DETAILS = "job";
         public static final String JOB_OFFER = "jobOffer";
-
         public static final String VIEW_PROFILE = "profile";
+    }
 
+    public static class PageTitles {
+        public static final String PAGETITLE_STELLENANZEIGE = "Stellenanzeigenliste";
+        public static final String PAGETITLE_STELLENANZEIGE_DETAILS = "Stellenangebot Details";
     }
 
     public static class Roles {
