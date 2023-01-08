@@ -1,11 +1,13 @@
 package org.hbrs.se2.project.softwaree.views;
+
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentUtil;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dependency.JsModule;
-import com.vaadin.flow.component.html.*;
+import com.vaadin.flow.component.html.Image;
+import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
@@ -14,14 +16,14 @@ import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.component.tabs.TabsVariant;
 import com.vaadin.flow.router.*;
-import com.vaadin.flow.server.PWA;
 import org.hbrs.se2.project.softwaree.dtos.UserDTO;
 import org.hbrs.se2.project.softwaree.util.Globals;
+
 import java.util.Optional;
 
 @CssImport("./styles/views/main/main-view.css")
 @Route("main2")
-@PWA(name = "HelloCar", shortName = "HelloCar", enableInstallPrompt = false)
+//@PWA(name = "HelloCar", shortName = "HelloCar")
 @JsModule("./styles/shared-styles.js")
 // tag::snippet[]
     public class NavBar extends AppLayout implements BeforeEnterObserver {
