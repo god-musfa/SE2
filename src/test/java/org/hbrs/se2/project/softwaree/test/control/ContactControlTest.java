@@ -31,8 +31,8 @@ class ContactControlTest {
 
     @Test
     void getAddressFromUser() {
-        UserDTO userdto = userRepository.findUserByEmail("test");
-        AddressDTO addressdto = addressRepository.findAdress(2);
+        UserDTO userdto = userRepository.findUserByEmail("info@sopra.de");
+        AddressDTO addressdto = addressRepository.findAdress(275);
         assertEquals(addressdto.getStreet(), con.getAddressFromUser(userdto).getStreet());
         assertEquals(addressdto.getCity(), con.getAddressFromUser(userdto).getCity());
         assertEquals(addressdto.getPostalCode(), con.getAddressFromUser(userdto).getPostalCode());
@@ -41,25 +41,25 @@ class ContactControlTest {
 
     @Test
     void getCompanyFromCompanyID() {
-        CompanyDTO companyDTO = companyRepository.findCompany(1);
-        assertEquals(companyDTO.getName(), con.getCompanyFromCompanyID(1).getName());
-        assertEquals(companyDTO.getField(), con.getCompanyFromCompanyID(1).getField());
-        assertEquals(companyDTO.getContactPerson(), con.getCompanyFromCompanyID(1).getContactPerson());
-        assertEquals(companyDTO.getOwJobList(), con.getCompanyFromCompanyID(1).getOwJobList());
+        CompanyDTO companyDTO = companyRepository.findCompany(483);
+        assertEquals(companyDTO.getName(), con.getCompanyFromCompanyID(483).getName());
+        assertEquals(companyDTO.getField(), con.getCompanyFromCompanyID(483).getField());
+        assertEquals(companyDTO.getContactPerson(), con.getCompanyFromCompanyID(483).getContactPerson());
+        assertEquals(companyDTO.getOwJobList(), con.getCompanyFromCompanyID(483).getOwJobList());
     }
 
     @Test
     void getUserFromCompanyID() {
-        UserDTO userDTO = userRepository.findUserByEmail("test");
-        assertEquals(userDTO.getUserType(), con.getUserFromCompanyID(1).getUserType());
-        assertEquals(userDTO.getEmail(), con.getUserFromCompanyID(1).getEmail());
-        assertEquals(userDTO.getAddressId(), con.getUserFromCompanyID(1).getAddressId());
+        UserDTO userDTO = userRepository.findUserByEmail("info@sopra.de");
+        assertEquals(userDTO.getUserType(), con.getUserFromCompanyID(483).getUserType());
+        assertEquals(userDTO.getEmail(), con.getUserFromCompanyID(483).getEmail());
+        assertEquals(userDTO.getAddressId(), con.getUserFromCompanyID(483).getAddressId());
 
     }
 
     @Test
     void getStudentFromUser() {
-        Optional<Student> studentDTO = studentRepository.findStudentById(188);
+        Optional<Student> studentDTO = studentRepository.findStudentById(500);
         UserDTO userDTO = userRepository.findUserByID(studentDTO.get().getId());
         assertEquals(studentDTO.get().getFirstName(), con.getStudentFromUser(userDTO).getFirstName());
         assertEquals(studentDTO.get().getLastName(), con.getStudentFromUser(userDTO).getLastName());
@@ -71,7 +71,7 @@ class ContactControlTest {
     @Test
     void getJobByID() {
 
-        JobDTO jobDTO = jobRepository.findJobWithTitleDescriptionLocation(3);
+        JobDTO jobDTO = jobRepository.findJobWithTitleDescriptionLocation(498);
         assertEquals(jobDTO.getDescription(), con.getJobByID(jobDTO.getId()).getDescription());
         assertEquals(jobDTO.getTitle(), con.getJobByID(jobDTO.getId()).getTitle());
         assertEquals(jobDTO.getCreationDateAsString(), con.getJobByID(jobDTO.getId()).getCreationDateAsString());
@@ -83,7 +83,7 @@ class ContactControlTest {
     @Test
     void getFullName() {
 
-        StudentDTO studentDTO = studentRepository.findStudentWithBirthdayAndSemester(188);
+        StudentDTO studentDTO = studentRepository.findStudentWithBirthdayAndSemester(500);
         String s1 = studentDTO.getLastName() + ", " + studentDTO.getFirstName();
         String s2 = ContactControl.getFullName(studentDTO);
         assertEquals(s1, s2);
@@ -92,7 +92,7 @@ class ContactControlTest {
 
     @Test
     void getFullAddress() {
-        AddressDTO addressDTO = addressRepository.findAdress(3);
+        AddressDTO addressDTO = addressRepository.findAdress(275);
         String s1 = addressDTO.getStreet() + " " + addressDTO.getNumber() + ", " +
                 addressDTO.getPostalCode() + " " + addressDTO.getCity();
         String s2 = ContactControl.getFullAddress(addressDTO);
@@ -103,8 +103,8 @@ class ContactControlTest {
 
     @Test
     void getBirthdayString() {
-        StudentDTO studentDTO = studentRepository.findStudentWithBirthdayAndSemester(188);
-        String s1 = "Geboren am: " + "02.03.1989";
+        StudentDTO studentDTO = studentRepository.findStudentWithBirthdayAndSemester(500);
+        String s1 = "Geboren am: " + "15.10.1998";
         String s2 = ContactControl.getBirthdayString(studentDTO);
         assertEquals(s1, s2);
 
@@ -112,7 +112,7 @@ class ContactControlTest {
 
     @Test
     void getSemesterString() {
-        StudentDTO studentDTO = studentRepository.findStudentWithBirthdayAndSemester(188);
+        StudentDTO studentDTO = studentRepository.findStudentWithBirthdayAndSemester(500);
         String s1 = "Fachsemester: " + studentDTO.getSemester();
         String s2 = ContactControl.getSemesterString(studentDTO);
         assertEquals(s1, s2);
@@ -140,7 +140,7 @@ class ContactControlTest {
 
     @Test
     void getLocationString() {
-        JobDTO jobDTO = jobRepository.findJobWithTitleDescriptionLocation(2);
+        JobDTO jobDTO = jobRepository.findJobWithTitleDescriptionLocation(498);
         String s1 =  "Standort: " + jobDTO.getLocation();
         String s2 = ContactControl.getLocationString(jobDTO);
         assertEquals(s1, s2);
