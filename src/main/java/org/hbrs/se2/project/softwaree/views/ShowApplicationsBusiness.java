@@ -147,7 +147,7 @@ public class ShowApplicationsBusiness extends Div  {
             };
             button.addClickListener(event-> {
                 UI.getCurrent().getSession().setAttribute("userList", mlist);
-                UI.getCurrent().navigate("messageAllStudents");
+                UI.getCurrent().navigate("kontakt");
             });}
 
         return layout;

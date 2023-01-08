@@ -23,12 +23,16 @@ import org.hbrs.se2.project.softwaree.control.ContactControl;
 import org.hbrs.se2.project.softwaree.dtos.*;
 import org.hbrs.se2.project.softwaree.util.Globals;
 
+import java.util.Date;
+import java.util.List;
+
 @PageTitle("Kontakt")
 @Route(value = "kontakt", layout = NavBar.class)
 @CssImport("./styles/views/contact/contact-view.css")
 public class ContactView extends VerticalLayout  {
     private static final int LIMIT = 10000; //Zeichenlimit im Eingabefeld
     private UserDTO user = (UserDTO) UI.getCurrent().getSession().getAttribute(Globals.CURRENT_USER);
+    private List<MessageDTO> userList;
     private int jobID = -1;
     private int companyID = -1;
     private ContactControl cc;
@@ -44,11 +48,12 @@ public class ContactView extends VerticalLayout  {
         //UI.getCurrent().getSession().setAttribute( "companyID", 3 ); //Beispielwert fuer Debugging
         companyID = (UI.getCurrent().getSession().getAttribute("companyID") != null) ? (Integer) UI.getCurrent().getSession().getAttribute("companyID") : -1;
         if(companyID != -1 && user.getUserType().equals("student")) {
+
             setJobID();
             addClassName("contact-view");
 
             add(createTitle());
-            add(createContentbox());
+            add(createContentboxStudent());
             add(createButton());
             setSpacing(false);
 
@@ -68,8 +73,29 @@ public class ContactView extends VerticalLayout  {
         else {
             //Meldungen für unterschiedliche Fehlerfälle
             if(user.getUserType().equals("company")) {
-                createErrorMessage("Fehler. Als Firma können sie keine andere Firma kontaktieren.",
-                        "Fehler! Als Firma können sie keine andere Firma kontaktieren.");
+                userList = (UI.getCurrent().getSession().getAttribute("userList") != null) ? (List<MessageDTO>) UI.getCurrent().getSession().getAttribute("userList") : null;
+                addClassName("contact-view");
+
+                add(createTitle());
+                add(createContentboxCompany());
+                add(createButton());
+                setSpacing(false);
+
+                //Button Events
+                clear.addClickListener(event -> clearForm());
+
+                save.addClickListener(e -> {
+                    Date date = new Date();
+                    for(MessageDTO m: userList){
+                        m.setMessage(binderContact.getBean().getMessage());
+                        m.setTimeSent(date);
+                        System.out.println(m.getMessage()+ " "+ m.getTimeSent()+" "+ " "+m.getStudentID()+ " " + m.getCompanyID()+" "+ m.getJobID());
+                        cc.createMessageWithCompanyAsSender(m);
+                    }
+                    Notification.show("Nachricht übermittelt!")
+                            .addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+                    clearForm();
+                });
             }
             else if(companyID == -1) {
                 createErrorMessage("Fehler. Bitte das Formular über eine Firmenseite oder eine Stellenanzeige aufrufen.",
@@ -93,7 +119,24 @@ public class ContactView extends VerticalLayout  {
         return new H3("Kontaktformular");
     }
 
-    private Component createContentbox() {
+    private Component createContentboxCompany() {
+        //Create Components
+        FormLayout layout = new FormLayout();
+        Component message = createMessage();
+
+        //Build Layout
+
+
+        layout.add(message);
+        layout.setColspan(message, 2);
+
+        layout.setResponsiveSteps(
+                new FormLayout.ResponsiveStep("0", 1),
+                new FormLayout.ResponsiveStep(Globals.ScreenSizes.SMARTPHONE_LANDSCAPE, 2)
+        );
+        return layout;
+    }
+    private Component createContentboxStudent() {
         //Create Components
         FormLayout layout = new FormLayout();
         Component companybox = createCompanybox();
@@ -255,7 +298,7 @@ public class ContactView extends VerticalLayout  {
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         buttonLayout.add(save);
         buttonLayout.add(clear);
-        buttonLayout.add(back);
+        if(user.getUserType().equals("student")){buttonLayout.add(back);}
         return buttonLayout;
     }
 
