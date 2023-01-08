@@ -1,7 +1,6 @@
 package org.hbrs.se2.project.softwaree.test.control;
 
 import org.hbrs.se2.project.softwaree.control.JobDetailControl;
-import org.hbrs.se2.project.softwaree.control.JobOfferControl;
 import org.hbrs.se2.project.softwaree.dtos.JobDTO;
 import org.hbrs.se2.project.softwaree.repository.BlacklistRepository;
 import org.hbrs.se2.project.softwaree.repository.JobRepository;
@@ -50,8 +49,5 @@ class JobDetailControlTest {
         assertEquals(0, jobDetailControl.validateJobViews(null));
     }
 
-   /* @Test
-    void addBlacklist() {
 
-    }*/
 }
