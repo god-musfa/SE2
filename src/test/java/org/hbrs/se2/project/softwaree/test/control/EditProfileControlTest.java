@@ -44,7 +44,7 @@ class EditProfileControlTest {
 
     @Test
     void getAdressFromUser() {
-        UserDTO userdto = userRepository.findUserByEmail("test");
+        UserDTO userdto = userRepository.findUserByEmail("info@sopra.de");
         AddressDTO addressdto = addressRepository.findAdress(userdto.getAddressId());
         assertEquals(addressdto.getStreet() , con.getAdressFromUser(userdto).getStreet());
         assertEquals(addressdto.getCity() , con.getAdressFromUser(userdto).getCity());
@@ -53,8 +53,8 @@ class EditProfileControlTest {
 
     @Test
     void getCompanyFromUser() {
-        CompanyDTO companyDTO =  companyRepository.findCompany(1);
-        UserDTO userDTO = userRepository.findUserByEmail("test");
+        CompanyDTO companyDTO =  companyRepository.findCompany(483);
+        UserDTO userDTO = userRepository.findUserByEmail("info@sopra.de");
         assertEquals(companyDTO.getName() , con.getCompanyFromUser(userDTO).getName());
         assertEquals(companyDTO.getContactPerson() , con.getCompanyFromUser(userDTO).getContactPerson());
         assertEquals(companyDTO.getField() , con.getCompanyFromUser(userDTO).getField());
@@ -77,7 +77,7 @@ class EditProfileControlTest {
    @Test
     void getStudentSkills() {
 
-        List <SkillDTO> available = con.getStudentSkills(userRepository.findUserByID(188));
+        List <SkillDTO> available = con.getStudentSkills(userRepository.findUserByID(500));
         SkillDTO tester = new SkillDTO(39,"Perl");
         SkillDTO tester2 = new SkillDTO(42,"Python");
         assertTrue(available.contains(tester));
