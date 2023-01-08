@@ -9,22 +9,15 @@ import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
-import com.vaadin.flow.component.notification.Notification;
-import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.server.StreamResource;
 import org.hbrs.se2.project.softwaree.control.DataExtractionControl;
-import org.hbrs.se2.project.softwaree.control.JobDetailControl;
 import org.hbrs.se2.project.softwaree.control.RatingFeedbackControl;
 import org.hbrs.se2.project.softwaree.dtos.UserDTO;
-import org.hbrs.se2.project.softwaree.entities.Company;
-import org.hbrs.se2.project.softwaree.entities.Student;
-import org.hbrs.se2.project.softwaree.entities.User;
 import org.hbrs.se2.project.softwaree.util.Globals;
 
-import javax.xml.crypto.Data;
 import java.io.File;
 import java.io.IOException;
 
@@ -39,50 +32,50 @@ import java.io.IOException;
 public class SoftwareeProfileCard extends Div {
 
     // Used inner layouts:
-    private VerticalLayout innerLayout = new VerticalLayout();
-    private HorizontalLayout titleLayout = new HorizontalLayout();
-    private VerticalLayout labelLayout = new VerticalLayout();
-    private HorizontalLayout locationLayout = new HorizontalLayout();
-    private HorizontalLayout buttonLayout = new HorizontalLayout();
+    private final VerticalLayout innerLayout = new VerticalLayout();
+    private final HorizontalLayout titleLayout = new HorizontalLayout();
+    private final VerticalLayout labelLayout = new VerticalLayout();
+    private final HorizontalLayout locationLayout = new HorizontalLayout();
+    private final HorizontalLayout buttonLayout = new HorizontalLayout();
 
     // Properties for title layout:
-    private Image profileImage = new Image();
-    private Header profileTitle = new Header();
+    private final Image profileImage = new Image();
+    private final Header profileTitle = new Header();
 
-    private Label locationLabel = new Label();
+    private final Label locationLabel = new Label();
 
-    private Icon locationIcon = VaadinIcon.MAP_MARKER.create();
+    private final Icon locationIcon = VaadinIcon.MAP_MARKER.create();
 
 
     // Properties list (using bulletpoint components):
-    private SoftwareeBulletpoint profileFirstName = new SoftwareeBulletpoint(VaadinIcon.ANGLE_RIGHT, "Vorname", "");
-    private SoftwareeBulletpoint profileLastName = new SoftwareeBulletpoint(VaadinIcon.ANGLE_RIGHT, "Nachname", "");
-    private SoftwareeBulletpoint profileBirthday = new SoftwareeBulletpoint(VaadinIcon.ASTERISK, "Geburtsdatum", "");
-    private SoftwareeBulletpoint profileStudySubject = new SoftwareeBulletpoint(VaadinIcon.BOOK, "Studiengang", "");
-    private SoftwareeBulletpoint profileStudyDegree = new SoftwareeBulletpoint(VaadinIcon.ACADEMY_CAP, "Akademischer Grad", "");
-    private SoftwareeBulletpoint profileStudyUniversity = new SoftwareeBulletpoint(VaadinIcon.BUILDING, "Universität", "");
-    private SoftwareeBulletpoint profileStudySemester = new SoftwareeBulletpoint(VaadinIcon.PROGRESSBAR, "Semester", "");
+    private final SoftwareeBulletpoint profileFirstName = new SoftwareeBulletpoint(VaadinIcon.ANGLE_RIGHT, "Vorname", "");
+    private final SoftwareeBulletpoint profileLastName = new SoftwareeBulletpoint(VaadinIcon.ANGLE_RIGHT, "Nachname", "");
+    private final SoftwareeBulletpoint profileBirthday = new SoftwareeBulletpoint(VaadinIcon.ASTERISK, "Geburtsdatum", "");
+    private final SoftwareeBulletpoint profileStudySubject = new SoftwareeBulletpoint(VaadinIcon.BOOK, "Studiengang", "");
+    private final SoftwareeBulletpoint profileStudyDegree = new SoftwareeBulletpoint(VaadinIcon.ACADEMY_CAP, "Akademischer Grad", "");
+    private final SoftwareeBulletpoint profileStudyUniversity = new SoftwareeBulletpoint(VaadinIcon.BUILDING, "Universität", "");
+    private final SoftwareeBulletpoint profileStudySemester = new SoftwareeBulletpoint(VaadinIcon.PROGRESSBAR, "Semester", "");
 
 
 
     // Properties list (using bulletpoint components) - COMPANY SPECIFIC:
-    private SoftwareeBulletpoint profileCompanyName = new SoftwareeBulletpoint(VaadinIcon.BRIEFCASE, "Firma", "");
-    private SoftwareeBulletpoint profileCompanyWebsite = new SoftwareeBulletpoint(VaadinIcon.GLOBE, "Webseite", "");
-    private SoftwareeBulletpoint profileCompanyPhone = new SoftwareeBulletpoint(VaadinIcon.PHONE, "Telefon", "");
-    private SoftwareeBulletpoint profileCompanyContact = new SoftwareeBulletpoint(VaadinIcon.CHAT, "Ansprechpartner", "");
-    private SoftwareeBulletpoint profileCompanyField = new SoftwareeBulletpoint(VaadinIcon.FACTORY, "Branche", "");
-    private SoftwareeBulletpoint profileCompanySize = new SoftwareeBulletpoint(VaadinIcon.USERS, "Unternehmensgröße", "");
+    private final SoftwareeBulletpoint profileCompanyName = new SoftwareeBulletpoint(VaadinIcon.BRIEFCASE, "Firma", "");
+    private final SoftwareeBulletpoint profileCompanyWebsite = new SoftwareeBulletpoint(VaadinIcon.GLOBE, "Webseite", "");
+    private final SoftwareeBulletpoint profileCompanyPhone = new SoftwareeBulletpoint(VaadinIcon.PHONE, "Telefon", "");
+    private final SoftwareeBulletpoint profileCompanyContact = new SoftwareeBulletpoint(VaadinIcon.CHAT, "Ansprechpartner", "");
+    private final SoftwareeBulletpoint profileCompanyField = new SoftwareeBulletpoint(VaadinIcon.FACTORY, "Branche", "");
+    private final SoftwareeBulletpoint profileCompanySize = new SoftwareeBulletpoint(VaadinIcon.USERS, "Unternehmensgröße", "");
 
 
     private RatingComponent ratingComponent;
 
     private Button contactButton;
-    private Button blacklistButton;
-    private Button pdfButton;
 
     private DataExtractionControl dataExtractionControl;
     private int student_id;
-    public SoftwareeProfileCard(RatingFeedbackControl ratingFeedbackControl, DataExtractionControl dataExtractionControl, int student_id, int company_id, boolean ratingEnabled, boolean isCompany) {
+    public SoftwareeProfileCard(RatingFeedbackControl ratingFeedbackControl,
+                                DataExtractionControl dataExtractionControl,
+                                int student_id, int company_id, boolean ratingEnabled, boolean isCompany) {
         this.dataExtractionControl = dataExtractionControl;
         this.student_id = student_id;
         // Styling settings (CSS):
@@ -149,9 +142,6 @@ public class SoftwareeProfileCard extends Div {
 
         // Build contact button if (company -> user OR user -> company)
         if (((UserDTO) UI.getCurrent().getSession().getAttribute(Globals.CURRENT_USER)).getUserType().equals("company") && !isCompany) {
-            addContactButton();
-        }
-        if (((UserDTO) UI.getCurrent().getSession().getAttribute(Globals.CURRENT_USER)).getUserType().equals("student") && isCompany) {
             addContactButton();
             addPdfButton();
             buttonLayout.setPadding(true);
@@ -266,7 +256,7 @@ public class SoftwareeProfileCard extends Div {
         link.getElement().setAttribute("download", true);
         link.removeAll();
         Button button = new Button("Pdf erstellen");
-        button.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_PRIMARY);;
+        button.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_PRIMARY);
         link.add(button);
 
         return link;

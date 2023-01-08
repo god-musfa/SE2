@@ -2,23 +2,17 @@ package org.hbrs.se2.project.softwaree.views;
 
 
 import com.vaadin.flow.component.UI;
-import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.*;
-import com.vaadin.flow.component.icon.VaadinIcon;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.*;
 import org.hbrs.se2.project.softwaree.components.*;
 import org.hbrs.se2.project.softwaree.control.DataExtractionControl;
 import org.hbrs.se2.project.softwaree.control.ViewProfileControl;
-import org.hbrs.se2.project.softwaree.control.factories.CompanyFactory;
-import org.hbrs.se2.project.softwaree.control.factories.UserFactory;
 import org.hbrs.se2.project.softwaree.dtos.AddressDTO;
 import org.hbrs.se2.project.softwaree.dtos.CompanyDTO;
 import org.hbrs.se2.project.softwaree.dtos.StudentDTO;
 import org.hbrs.se2.project.softwaree.dtos.UserDTO;
-import org.hbrs.se2.project.softwaree.entities.User;
 import org.hbrs.se2.project.softwaree.util.Globals;
 
 @Route(value = Globals.Pages.VIEW_PROFILE, layout = NavBar.class)
@@ -26,8 +20,8 @@ import org.hbrs.se2.project.softwaree.util.Globals;
 public class ProfileView extends VerticalLayout implements HasDynamicTitle, HasUrlParameter<String> {
 
     //Logic elements
-    private ViewProfileControl viewProfileControl;
-    private DataExtractionControl dataExtractionControl;
+    private final ViewProfileControl viewProfileControl;
+    private final DataExtractionControl dataExtractionControl;
     private int currentProfileID = -1;
     private boolean ratingEnabled = false;
 
@@ -38,7 +32,7 @@ public class ProfileView extends VerticalLayout implements HasDynamicTitle, HasU
 
     /** Components for page **/
 
-    private Label skillsHeader = new Label("Fähigkeiten");
+    private final Label skillsHeader = new Label("Fähigkeiten");
 
     private SoftwareeProfileCard profileCard;
 
@@ -110,8 +104,7 @@ public class ProfileView extends VerticalLayout implements HasDynamicTitle, HasU
 
         // Get profile user's skills:
         profileSkills = new SkillsComponent(null, SkillsComponent.ComponentType.SKILL_VIEWER);
-        currentStudent.getSkills().stream()
-                .forEach(skill -> {profileSkills.addSkill(skill.getDescription());});
+        currentStudent.getSkills().forEach(skill -> profileSkills.addSkill(skill.getDescription()));
 
         // Add all components to page:
         add(profileCard);
@@ -165,6 +158,7 @@ public class ProfileView extends VerticalLayout implements HasDynamicTitle, HasU
                 currentCompany.getField(),
                 currentCompany.getSize(),
                 viewProfileControl,
+                dataExtractionControl,                  // Not used, but needed for constructor!
                 currentVisitorUserDTO.getId(),
                 currentProfileID,
                 ratingEnabled
