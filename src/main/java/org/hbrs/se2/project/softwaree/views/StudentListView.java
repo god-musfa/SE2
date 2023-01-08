@@ -23,7 +23,7 @@ import org.hbrs.se2.project.softwaree.util.Globals;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-@Route(value = "studentlist")
+@Route(value = "studentlist",layout = NavBar.class)
 @CssImport("./styles/views/studentlist/student-list-view.css")
 public class StudentListView extends VerticalLayout {
 

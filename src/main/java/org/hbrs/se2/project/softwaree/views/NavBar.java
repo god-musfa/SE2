@@ -17,6 +17,7 @@ import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.component.tabs.TabsVariant;
 import com.vaadin.flow.router.*;
+import com.vaadin.flow.theme.lumo.LumoIcon;
 import org.hbrs.se2.project.softwaree.dtos.UserDTO;
 import org.hbrs.se2.project.softwaree.util.Globals;
 
@@ -76,7 +77,7 @@ public class NavBar extends AppLayout implements BeforeEnterObserver {
             tabs.add(
                     createTab(VaadinIcon.LIST_UL.create(), JobListView.class),
                     createTab(VaadinIcon.USER.create(), EditProfileView.class),
-                    createTab(VaadinIcon.FOLDER_OPEN_O.create(), ShowApplicationsBusiness.class),
+                    createTab(VaadinIcon.CHAT.create(), MessageView.class),
                     logout
             );
         } else if (type.equals("company")) {
@@ -85,6 +86,7 @@ public class NavBar extends AppLayout implements BeforeEnterObserver {
                     createTab(VaadinIcon.TEXT_INPUT.create(), ShowApplicationsBusiness.class),
                     createTab(VaadinIcon.USER.create(), EditProfileView.class),
                     createTab(VaadinIcon.INSERT.create(), JobOfferView.class),
+                    createTab(LumoIcon.ORDERED_LIST.create(),StudentListView.class),
                     logout
         );
         } else {
@@ -178,11 +180,12 @@ public class NavBar extends AppLayout implements BeforeEnterObserver {
     private Map<Class<? extends Component>, String> createTitleMap() {
         Map<Class<? extends Component>, String> titleMap = new HashMap<>();
         titleMap.put(JobListView.class, "Stellenanzeigen");
-        titleMap.put(JobListView.class, "Studenten");
         titleMap.put(ShowApplicationsBusiness.class, "Bewerbungen");
         titleMap.put(EditProfileView.class, "Profil");
         titleMap.put(JobOfferView.class, "Stellenanzeigen Angebote");
         titleMap.put(Logout.class, "Logout");
+        titleMap.put(MessageView.class,"Nachrichten");
+        titleMap.put(StudentListView.class,"Studenten suchen");
 
         return titleMap;
     }

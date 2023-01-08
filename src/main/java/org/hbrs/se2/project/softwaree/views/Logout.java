@@ -18,7 +18,7 @@ public class Logout extends VerticalLayout {
         add(message);
 
         UI.getCurrent().getSession().close();
-        UI.getCurrent().getPage().setLocation("/");
+        UI.getCurrent().getPage().setLocation("landingpage");
     }
 
     private String getCurrentNameOfUser() {
