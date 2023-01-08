@@ -14,7 +14,7 @@ import org.hbrs.se2.project.softwaree.entities.Student;
 @CssImport("./styles/components/ratingComponent.css")
 public class RatingComponent extends Div {
 
-    // Rating value defaults:
+    // StudentRating value defaults:
     private int maxScore = 5;
     private int rating = 0;
 
@@ -25,6 +25,8 @@ public class RatingComponent extends Div {
     private int student_id;
     private int company_id;
 
+    private boolean studentRatesCompany;
+
     // UI components:
     private HorizontalLayout starsLayout = new HorizontalLayout();
     private VerticalLayout mainLayout = new VerticalLayout();
@@ -33,11 +35,12 @@ public class RatingComponent extends Div {
     private Label ratingLabel = new Label("0/5");
 
 
-    public RatingComponent(int ratingScore, int maxScore, RatingFeedbackControl ratingFeedbackControl, int student_id, int company_id) {
+    public RatingComponent(int ratingScore, int maxScore, RatingFeedbackControl ratingFeedbackControl, int student_id, int company_id, boolean studentRatesCompany) {
         // Setup logics:
         this.feedbackController = ratingFeedbackControl;
         this.student_id = student_id;
         this.company_id = company_id;
+        this.studentRatesCompany = studentRatesCompany;
 
         // Check maxScore value not being negative:
         if (maxScore > 0) {
@@ -64,8 +67,8 @@ public class RatingComponent extends Div {
         add(mainLayout);
     }
 
-    public RatingComponent(int ratingScore, RatingFeedbackControl ratingFeedbackControl, int student_id, int company_id) {
-        this(ratingScore, 5, ratingFeedbackControl, student_id, company_id);
+    public RatingComponent(int ratingScore, RatingFeedbackControl ratingFeedbackControl, int student_id, int company_id, boolean studentRatesCompany) {
+        this(ratingScore, 5, ratingFeedbackControl, student_id, company_id, studentRatesCompany);
     }
 
 
@@ -78,7 +81,7 @@ public class RatingComponent extends Div {
         }
 
         // Use feedback controller to handle rating event:
-        feedbackController.setRating(ratingScore, this.student_id, this.company_id);
+        feedbackController.setRating(ratingScore, this.student_id, this.company_id, this.studentRatesCompany);
 
         // Render new rating:
         renderStars(ratingScore);
@@ -87,34 +90,6 @@ public class RatingComponent extends Div {
     public int getRating() {
         return this.rating;
     }
-
-
-    // Old (deprecated function); working, but slow
-    /*
-    private void renderStars(int ratingScore) {
-        starsLayout.removeAll();
-
-        for (int i=0; i<maxScore; i++) {
-            starIcons[i] = new Icon(VaadinIcon.STAR);
-            starIcons[i].removeClassName("rating-checked");
-            starIcons[i].removeClassName("rating-unchecked");
-
-            final int currentRating = i;
-            starIcons[i].addClickListener(
-                    clickEvent -> {setRating(currentRating+1);}
-            );
-
-            if (ratingScore > i) {
-                starIcons[i].addClassName("rating-checked");
-            } else {
-                starIcons[i].addClassName("rating-unchecked");
-            }
-            starsLayout.add(starIcons[i]);
-        }
-
-        ratingLabel.setText(String.format("%d/%d", ratingScore, maxScore));
-    }
-    */
 
 
     /** Build stars UI and add event listener **/
@@ -148,7 +123,6 @@ public class RatingComponent extends Div {
             } else {
                 starIcons[i].addClassName("rating-unchecked");
             }
-            starsLayout.add(starIcons[i]);
         }
 
         ratingLabel.setText(String.format("%d/%d", ratingScore, maxScore));

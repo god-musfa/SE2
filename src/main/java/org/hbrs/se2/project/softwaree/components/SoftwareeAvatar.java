@@ -1,13 +1,23 @@
 package org.hbrs.se2.project.softwaree.components;
 
 
+import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.upload.SucceededEvent;
 import com.vaadin.flow.component.upload.Upload;
 import com.vaadin.flow.component.upload.receivers.MemoryBuffer;
+import com.vaadin.flow.server.StreamResource;
+import org.hbrs.se2.project.softwaree.control.PictureUploadController;
+import org.hbrs.se2.project.softwaree.dtos.UserDTO;
+import org.hbrs.se2.project.softwaree.util.ProfilePictureService;
+import org.hbrs.se2.project.softwaree.views.MainView;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 
 @CssImport("./styles/components/SoftwareeAvatar.css")
@@ -16,9 +26,9 @@ public class SoftwareeAvatar extends HorizontalLayout implements SoftwareeAvatar
     // ToDo: Replace avatar image with other image due to copyright reasons.
     private final String DEFAULT_AVATAR_IMAGE = "https://cdn-icons-png.flaticon.com/512/149/149071.png";
     
-    private final Image avatarImage = new Image();
+    private Image avatarImage = new Image();
     private final Label avatarLabel = new Label();
-    private final MemoryBuffer uploadBuffer = new MemoryBuffer();
+    public final MemoryBuffer uploadBuffer = new MemoryBuffer();
     private final Upload profilePictureUpload = new Upload(uploadBuffer);
     private final Button profilePictureUploadButton = new Button("Bild hochladen...");
     private final Label profilePictureUploadLabel = new Label("Bilddatei hier ablegen");
@@ -46,8 +56,10 @@ public class SoftwareeAvatar extends HorizontalLayout implements SoftwareeAvatar
         profilePictureUpload.setUploadButton(profilePictureUploadButton);
         profilePictureUpload.setDropLabel(profilePictureUploadLabel);
         profilePictureUpload.setDropAllowed(true);
-        profilePictureUpload.setAcceptedFileTypes("*.jpg, *.png, *.gif, *.bmp");
-        profilePictureUpload.setMaxFileSize(1 * 1024^2);
+        profilePictureUpload.addFileRejectedListener(event -> {System.out.println("REJECTED" + event.getErrorMessage());});
+        //profilePictureUpload.setAcceptedFileTypes("*.jpg", "image/jpeg", "*.png", "image/png", "*.bmp", "image/bmp");
+        profilePictureUpload.setMaxFileSize(ProfilePictureService.MAX_FILESIZE);
+
     }
 
     public SoftwareeAvatar(String labelText) {
@@ -62,12 +74,40 @@ public class SoftwareeAvatar extends HorizontalLayout implements SoftwareeAvatar
 
     /**
      * Sets the image path of the avatar image.
-     * @param imagePath Image path to avatar image file.
+     * @param imageData Image base64 data for avatar image file.
      */
     @Override
-    public void setImage(String imagePath) {
-        this.avatarImage.setSrc(imagePath);
+    public void setImage(String imageData) {
+        avatarImage.setSrc(imageData);
         avatarImage.setClassName("softwaree_avatar_image");
+    }
+
+    /**
+     * Assigns a controller that handles the upload of new profile pictures.
+     * @param pictureUploadController Image base64 data for avatar image file.
+     * @param targetUser User for which the picture should be saved.
+     */
+    public void setUploadController(PictureUploadController pictureUploadController, UserDTO targetUser) {
+        profilePictureUpload.addSucceededListener(
+                event -> {
+                    InputStream fileData = uploadBuffer.getInputStream();
+                    String fileName = event.getFileName();
+                    long contentLength = event.getContentLength();
+                    String mimeType = event.getMIMEType();
+
+                    if (ProfilePictureService.checkPicture(fileName, contentLength, mimeType)) {
+                        try {
+                            pictureUploadController.setProfilePicture(targetUser, fileData.readAllBytes(), mimeType);
+                        } catch (IOException ioex) {
+                            System.out.println("Profile Picture upload failed! Message: " + ioex.getMessage());
+                        }
+                    } else {
+                        System.out.println("Invalid file properties for Profile Picture!");
+                    }
+                }
+        );
+
+
     }
 
     /**
@@ -105,6 +145,5 @@ public class SoftwareeAvatar extends HorizontalLayout implements SoftwareeAvatar
         }
     }
 
-    // ToDo: Implement function to set event handler for upload funcionality
 
 }

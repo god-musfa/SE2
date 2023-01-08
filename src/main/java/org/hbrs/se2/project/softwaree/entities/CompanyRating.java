@@ -2,16 +2,16 @@ package org.hbrs.se2.project.softwaree.entities;
 
 import javax.persistence.*;
 
-@Entity(name="Rating")
-@Table(name="student_rating", schema = "coll")
-public class Rating {
+@Entity(name="CompanyRating")
+@Table(name="company_rating", schema = "coll")
+public class CompanyRating {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @EmbeddedId
     @AssociationOverrides({
-            @AssociationOverride(name = "student", joinColumns = @JoinColumn(name = "student_id")),
-            @AssociationOverride(name = "company", joinColumns = @JoinColumn(name = "company_id"))
+            @AssociationOverride(name = "company", joinColumns = @JoinColumn(name = "company_id")),
+            @AssociationOverride(name = "student", joinColumns = @JoinColumn(name = "student_id"))
     })
-    private RatingID ratingID;
+    private CompanyRatingID companyRatingID;
 
     @Column(name = "rating")
     private int rating;
@@ -50,11 +50,11 @@ public class Rating {
         this.rating = rating;
     }
 
-    public RatingID getRatingID() {
-        return ratingID;
+    public CompanyRatingID getRatingID() {
+        return companyRatingID;
     }
 
-    public void setRatingID(RatingID ratingID) {
-        this.ratingID = ratingID;
+    public void setRatingID(CompanyRatingID companyRatingID) {
+        this.companyRatingID = companyRatingID;
     }
 }

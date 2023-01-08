@@ -4,7 +4,8 @@ package org.hbrs.se2.project.softwaree.control;
 import org.hbrs.se2.project.softwaree.control.factories.*;
 import org.hbrs.se2.project.softwaree.dtos.*;
 import org.hbrs.se2.project.softwaree.entities.Company;
-import org.hbrs.se2.project.softwaree.entities.Rating;
+import org.hbrs.se2.project.softwaree.entities.CompanyRating;
+import org.hbrs.se2.project.softwaree.entities.StudentRating;
 import org.hbrs.se2.project.softwaree.entities.Student;
 import org.hbrs.se2.project.softwaree.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,59 +25,114 @@ public class ViewProfileControl implements RatingFeedbackControl{
     @Autowired
     SkillRepository skillRepo;
     @Autowired
-    RatingRepository ratingRepo;
+    StudentRatingRepository studentRatingRepo;
+    @Autowired
+    CompanyRatingRepository companyRatingRepo;
+    @Autowired
+    AddressRepository addressRepository;
 
     @Override
-    public void setRating(int rating, int student_id, int company_id) {
-        Optional<RatingDTO> currentRating = ratingRepo.findByIDs(student_id, company_id);
+    public void setRating(int rating, int student_id, int company_id, boolean studentRatesCompany) {
 
-        if (currentRating.isPresent()) {
-            // Overwrite existing rating:
-            RatingDTO currentDTO = currentRating.get();
-            currentDTO.setRating(rating);
-            Rating saveRating = RatingFactory.createRating(currentDTO);
-            ratingRepo.save(
-                 saveRating
-            );
-        } else {
-            // Create new rating:
+        /* Differentiate between userRating and companyRating: */
 
-            // Get student and company:
-            Optional<StudentDTO> studentDTO = studentRepository.findFullStudentByID(student_id);
-            Optional<CompanyDTO> companyDTO = companyRepo.getCompanyDTOByID(company_id);
+        if (studentRatesCompany) {          /* COMPANY RATING */
+            Optional<CompanyRatingDTO> currentRating = companyRatingRepo.findByIDs(student_id, company_id);
 
-            if (studentDTO.isPresent() && companyDTO.isPresent()) {
-                RatingIDDTO newRatingIDDTO = new RatingIDDTO(studentDTO.get(), companyDTO.get());
-                RatingDTO newRatingDTO = new RatingDTO(newRatingIDDTO, rating, studentDTO.get(), companyDTO.get());
-                Rating saveRating = RatingFactory.createRating(newRatingDTO);
-                ratingRepo.save(
-                        saveRating
+            if (currentRating.isPresent()) {
+                // Overwrite existing rating:
+                CompanyRatingDTO currentDTO = currentRating.get();
+                currentDTO.setRating(rating);
+                CompanyRating saveCompanyRating = CompanyRatingFactory.createRating(currentDTO);
+                companyRatingRepo.save(
+                        saveCompanyRating
                 );
+            } else {
+                // Create new rating:
+                // Get student and company:
+                Optional<StudentDTO> studentDTO = studentRepository.findFullStudentByID(student_id);
+                Optional<CompanyDTO> companyDTO = companyRepo.getCompanyDTOByID(company_id);
+
+                if (studentDTO.isPresent() && companyDTO.isPresent()) {
+                    System.out.println("[RATING] Both users present!");
+                    CompanyRatingIDDTO newCompanyRatingIDDTO = new CompanyRatingIDDTO(studentDTO.get(), companyDTO.get());
+                    CompanyRatingDTO newCompanyRatingDTO = new CompanyRatingDTO(newCompanyRatingIDDTO, rating, studentDTO.get(), companyDTO.get());
+                    CompanyRating saveCompanyRating = CompanyRatingFactory.createRating(newCompanyRatingDTO);
+                    companyRatingRepo.save(
+                            saveCompanyRating
+                    );
+                }
+            }
+
+
+        } else {                            /* STUDENT RATING */
+            Optional<StudentRatingDTO> currentRating = studentRatingRepo.findByIDs(student_id, company_id);
+
+            if (currentRating.isPresent()) {
+                // Overwrite existing rating:
+                StudentRatingDTO currentDTO = currentRating.get();
+                currentDTO.setRating(rating);
+                StudentRating saveStudentRating = StudentRatingFactory.createRating(currentDTO);
+                studentRatingRepo.save(
+                        saveStudentRating
+                );
+            } else {
+                // Create new rating:
+
+                // Get student and company:
+                Optional<StudentDTO> studentDTO = studentRepository.findFullStudentByID(student_id);
+                Optional<CompanyDTO> companyDTO = companyRepo.getCompanyDTOByID(company_id);
+
+                if (studentDTO.isPresent() && companyDTO.isPresent()) {
+                    StudentRatingIDDTO newStudentRatingIDDTO = new StudentRatingIDDTO(studentDTO.get(), companyDTO.get());
+                    StudentRatingDTO newStudentRatingDTO = new StudentRatingDTO(newStudentRatingIDDTO, rating, studentDTO.get(), companyDTO.get());
+                    StudentRating saveStudentRating = StudentRatingFactory.createRating(newStudentRatingDTO);
+                    studentRatingRepo.save(
+                            saveStudentRating
+                    );
+                }
             }
         }
+
+
     }
 
     @Override
-    public int getRating(int student_id, int company_id) {
+    public int getRating(int student_id, int company_id, boolean studentRatesCompany) {
         Optional<Student> speculativeStudent = studentRepository.findStudentById(student_id);
         Optional<Company> speculativeCompany = companyRepo.findById(company_id);
 
+        // Check if both users, visiting user and profile user are existing:
         if (speculativeStudent.isPresent() && speculativeCompany.isPresent()) {
             StudentDTO tmpStudentDTO = StudentFactory.createDTO(speculativeStudent.get());
             CompanyDTO tmpCompanyDTO = CompanyFactory.createDTO(speculativeCompany.get());
 
-            RatingIDDTO tmpID = new RatingIDDTO(
-                    tmpStudentDTO,
-                    tmpCompanyDTO
-            );
+            /* Differentiate between userRating and companyRating: */
+            if (studentRatesCompany) {                                      /* COMPANY RATING */
+                CompanyRatingIDDTO tmpID = new CompanyRatingIDDTO(
+                        tmpStudentDTO,
+                        tmpCompanyDTO
+                );
 
-            // Now get the Rating using the RatingID:
-            Optional<Rating> speculativeRating = ratingRepo.getRatingByID(RatingIDFactory.createRatingID(tmpID));
-            if (speculativeRating.isPresent()) {
-                return speculativeRating.get().getRating();
+                // Now get the CompanyRating using the CompanyRatingID:
+                Optional<CompanyRating> speculativeRating = companyRatingRepo.getRatingByID(CompanyRatingIDFactory.createRatingID(tmpID));
+                if (speculativeRating.isPresent()) {
+                    return speculativeRating.get().getRating();
+                }
+
+            } else {                                                        /* STUDENT RATING */
+                StudentRatingIDDTO tmpID = new StudentRatingIDDTO(
+                        tmpStudentDTO,
+                        tmpCompanyDTO
+                );
+
+                // Now get the StudentRating using the StudentRatingID:
+                Optional<StudentRating> speculativeRating = studentRatingRepo.getRatingByID(StudentRatingIDFactory.createRatingID(tmpID));
+                if (speculativeRating.isPresent()) {
+                    return speculativeRating.get().getRating();
+                }
             }
         }
-
         return 0;
     }
 
@@ -96,9 +152,17 @@ public class ViewProfileControl implements RatingFeedbackControl{
         }
     }
 
+    public CompanyDTO getCompanyFromUser(UserDTO userDTO) {
+        Optional<Company> companyFromDB = companyRepo.findById(userDTO.getId());
+        if (companyFromDB.isPresent()) {
+            return CompanyFactory.createDTO(companyFromDB.get());
+        } else {
+            return null;
+        }
+    }
 
-    @Autowired
-    AddressRepository addressRepository;
+
+
     public AddressDTO getAdressFromUser(UserDTO userDTO){
         return addressRepository.findAdress(userDTO.getAddressId());
     }

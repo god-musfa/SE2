@@ -64,6 +64,16 @@ public class SoftwareeProfileCard extends Div {
     private SoftwareeBulletpoint profileStudySemester = new SoftwareeBulletpoint(VaadinIcon.PROGRESSBAR, "Semester", "");
 
 
+
+    // Properties list (using bulletpoint components) - COMPANY SPECIFIC:
+    private SoftwareeBulletpoint profileCompanyName = new SoftwareeBulletpoint(VaadinIcon.BRIEFCASE, "Firma", "");
+    private SoftwareeBulletpoint profileCompanyWebsite = new SoftwareeBulletpoint(VaadinIcon.GLOBE, "Webseite", "");
+    private SoftwareeBulletpoint profileCompanyPhone = new SoftwareeBulletpoint(VaadinIcon.PHONE, "Telefon", "");
+    private SoftwareeBulletpoint profileCompanyContact = new SoftwareeBulletpoint(VaadinIcon.CHAT, "Ansprechpartner", "");
+    private SoftwareeBulletpoint profileCompanyField = new SoftwareeBulletpoint(VaadinIcon.FACTORY, "Branche", "");
+    private SoftwareeBulletpoint profileCompanySize = new SoftwareeBulletpoint(VaadinIcon.USERS, "Unternehmensgröße", "");
+
+
     private RatingComponent ratingComponent;
 
     private Button contactButton;
@@ -72,7 +82,7 @@ public class SoftwareeProfileCard extends Div {
 
     private DataExtractionControl dataExtractionControl;
     private int student_id;
-    public SoftwareeProfileCard(RatingFeedbackControl ratingFeedbackControl, DataExtractionControl dataExtractionControl, int student_id, int company_id, boolean ratingEnabled) {
+    public SoftwareeProfileCard(RatingFeedbackControl ratingFeedbackControl, DataExtractionControl dataExtractionControl, int student_id, int company_id, boolean ratingEnabled, boolean isCompany) {
         this.dataExtractionControl = dataExtractionControl;
         this.student_id = student_id;
         // Styling settings (CSS):
@@ -104,29 +114,44 @@ public class SoftwareeProfileCard extends Div {
         innerLayout.add(titleLayout);
 
         // Initialize bulletpoints:
-        innerLayout.add(profileFirstName);
-        innerLayout.add(profileLastName);
-        innerLayout.add(profileBirthday);
-        innerLayout.add(profileStudySubject);
-        innerLayout.add(profileStudyDegree);
-        innerLayout.add(profileStudySemester);
-        innerLayout.add(profileStudyUniversity);
+
+        if (isCompany) {
+            innerLayout.add(profileCompanyName);
+            innerLayout.add(profileCompanyWebsite);
+            innerLayout.add(profileCompanyPhone);
+            innerLayout.add(profileCompanyContact);
+            innerLayout.add(profileCompanyField);
+            innerLayout.add(profileCompanySize);
+        } else {
+            innerLayout.add(profileFirstName);
+            innerLayout.add(profileLastName);
+            innerLayout.add(profileBirthday);
+            innerLayout.add(profileStudySubject);
+            innerLayout.add(profileStudyDegree);
+            innerLayout.add(profileStudySemester);
+            innerLayout.add(profileStudyUniversity);
+        }
 
         // If enabled, add rating component:
         if (ratingEnabled) {
             ratingComponent = new RatingComponent(
-                    ratingFeedbackControl.getRating(student_id, company_id),
+                    ratingFeedbackControl.getRating(student_id, company_id, isCompany),
                     ratingFeedbackControl,
                     student_id,
-                    company_id
+                    company_id,
+                    isCompany
             );
             innerLayout.add(ratingComponent);
         }
 
         add(innerLayout);
 
-        // Build contact button if company is viewing:
-        if (((UserDTO) UI.getCurrent().getSession().getAttribute(Globals.CURRENT_USER)).getUserType().equals("company")) {
+
+        // Build contact button if (company -> user OR user -> company)
+        if (((UserDTO) UI.getCurrent().getSession().getAttribute(Globals.CURRENT_USER)).getUserType().equals("company") && !isCompany) {
+            addContactButton();
+        }
+        if (((UserDTO) UI.getCurrent().getSession().getAttribute(Globals.CURRENT_USER)).getUserType().equals("student") && isCompany) {
             addContactButton();
             addPdfButton();
             buttonLayout.setPadding(true);
@@ -134,11 +159,13 @@ public class SoftwareeProfileCard extends Div {
         }
     }
 
+
+    // STUDENT CONSTRUCTOR:
     public SoftwareeProfileCard(String profileTitle, String profileImage, String location, String firstName, String lastName, String birthday,
                                 String subject, String degree, String semester, String university, RatingFeedbackControl ratingFeedbackControl,
                                 int student_id, int company_id, boolean ratingEnabled, DataExtractionControl dataExtractionControl) {
 
-        this(ratingFeedbackControl,dataExtractionControl, student_id, company_id, ratingEnabled);
+        this(ratingFeedbackControl,dataExtractionControl, student_id, company_id, ratingEnabled, false);
         this.setLocation((location == null)?("-"):location);
         this.setTitle((profileTitle == null)?("-"):profileTitle);
         this.setFirstname((firstName == null)?("-"):firstName);
@@ -148,6 +175,25 @@ public class SoftwareeProfileCard extends Div {
         this.setStudyDegree((degree == null)?("-"):degree);
         this.setStudySemester((semester == null)?("-"):semester);
         this.setStudyUniversity((university == null)?("-"):university);
+        this.setProfileImage((profileImage == null)?(Globals.DEFAULT_PROFILE_PICTURE):profileImage);
+    }
+
+    // COMPANY CONSTRUCTOR:
+    public SoftwareeProfileCard(String profileTitle, String companyName, String profileImage, String location, String phoneNumber,
+                                String contactPerson, String website, String field, String size,
+                                RatingFeedbackControl ratingFeedbackControl, DataExtractionControl dataExtractionControl,
+                                int student_id, int company_id, boolean ratingEnabled) {
+
+        this(ratingFeedbackControl,dataExtractionControl, student_id, company_id, ratingEnabled, true);
+
+        this.setLocation((location == null)?("-"):location);
+        this.setTitle((profileTitle == null)?("-"):profileTitle);
+        this.setCompanyName(companyName);
+        this.setCompanyWebsite(website);
+        this.setCompanyPhone(phoneNumber);
+        this.setCompanyContact(contactPerson);
+        this.setCompanyField(field);
+        this.setCompanySize(size);
         this.setProfileImage((profileImage == null)?(Globals.DEFAULT_PROFILE_PICTURE):profileImage);
     }
 
@@ -225,4 +271,28 @@ public class SoftwareeProfileCard extends Div {
 
         return link;
     }
+    public void setCompanyName(String name) {
+        profileCompanyName.setValue(name);
+    }
+
+    public void setCompanyWebsite(String website) {
+        profileCompanyWebsite.setValue(website);
+    }
+
+    public void setCompanyPhone(String phone) {
+        profileCompanyPhone.setValue(phone);
+    }
+
+    public void setCompanyContact(String contactName) {
+        profileCompanyContact.setValue(contactName);
+    }
+
+    public void setCompanyField(String field) {
+        profileCompanyField.setValue(field);
+    }
+
+    public void setCompanySize(String size) {
+        profileCompanySize.setValue(size);
+    }
+
 }

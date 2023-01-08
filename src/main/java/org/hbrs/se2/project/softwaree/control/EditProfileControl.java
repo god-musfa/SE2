@@ -1,9 +1,12 @@
 package org.hbrs.se2.project.softwaree.control;
 
+import com.vaadin.flow.component.UI;
 import org.hbrs.se2.project.softwaree.control.factories.*;
 import org.hbrs.se2.project.softwaree.dtos.*;
 import org.hbrs.se2.project.softwaree.entities.*;
 import org.hbrs.se2.project.softwaree.repository.*;
+import org.hbrs.se2.project.softwaree.util.Globals;
+import org.hbrs.se2.project.softwaree.util.ProfilePictureService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,7 +15,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
-public class EditProfileControl {
+public class EditProfileControl implements PictureUploadController{
     @Autowired
     StudentRepository repo;
     @Autowired
@@ -26,6 +29,9 @@ public class EditProfileControl {
 
     @Autowired
     BlacklistRepository blacklistRepo;
+
+    @Autowired
+    AddressRepository addressRepo;
 
     public StudentDTO getStudentFromUser(UserDTO userDTO) {
         Optional<Student> studentFromDB = repo.findStudentById(userDTO.getId());
@@ -144,5 +150,21 @@ public class EditProfileControl {
         repoU.deleteUser(user.getId());
         repoA.deleteById(user.getAddressId());
         System.out.println("Account Deleted");
+    }
+
+
+    @Override
+    public boolean setProfilePicture(UserDTO targetUser, byte[] imageData, String mimeType) {
+        // Set image for current user:
+        String srcData = String.format("data:%s;base64, %s",  mimeType, ProfilePictureService.toBase64(imageData));
+        targetUser.setProfilePic(srcData);
+
+        Optional<User> dbUser = repoU.findById(targetUser.getId());
+        if (dbUser.isPresent()) {
+            repoU.save(dbUser.get());
+            return true;
+        } else {
+            return false;
+        }
     }
 }

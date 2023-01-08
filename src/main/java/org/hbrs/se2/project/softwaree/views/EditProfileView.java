@@ -2,6 +2,8 @@ package org.hbrs.se2.project.softwaree.views;
 
 
 import java.awt.*;
+import java.io.File;
+import java.io.InputStream;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Locale;
@@ -30,6 +32,8 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.VaadinService;
+import org.apache.catalina.webresources.FileResource;
 import org.hbrs.se2.project.softwaree.components.BlacklistComponent;
 import org.hbrs.se2.project.softwaree.components.SkillsComponent;
 import org.hbrs.se2.project.softwaree.components.SoftwareeAvatar;
@@ -39,7 +43,8 @@ import org.hbrs.se2.project.softwaree.entities.Company;
 import org.hbrs.se2.project.softwaree.entities.Skill;
 import org.hbrs.se2.project.softwaree.util.Globals;
 import com.vaadin.flow.component.notification.Notification;
-
+import org.hbrs.se2.project.softwaree.util.ProfilePictureService;
+import org.springframework.context.annotation.Profile;
 
 
 /**
@@ -102,6 +107,7 @@ public class EditProfileView extends Div {
     UserDTO userDTO = (UserDTO) UI.getCurrent().getSession().getAttribute(Globals.CURRENT_USER);
     EditProfileControl pc;
 
+    private Dialog profilePictureFeedbackDialog = new Dialog();
 
     // Methods to setup components:
 
@@ -150,6 +156,8 @@ public class EditProfileView extends Div {
 
         // Profile picture section:
         profileAvatar.setSize("6rem");
+        profileAvatar.setUploadController(pc, userDTO);
+        profileAvatar.setImage(userDTO.getProfilePic());
 
         // Graduation dropdown settings:
         String[] studyGraduations = {"B. Sc.", "M. Sc.", "Diplom", "Magister", "Dr.", "Langzeitstudent"};

@@ -3,6 +3,7 @@ package org.hbrs.se2.project.softwaree.util;
 public class Globals {
     public static String CURRENT_USER = "current_User";
     public static final String DEFAULT_PROFILE_PICTURE = "/images/profile_pictures/default.png";
+    public static String PROFILE_PICTURE_PATH = "/images/profile_pictures/";
 
     public static class Pages {
         public static final String SHOW_CARS = "show";

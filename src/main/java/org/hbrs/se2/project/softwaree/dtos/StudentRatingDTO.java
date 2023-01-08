@@ -1,40 +1,40 @@
 package org.hbrs.se2.project.softwaree.dtos;
 
 import org.hbrs.se2.project.softwaree.control.factories.CompanyFactory;
-import org.hbrs.se2.project.softwaree.control.factories.RatingFactory;
-import org.hbrs.se2.project.softwaree.control.factories.RatingIDFactory;
+import org.hbrs.se2.project.softwaree.control.factories.StudentRatingIDFactory;
 import org.hbrs.se2.project.softwaree.control.factories.StudentFactory;
 import org.hbrs.se2.project.softwaree.entities.Company;
-import org.hbrs.se2.project.softwaree.entities.RatingID;
+import org.hbrs.se2.project.softwaree.entities.StudentRating;
+import org.hbrs.se2.project.softwaree.entities.StudentRatingID;
 import org.hbrs.se2.project.softwaree.entities.Student;
 
 import java.io.Serializable;
 import java.util.Objects;
 
 /**
- * A DTO for the {@link org.hbrs.se2.project.softwaree.entities.Rating} entity
+ * A DTO for the {@link StudentRating} entity
  */
-public class RatingDTO implements Serializable {
-    private final RatingIDDTO ratingID;
+public class StudentRatingDTO implements Serializable {
+    private final StudentRatingIDDTO ratingID;
     private final StudentDTO student;
     private final CompanyDTO company;
     private int rating;
 
-    public RatingDTO(RatingIDDTO ratingID, int rating, StudentDTO student, CompanyDTO company) {
+    public StudentRatingDTO(StudentRatingIDDTO ratingID, int rating, StudentDTO student, CompanyDTO company) {
         this.ratingID = ratingID;
         this.rating = rating;
         this.student = student;
         this.company = company;
     }
 
-    public RatingDTO(RatingID ratingID, int rating, Student student, Company company) {
-        this.ratingID = RatingIDFactory.createDTO(ratingID);
+    public StudentRatingDTO(StudentRatingID studentRatingID, int rating, Student student, Company company) {
+        this.ratingID = StudentRatingIDFactory.createDTO(studentRatingID);
         this.student = StudentFactory.createDTO(student);
         this.company = CompanyFactory.createDTO(company);
         this.rating = rating;
     }
 
-    public RatingIDDTO getRatingID() {
+    public StudentRatingIDDTO getRatingID() {
         return ratingID;
     }
 
@@ -58,7 +58,7 @@ public class RatingDTO implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        RatingDTO entity = (RatingDTO) o;
+        StudentRatingDTO entity = (StudentRatingDTO) o;
         return Objects.equals(this.ratingID, entity.ratingID) &&
                 Objects.equals(this.rating, entity.rating) &&
                 Objects.equals(this.student, entity.student) &&
