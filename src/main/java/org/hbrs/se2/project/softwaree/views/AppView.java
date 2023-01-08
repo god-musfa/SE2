@@ -163,7 +163,7 @@ public class AppView extends AppLayout implements BeforeEnterObserver {
        // und dem Tabs-Array hinzugefügt. In der Methode createTab wird ein (Key, Value)-Pair übergeben:
         // Key: der sichtbare String des Menu-Items
         // Value: Die UI-Component, die nach dem Klick auf das Menuitem angezeigt wird.
-       Tab[] tabs = new Tab[]{ createTab( "Show Addresses", ShowAddressView.class) };
+       Tab[] tabs = new Tab[]{ createTab( "Show Addresses", EditProfileView.class) };
        tabs = Utils.append(tabs,createTab("Edit Profile",EditProfileView.class ));
        if(this.getCurrentUser().getUserType().equals("student")){
            tabs = Utils.append(tabs,createTab("Contact",ContactView.class));
