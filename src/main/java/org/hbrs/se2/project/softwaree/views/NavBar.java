@@ -49,7 +49,6 @@ public class NavBar extends AppLayout implements BeforeEnterObserver {
             getHomeTab("");
             addToNavbar(this.controlContainer);
             addToNavbar(true, navigation);
-
         }
     }
 
@@ -104,7 +103,6 @@ public class NavBar extends AppLayout implements BeforeEnterObserver {
         tabTitle.setClassName("tabTitle");
 
         VerticalLayout tabLayout = new VerticalLayout();
-        tabLayout.setPadding(true);
         tabLayout.setAlignItems(FlexComponent.Alignment.CENTER);
         tabLayout.add(navigationIcon, tabTitle);
 
