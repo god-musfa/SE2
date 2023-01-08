@@ -1,21 +1,19 @@
 package org.hbrs.se2.project.softwaree.views;
 
-import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
-import com.vaadin.flow.component.html.H2;
-import com.vaadin.flow.component.html.*;
+import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.Image;
+import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteAlias;
 import org.hbrs.se2.project.softwaree.control.RegistrationControl;
-
-import java.awt.*;
 @Route(value = "")
 @RouteAlias(value = "landingpage")
+@CssImport("./styles/views/landingpage/landing.css")
 public class LandingPageView extends VerticalLayout {
 
     public void setup() {
@@ -34,6 +32,7 @@ public class LandingPageView extends VerticalLayout {
         Image i = new Image("images/handshake.png","logo");
         i.setWidth("50%");
         i.setWidth("50%");
+        i.addClassName("handshake_logo");
 
 
 
