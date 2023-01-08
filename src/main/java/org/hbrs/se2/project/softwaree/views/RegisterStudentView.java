@@ -40,7 +40,7 @@ public class RegisterStudentView extends VerticalLayout {
   // Straße, Hausnummer - Textfeld
   TextField street = new TextField("Straße");
   public void initializeStreet() {
-    street.setMaxLength(20);
+    street.setMaxLength(100);
     street.setRequired(true);
     street.setPattern("([a-zA-Z]|[ß]|[ ])+, [0-9]+\n");
   }
@@ -52,6 +52,10 @@ public class RegisterStudentView extends VerticalLayout {
     number.setPattern("([a-zA-Z]|[ß]|[ ])+, [0-9]+\n");
   }
 
+  TextField city = new TextField(("Stadt"));
+  public void initCity(){
+    city.setRequired(true);
+  }
   // PLZ - Textfeld
   TextField postalCode = new TextField("PLZ");
   public void initializePLZ() {
@@ -68,7 +72,7 @@ public class RegisterStudentView extends VerticalLayout {
   // Universität - Textfeld
   TextField university = new TextField("Universität");
   public void initializeUNI() {
-    university.setMaxLength(20);
+    university.setMaxLength(100);
     university.setRequired(true);
   }
   private final DatePicker birthday = new DatePicker("Geburtsdatum");
@@ -95,11 +99,12 @@ public class RegisterStudentView extends VerticalLayout {
     initializeUNI();
     initializeBirthday();
     initializeButton();
+    initCity();
 
     VerticalLayout layout = new VerticalLayout();
     layout.setWidth("250px");
     setHorizontalComponentAlignment(Alignment.CENTER, layout);
-    layout.add(anr,firstName,lastName,birthday,street,number,postalCode,degree,university,registerButton);
+    layout.add(anr,firstName,lastName,birthday,street,number,city,postalCode,degree,university,registerButton);
     add(layout);
 
     userDTOBinder.setBean((UserDTO) UI.getCurrent().getSession().getAttribute( Globals.CURRENT_USER));
@@ -116,7 +121,7 @@ public class RegisterStudentView extends VerticalLayout {
       registrationControl.setDefaultProfilePicture(userDTOBinder.getBean());
       UI ui = this.getUI().get();
       ui.getSession().close();
-      ui.getPage().setLocation("/");
+      ui.getPage().setLocation("login");
     });
   }
 

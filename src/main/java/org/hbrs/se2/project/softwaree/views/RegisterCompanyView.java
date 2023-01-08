@@ -44,6 +44,8 @@ public class RegisterCompanyView extends VerticalLayout {
     private TextField street = new TextField("Straße");
     private TextField number = new TextField("Hausnummer");
     private TextField postalCode = new TextField("Postleitzahl");
+    TextField city = new TextField(("Stadt"));
+
     private Span errorMessageField = new Span();
 
     Button registerButton = new Button("Registrieren");
@@ -64,12 +66,12 @@ public class RegisterCompanyView extends VerticalLayout {
         lt.add(i,title);
         add(lt);
         setRequiredIndicatorVisible(name, phone_number, website, field, size, contactPerson,
-                street, number, postalCode);
+                street, number, postalCode, city);
 
         FormLayout layout = new FormLayout();
         layout.setSizeFull();
         layout.add(name, phone_number, website, field, size, contactPerson,
-            street, number, postalCode);
+            street, number, city, postalCode);
 
         add(layout);
         add(registerButton);
@@ -89,7 +91,7 @@ public class RegisterCompanyView extends VerticalLayout {
             registrationControl.setDefaultProfilePicture(userDTOBinder.getBean());
             UI ui = this.getUI().get();
             ui.getSession().close();
-            ui.getPage().setLocation("/");
+            ui.getPage().setLocation("login");
         });
 
 
@@ -131,16 +133,18 @@ public class RegisterCompanyView extends VerticalLayout {
                 .asRequired("Feld darf nicht leer sein")
                 .bind(AddressDTO::getNumber, AddressDTO::setNumber);
 
+        addressDTOBinder.forField(city)
+                .asRequired("Feld darf nicht leer sein")
+                .bind(AddressDTO::getCity, AddressDTO::setCity);
+
     }
 
-    public void setupFields(){
-    }
+
 
     RegistrationControl registrationControl;
 
     public RegisterCompanyView(RegistrationControl registrationControl){
         validation();
-        setupFields();
             //add(i);
             this.registrationControl = registrationControl;
             addClassName("RegisterCompanyView");

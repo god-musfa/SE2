@@ -39,23 +39,7 @@ public class RegisterView extends VerticalLayout {
   //Passwort, mind. 12 Zeichen - Passwort-Textfeld
   PasswordField password = new PasswordField("Passwort");
   PasswordField pw2 = new PasswordField("Passwort wiederholen");
-  /*public void initializePW() {
-    password.setRevealButtonVisible(false);
-    password.setMaxLength(32);
-    password.setMinLength(12);
-    password.setHelperText("Das Passwort muss mindestens 12 Zeichen haben.");
-    password.setErrorMessage("Kein valides Passwort");
-    password.setRequired(true);
-  }
 
-  //Passwort wiederholen - Passwort Textfeld
-  PasswordField pw2 = new PasswordField("Passwort wiederholen");
-  public void initializePW2() {
-    pw2.setMaxLength(32);
-    pw2.setMinLength(12);
-    pw2.setRequired(true);
-  }
-*/
   Select<String> userType = new Select<>();
   public void initializeKAT() {
     userType.setLabel("Benutzerkategorie");
