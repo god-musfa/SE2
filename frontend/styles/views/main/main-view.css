@@ -34,12 +34,6 @@ vaadin-app-layout[dir='rtl'] #header vaadin-avatar {
   padding-top: 0 !important;
 }
 
-vaadin-tab {
-  font-size: var(--lumo-font-size-s);
-  height: var(--lumo-size-l);
-  font-weight: 600;
-  color: var(--lumo-body-text-color);
-}
 
 vaadin-tab:hover {
   background-color: var(--lumo-contrast-5pct);
