@@ -157,11 +157,12 @@ public class EditProfileControl implements PictureUploadController{
     public boolean setProfilePicture(UserDTO targetUser, byte[] imageData, String mimeType) {
         // Set image for current user:
         String srcData = String.format("data:%s;base64, %s",  mimeType, ProfilePictureService.toBase64(imageData));
-        targetUser.setProfilePic(srcData);
 
         Optional<User> dbUser = repoU.findById(targetUser.getId());
         if (dbUser.isPresent()) {
+            dbUser.get().setProfilePic(srcData);
             repoU.save(dbUser.get());
+            targetUser.setProfilePic(srcData);          // To ensure that the current user object is up to date.
             return true;
         } else {
             return false;

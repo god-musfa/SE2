@@ -97,7 +97,7 @@ public class SoftwareeAvatar extends HorizontalLayout implements SoftwareeAvatar
 
                     if (ProfilePictureService.checkPicture(fileName, contentLength, mimeType)) {
                         try {
-                            pictureUploadController.setProfilePicture(targetUser, fileData.readAllBytes(), mimeType);
+                            System.out.println("Set picture: " + pictureUploadController.setProfilePicture(targetUser, fileData.readAllBytes(), mimeType));
                         } catch (IOException ioex) {
                             System.out.println("Profile Picture upload failed! Message: " + ioex.getMessage());
                         }
