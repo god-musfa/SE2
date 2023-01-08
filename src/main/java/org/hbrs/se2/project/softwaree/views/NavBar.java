@@ -116,7 +116,7 @@ public class NavBar extends AppLayout implements BeforeEnterObserver {
 
         // Creating new Tab Instance
         Tab tab = new Tab(link);
-        tab.getStyle().set("margin", "0");
+
 
         ComponentUtil.setData(tab, Class.class, navigationTarget);
         return tab;
