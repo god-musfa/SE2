@@ -1,9 +1,6 @@
 package org.hbrs.se2.project.softwaree.views;
 
 
-import java.awt.*;
-import java.io.File;
-import java.io.InputStream;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Locale;
@@ -32,8 +29,6 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.server.VaadinService;
-import org.apache.catalina.webresources.FileResource;
 import org.hbrs.se2.project.softwaree.components.BlacklistComponent;
 import org.hbrs.se2.project.softwaree.components.SkillsComponent;
 import org.hbrs.se2.project.softwaree.components.SoftwareeAvatar;
@@ -43,8 +38,6 @@ import org.hbrs.se2.project.softwaree.entities.Company;
 import org.hbrs.se2.project.softwaree.entities.Skill;
 import org.hbrs.se2.project.softwaree.util.Globals;
 import com.vaadin.flow.component.notification.Notification;
-import org.hbrs.se2.project.softwaree.util.ProfilePictureService;
-import org.springframework.context.annotation.Profile;
 
 
 /**
@@ -97,7 +90,7 @@ public class EditProfileView extends Div {
     // Components for companies:
     final TextField contactPerson = new TextField("Kontaktperson");
 
-    final TextField companyName = new TextField("Unternehmensname");
+    final TextField name = new TextField("Unternehmensname");
 
     final TextField phoneNumber = new TextField("Telefonnummer");
     final ComboBox<String> field = new ComboBox<>("Branche");
@@ -328,7 +321,7 @@ public class EditProfileView extends Div {
 
         // Add input components to form for public info:
         publicInfoForm.add(companyAvatar);
-        publicInfoForm.add(companyName);
+        publicInfoForm.add(name);
         publicInfoForm.add(street);
         publicInfoForm.add(number);
         publicInfoForm.add(city);
@@ -343,8 +336,8 @@ public class EditProfileView extends Div {
         phoneNumber.setLabel("Telefonnummer");
         phoneNumber.setPattern("\\(?\\+\\(?49\\)?[ ()]?([- ()]?\\d[- ()]?){10}");
         contactPerson.setLabel("Kontaktperson");
-        companyName.setLabel("Unternehmensname");
-        companyName.setReadOnly(true);
+        name.setLabel("Unternehmensname");
+        name.setReadOnly(true);
         companyAvatar.setSize("6rem");
         number.setMaxLength(3);
         number.setPattern("^[0-9]{2}$");

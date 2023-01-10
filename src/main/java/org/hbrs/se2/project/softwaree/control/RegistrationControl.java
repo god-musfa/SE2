@@ -73,7 +73,7 @@ public class RegistrationControl {
 
         Address address = AddressFactory.createAddress(addressDTO);
         addressRepository.save(address);
-
+        userDTO.setProfilePic(Globals.DEFAULT_PROFILE_PICTURE);
         User user = UserFactory.createUser(userDTO, address);
         user.setPassword(
                 SecurityHandler.hashPassword(user.getPassword())
