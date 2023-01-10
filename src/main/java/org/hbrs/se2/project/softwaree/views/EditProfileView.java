@@ -119,7 +119,7 @@ public class EditProfileView extends Div {
 
         // Patterns and rules for input validation:
         //v
-        number.setPattern("^[0-9]*[A-Za-z]{0,1}$");
+        number.setPattern("^[0-9]{1,5}[a-z]?$");
         number.setMaxLength(3);
         number.setErrorMessage("Diese Hausnummer ist ungültig!");
         postalCode.setRequired(true);
@@ -372,9 +372,9 @@ public class EditProfileView extends Div {
         name.setReadOnly(true);
         companyAvatar.setSize("6rem");
         number.setMaxLength(3);
-        number.setPattern("^[0-9]{2}$");
+        number.setPattern("^[0-9]{1,5}[a-z]?$");
         postalCode.setMaxLength(5);
-        postalCode.setPattern("^(?!01000|99999)(0[1-9]\\d{3}|[1-9]\\d{4})$");
+        postalCode.setPattern("^[0-9]{5}$");
 
 
         field.setAllowCustomValue(true);

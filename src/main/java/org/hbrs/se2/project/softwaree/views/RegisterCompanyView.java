@@ -103,10 +103,9 @@ public class RegisterCompanyView extends VerticalLayout {
 
     }
     public void validation() {
-        String webregex = "^(https?|ftp|file|www)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
         String phoneregex = "(\\(?([\\d \\-\\)\\–\\+\\/\\(]+){6,}\\)?([ .\\-–\\/]?)([\\d]+))" ;
         String plzregex = "^[0-9]{5}$";
-        String numberregex = "^\\d{1,3}[a-zA-Z]?$";
+        String numberregex = "^[0-9]{1,5}[a-z]?$";
 
         //Phonenumbervalidation
         companyDTOBinder.forField(phone_number)
@@ -123,7 +122,6 @@ public class RegisterCompanyView extends VerticalLayout {
 
         //website
         companyDTOBinder.forField(website)
-                .withValidator( new RegexpValidator("Die Website muss mit eine gültige Domain haben", webregex))
                 .asRequired("Feld darf nicht leer sein")
                 .bind(CompanyDTO::getWebsite, CompanyDTO::setWebsite);
 
