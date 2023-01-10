@@ -320,14 +320,45 @@ public class EditProfileView extends Div {
                 new FormLayout.ResponsiveStep(Globals.ScreenSizes.WORKSTATION, 8 )
         );
 
+
+        Div placeholder1 = new Div();
+        Div placeholder2 = new Div();
+        Div placeholder3 = new Div();
+        Div placeholder4 = new Div();
+        Div placeholder5 = new Div();
+        Div placeholder6 = new Div();
+        Div placeholder7 = new Div();
+
         // Add input components to form for public info:
         publicInfoForm.add(companyAvatar);
+        publicInfoForm.add(placeholder1);
         publicInfoForm.add(name);
+        publicInfoForm.add(placeholder2);
         publicInfoForm.add(street);
         publicInfoForm.add(number);
-        publicInfoForm.add(city);
+        publicInfoForm.add(placeholder3);
         publicInfoForm.add(postalCode);
+        publicInfoForm.add(city);
+        publicInfoForm.add(placeholder4);
         publicInfoForm.add(email);
+        publicInfoForm.add(placeholder5);
+
+
+
+        //Colspan
+        publicInfoForm.setColspan(companyAvatar,2);
+        publicInfoForm.setColspan(placeholder1, 7);
+        publicInfoForm.setColspan(name,2);
+        publicInfoForm.setColspan(placeholder2, 7);
+        publicInfoForm.setColspan(street,2);
+        publicInfoForm.setColspan(number,1);
+        publicInfoForm.setColspan(placeholder3, 5);
+        publicInfoForm.setColspan(postalCode,1);
+        publicInfoForm.setColspan(city,3);
+        publicInfoForm.setColspan(placeholder4, 4);
+        publicInfoForm.setColspan(email,2);
+        publicInfoForm.setColspan(placeholder5, 6);
+
 
         //Patterns
         contactPerson.setRequired(true);
@@ -362,9 +393,21 @@ public class EditProfileView extends Div {
 
         publicInfoForm.add(contactPerson);
         publicInfoForm.add(field);
+        publicInfoForm.add(placeholder6);
         publicInfoForm.add(size);
+        publicInfoForm.add(placeholder7);
         publicInfoForm.add(website);
         publicInfoForm.add(phoneNumber);
+
+        //Colspan
+        publicInfoForm.setColspan(contactPerson,2);
+        publicInfoForm.setColspan(field,2);
+        publicInfoForm.setColspan(placeholder6, 4);
+        publicInfoForm.setColspan(size,2);
+        publicInfoForm.setColspan(placeholder7, 6);
+        publicInfoForm.setColspan(website,2);
+        publicInfoForm.setColspan(phoneNumber,2);
+
 
         // Container to implement padding
         VerticalLayout publicProfilePaddingContainer = new VerticalLayout();
