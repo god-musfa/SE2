@@ -434,12 +434,7 @@ public class EditProfileView extends Div {
     }
     //Create Local Navigation for the Profile Page including Editing Profile, Settings, and Logout Buttons
     private Component createLocalNavigation() {
-        Button logout = createButton("Logout");
-        logout.addClickListener(event -> {
-            UI ui = this.getUI().get();
-            ui.getSession().close();
-            ui.getPage().setLocation("/");
-        });
+
         Dialog d = createConfirmDialog();
 
         Button delete = createButton("Konto löschen");
@@ -449,11 +444,10 @@ public class EditProfileView extends Div {
         });
 
         super.setSizeFull();
-        HorizontalLayout localNavigation = new HorizontalLayout(createButton("Edit"),createButton("Settings"),delete, logout);
+        HorizontalLayout localNavigation = new HorizontalLayout(delete);
         localNavigation.setSpacing(false); // Space around the Components = False
         localNavigation.setWidthFull();
         localNavigation.setJustifyContentMode(FlexComponent.JustifyContentMode.BETWEEN);
-        logout.getStyle().set("margin-left", "auto").set("padding-right", "3em"); // Specify the lignment of one component -> logout to the  Left
 
         return localNavigation;
     }
