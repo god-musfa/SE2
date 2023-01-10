@@ -1,0 +1,30 @@
+.profile_name {
+    font-size: x-large;
+    font-weight: bold;
+    margin-left: 2rem;
+}
+
+.profile_location {
+    font-size: medium;
+    font-weight: normal;
+    margin-left: 2rem;
+    color: #2e2e2e;
+}
+
+
+.profile_location_label {
+    margin-left: 0.5rem;
+}
+
+.skills_header {
+    font-size: large;
+    font-weight: bold;
+    margin-top: 2rem;
+}
+
+.profile_card_layout {
+    margin: 0.5rem;
+    border-style: solid;
+    border-radius: 50%;
+    border-color: #2e2e2e;
+}

@@ -1,0 +1,9 @@
+.localNavigation {
+    margin: auto;
+    display: flex;
+    justify-content: space-evenly;
+    width: 50%;
+}
+.buttons {
+
+}

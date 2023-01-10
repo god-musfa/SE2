@@ -1,0 +1,13 @@
+.contact-view {
+  display: block;
+  margin: 0 auto;
+  max-width: 1024px;
+  padding: 0 var(--lumo-space-l);
+}
+.contact-view .button-area {
+  margin-bottom: var(--lumo-space-l);
+  margin-top: var(--lumo-space-m);
+}
+#jobTitle {
+  font-weight: bold;
+}
