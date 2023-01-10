@@ -97,7 +97,9 @@ public class RegisterView extends VerticalLayout {
 
         Div text = new Div(new Text("Bitte alle Felder ausfüllen!"));
         notification.add(text);
+        notification.setDuration(5000);
         notification.open();
+
       }
 
     });
