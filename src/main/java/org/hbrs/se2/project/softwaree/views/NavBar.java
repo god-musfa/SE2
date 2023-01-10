@@ -99,9 +99,9 @@ public class NavBar extends AppLayout implements BeforeEnterObserver {
             tabs.add(
                     createTab(LumoIcon.ORDERED_LIST.create(), StudentListView.class, "Studenten finden"),
                     createTab(VaadinIcon.ACADEMY_CAP.create(), JobListView.class, "Meine Stellenanzeigen"),
+                    createTab(VaadinIcon.CHAT.create(), MessageView.class, "Nachrichten"),
                     createTab(VaadinIcon.TEXT_INPUT.create(), ShowApplicationsBusiness.class, "Bewerbungen"),
                     createTab(VaadinIcon.USER.create(), EditProfileView.class, "Mein Profil"),
-                    createTab(VaadinIcon.INSERT.create(), JobOfferView.class, "Neue Stellenanzeige"),
                     logout
             );
         } else {

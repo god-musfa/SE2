@@ -38,8 +38,8 @@ public class RegisterCompanyView extends VerticalLayout {
     private TextField name = new TextField("Unternehmensname");
     private TextField phone_number = new TextField("Telefonnummer");
     private TextField website = new TextField("Webseite");
-    private TextField field = new TextField("Branche");
-    private TextField size = new TextField("Firmengröße");
+    private ComboBox<String> field = new ComboBox<String>("Branche");
+    private ComboBox<String> size = new ComboBox<String>("Firmengröße");
     private TextField contactPerson = new TextField("Kontaktperson");
     private TextField street = new TextField("Straße");
     private TextField number = new TextField("Hausnummer");
@@ -68,6 +68,13 @@ public class RegisterCompanyView extends VerticalLayout {
         setRequiredIndicatorVisible(name, phone_number, website, field, size, contactPerson,
                 street, number, postalCode, city);
 
+        field.setItems("Informatik", "Chemie", "Biologie");
+        size.setItems(
+                "kleines Unternehmen (weniger als 49 Mitarbeiter)",
+                "mittelständisches Unternehmen (weniger als 249 Mitarbeiter)",
+                "Großunternehmen (ab 250 Mitarbeiter)"
+        );
+
         FormLayout layout = new FormLayout();
         layout.setSizeFull();
         layout.add(name, phone_number, website, field, size, contactPerson,
@@ -88,7 +95,6 @@ public class RegisterCompanyView extends VerticalLayout {
         registerButton.addClickListener(e -> {
 
             registrationControl.saveC(userDTOBinder.getBean(), companyDTOBinder.getBean(), addressDTOBinder.getBean());
-            registrationControl.setDefaultProfilePicture(userDTOBinder.getBean());
             UI ui = this.getUI().get();
             ui.getSession().close();
             ui.getPage().setLocation("login");

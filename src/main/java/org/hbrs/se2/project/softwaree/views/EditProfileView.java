@@ -91,7 +91,7 @@ public class EditProfileView extends Div {
     // Components for companies:
     final TextField contactPerson = new TextField("Kontaktperson");
 
-    final TextField companyName = new TextField("Unternehmensname");
+    final TextField name = new TextField("Unternehmensname");
 
     final TextField phoneNumber = new TextField("Telefonnummer");
     final ComboBox<String> field = new ComboBox<>("Branche");
@@ -322,7 +322,7 @@ public class EditProfileView extends Div {
 
         // Add input components to form for public info:
         publicInfoForm.add(companyAvatar);
-        publicInfoForm.add(companyName);
+        publicInfoForm.add(name);
         publicInfoForm.add(street);
         publicInfoForm.add(number);
         publicInfoForm.add(city);
@@ -337,8 +337,8 @@ public class EditProfileView extends Div {
         phoneNumber.setLabel("Telefonnummer");
         phoneNumber.setPattern("\\(?\\+\\(?49\\)?[ ()]?([- ()]?\\d[- ()]?){10}");
         contactPerson.setLabel("Kontaktperson");
-        companyName.setLabel("Unternehmensname");
-        companyName.setReadOnly(true);
+        name.setLabel("Unternehmensname");
+        name.setReadOnly(true);
         companyAvatar.setSize("6rem");
         number.setMaxLength(3);
         number.setPattern("^[0-9]{2}$");
@@ -435,12 +435,7 @@ public class EditProfileView extends Div {
     }
     //Create Local Navigation for the Profile Page including Editing Profile, Settings, and Logout Buttons
     private Component createLocalNavigation() {
-        Button logout = createButton("Logout");
-        logout.addClickListener(event -> {
-            UI ui = this.getUI().get();
-            ui.getSession().close();
-            ui.getPage().setLocation("/");
-        });
+
         Dialog d = createConfirmDialog();
 
         Button delete = createButton("Konto löschen");
@@ -449,11 +444,10 @@ public class EditProfileView extends Div {
         });
 
         super.setSizeFull();
-        HorizontalLayout localNavigation = new HorizontalLayout(createButton("Edit"),createButton("Settings"),delete, logout);
+        HorizontalLayout localNavigation = new HorizontalLayout(delete);
         localNavigation.setSpacing(false); // Space around the Components = False
         localNavigation.setWidthFull();
         localNavigation.setJustifyContentMode(FlexComponent.JustifyContentMode.BETWEEN);
-        logout.getStyle().set("margin-left", "auto").set("padding-right", "3em"); // Specify the lignment of one component -> logout to the  Left
 
         return localNavigation;
     }
