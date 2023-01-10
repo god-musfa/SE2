@@ -49,4 +49,8 @@ public class ManageJobsControl {
     public List<JobListDTO> getJobList_with_JPA_CUSTOM_ResSetMapping(String searchTerm, Integer studentID, Set<String> skillSet, Integer avgRating, LocalDate timeLimit) {
         return custJPARepo.getJobList(searchTerm,studentID,skillSet, avgRating,timeLimit);
     }
+
+    public List<JobListDTO> getJobListDTObyCompanyID(Integer id) {
+        return custJPARepo.getJobByCompanyID(id);
+    }
 }

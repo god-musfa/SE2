@@ -92,7 +92,6 @@ public class LandingPageView extends VerticalLayout {
             vl.add(logo,hl,buttons);
         }
         add(vl);
-
     }
 
     RegistrationControl registrationControl;

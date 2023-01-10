@@ -27,6 +27,7 @@ public class Globals {
     public static class PageTitles {
         public static final String PAGETITLE_STELLENANZEIGE = "Stellenanzeigenliste";
         public static final String PAGETITLE_STELLENANZEIGE_DETAILS = "Stellenangebot Details";
+        public static final String JOB_CONTACT = "Kontakt";
     }
 
     public static class Roles {

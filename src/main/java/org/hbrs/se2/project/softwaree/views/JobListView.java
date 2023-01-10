@@ -56,13 +56,23 @@ public class JobListView extends VerticalLayout {
         UserDTO user = (UserDTO) UI.getCurrent().getSession().getAttribute(Globals.CURRENT_USER);
         userType = user.getUserType();
         this.jobControl = jobsControl;
-        this.filter = new JobListFilter(jobControl);
-        this.filterUI = createFilterUI();
-        this.filter.studentID = user.getId();
 
-        this.jobList = filter.fetchJobsFromBackend();
-        createGrid(Comparator.comparing(JobListDTO::getCreation_date, Comparator.nullsFirst(Comparator.naturalOrder())));
-        add(this.filterUI, this.jobGrid);
+        if(userType.equals("company")) {
+            filterUI = new Div();
+            jobList = jobControl.getJobListDTObyCompanyID(user.getId());
+            createGrid(Comparator.comparing(JobListDTO::getCreation_date, Comparator.nullsFirst(Comparator.naturalOrder())));
+            add(this.createJobButton(), this.jobGrid);
+        }
+        else {
+            this.filter = new JobListFilter(jobControl);
+            this.filterUI = createFilterUI();
+            this.filter.studentID = user.getId();
+
+            this.jobList = filter.fetchJobsFromBackend();
+            createGrid(Comparator.comparing(JobListDTO::getCreation_date, Comparator.nullsFirst(Comparator.naturalOrder())));
+            add(this.filterUI, this.jobGrid);
+        }
+
     }
 
     private void createGrid(Comparator<JobListDTO> sortCriteriaComperator) {
@@ -80,6 +90,7 @@ public class JobListView extends VerticalLayout {
             if (optionalJob.isPresent()) {
                 UI.getCurrent().navigate(Globals.Pages.SHOW_JOB_DETAILS + "/" + optionalJob.get().getId());
                 UI.getCurrent().getSession().setAttribute("jobID", optionalJob.get().getId());
+                UI.getCurrent().getSession().setAttribute("companyID", optionalJob.get().getCompanyId());
             }
         });
 
@@ -148,7 +159,7 @@ public class JobListView extends VerticalLayout {
         ratingWrapper.addClassName("ratingWrapper");
 
         /*          Job Description         */
-        Paragraph job_description = new Paragraph(jobDescription);
+        Paragraph job_description = new Paragraph(jobDescription + "...");
         job_description.addClassName("job_description");
 
         HorizontalLayout actions = new HorizontalLayout();

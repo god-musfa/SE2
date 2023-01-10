@@ -18,18 +18,31 @@
 
 .jobs {
     align-items: stretch;
+    justify-content: stretch;
+
+}
+.job_title {
+    flex: 1 0 auto;
+    margin-top: 0;
+}
+
+.header {
+    flex-wrap: wrap;
 }
 .date_location_wrapper {
-    margin: 30px 0px 0px auto;
+   width: 200px;
+   flex-shrink: 0;
     font-style: italic;
-    margin-left: auto;
     display:flex;
     flex-direction: column;
+    padding-left:8px;
 }
+
 .ratingWrapper {
     padding: 0;
     gap: 8px;
 }
+
 .wrapper {
     margin: 0 8px 0 8px;
     padding: 16px;

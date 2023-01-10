@@ -9,11 +9,7 @@
 .SoftwareeLogo {
     height: 50px;
 }
-.navigationTabs {
- height: 200px;
-}
 .homeTab {
-height: 150px;
     width: 100%;
     padding: 0;
 }

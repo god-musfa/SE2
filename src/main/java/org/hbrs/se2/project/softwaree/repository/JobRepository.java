@@ -14,8 +14,6 @@ import java.util.Set;
 
 @Component
 public interface JobRepository extends JpaRepository<Job, Integer> {
-
-
     @Query("  SELECT new org.hbrs.se2.project.softwaree.dtos.JobDTO(id, title, description, location) FROM Job  WHERE id = ?1")
     JobDTO findJobWithTitleDescriptionLocation(int jobID);
 

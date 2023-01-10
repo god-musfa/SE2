@@ -20,18 +20,21 @@ public class JobListCompanyDTO implements Serializable {
         return website;
     }
 
-    public void setWebsite(String website) {
-        this.website = website;
+    public Integer getId() {
+        return this.id;
     }
 
     public String getName() {
         return name;
     }
 
+    public void setWebsite(String website) {
+        this.website = website;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
-
     public void setId(Integer id) {
         this.id = id;
     }

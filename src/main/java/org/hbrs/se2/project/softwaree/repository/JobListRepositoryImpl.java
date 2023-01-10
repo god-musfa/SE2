@@ -113,41 +113,49 @@ public class JobListRepositoryImpl implements JobListRepository {
                 .setResultTransformer(new JobListDTOResutTransformer())
                 .getResultList();
     }
-
     @Override
     @Transactional
-    public int countQuery() {
-        String CountString = "select count(DISTINCT j) from Job j left join j.skills";
-        String queryString = "SELECT j.id as j_id, j.title as j_title, s.id as s_id, s.description as s_description " +
-                "FROM coll.job_listing j " +
-                "LEFT JOIN coll.job_skills js ON j.id = js.job_id " +
-                "JOIN coll.skill s ON s.id = js.skill_id";
+    public List<JobListDTO> getJobByCompanyID(Integer companyID) {
+        /*      Average Rating SUBQUERY     */
+        String selectAvgRating = "(SELECT avg(cr.rating) FROM coll.company_rating cr WHERE c.id = cr.company_id) ";
 
-        String selectString_fetch = "SELECT j.id as j_id, j.title as j_title, j.description as j_description,j.location as j_location, s.id as s_id, s.description as s_description, \n" +
-                "            c.id as c_id, c.name as c_name, c.website as c_website, " +
-                "            (Select AVG(cr.rating) FROM coll.company c LEFT JOIN coll.company_rating cr ON cr.company_id  = c.id LEFT JOIN coll.job_listing j ON j.company_id = c.id) as j_avgcompanyrating \n";
-        String selectString_count = "SELECT count(j.id) ";
+        /*      SELECT      */
+        String selectString_fetch = "SELECT     j.id as j_id,   j.title as j_title,     SUBSTRING(j.description, 1, 300) as j_description,     j.location as j_location, j.views as j_views, j.creation_date as j_creation_date, " +
+                "            s.id as s_id,      s.description as s_description, \n" +
+                "            c.id as c_id,       c.name as c_name,       c.website as c_website, " + selectAvgRating + " as j_avgcompanyrating ";
 
+        /*      JOIN      */
         String queryString_join = " FROM coll.job_listing j \n" +
-                "            LEFT JOIN coll.company c ON j.company_id = c.id \n" +
-                "            LEFT JOIN coll.job_skills js ON j.id = js.job_id \n" +
-                "            LEFT JOIN coll.skill s ON s.id = js.skill_id ";
+                "            LEFT JOIN coll.company c " +
+                "               ON j.company_id = c.id \n" +
+                "            LEFT JOIN coll.job_skills js " +
+                "               ON j.id = js.job_id \n" +
+                "            LEFT JOIN coll.skill s " +
+                "               ON s.id = js.skill_id ";
 
-        // Fitler Strings
-        String blackListString = " WHERE NOT EXISTS (SELECT * FROM coll.blacklist b WHERE (b.student_id = :studentid_param) " +
-                "AND (b.company_id = j.company_id)) ";
-        Query countQuery = em.createQuery(CountString);
-/*        List<String> skillList = Arrays.asList("5öölkjkl683öjhk4hjlg", "5ökl6834", "5öölkjkl683öjhk4");
-        countQuery.setParameter(1, skillList);*/
+        /*      WHERE     */
+        String whereCompanyID = " WHERE c.id = :companyID ";
 
-        // Concatenate Strings
-        String QUERYSTRING = selectString_fetch +
-                queryString_join +
-                blackListString; /*+ *//*skills *//* searchTermSelect;*/
+        /*      ORDER BY        */
+        String orderByClause = " ORDER BY j.creation_date DESC ";
 
-        int result = ((Long)countQuery.getSingleResult()).intValue();
-        System.out.print("--------- Number of results----------: " + result + "   ");
-        return result;
+        /*      Create Query        */
+        Query resultQuery = em.createNativeQuery(
+                selectString_fetch
+                        + queryString_join
+                        + whereCompanyID
+                        + orderByClause);
+
+        /*          PARAMETERS        */
+        resultQuery.setParameter("companyID", companyID);
+
+        /*      Log     */
+        System.out.print("\n ---------   CompanyID   ----------: " + companyID.toString());
+
+        return  resultQuery
+                .unwrap(org.hibernate.query.Query.class)
+                .setResultTransformer(new JobListDTOResutTransformer())
+                .getResultList();
     }
-    }
+}
 

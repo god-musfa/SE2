@@ -50,7 +50,6 @@ public class ContactView extends VerticalLayout  {
         //UI.getCurrent().getSession().setAttribute( "companyID", 3 ); //Beispielwert fuer Debugging
         companyID = (UI.getCurrent().getSession().getAttribute("companyID") != null) ? (Integer) UI.getCurrent().getSession().getAttribute("companyID") : -1;
         if(companyID != -1 && user.getUserType().equals(userTypeStudent)) {
-
             setJobID();
             addClassName(className);
 

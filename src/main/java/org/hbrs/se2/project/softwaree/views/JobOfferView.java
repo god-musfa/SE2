@@ -19,11 +19,13 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.hbrs.se2.project.softwaree.components.LabelsComponent;
 import org.hbrs.se2.project.softwaree.control.JobOfferControl;
-import org.hbrs.se2.project.softwaree.dtos.*;
+import org.hbrs.se2.project.softwaree.dtos.JobDTO;
+import org.hbrs.se2.project.softwaree.dtos.UserDTO;
 import org.hbrs.se2.project.softwaree.entities.Benefit;
 import org.hbrs.se2.project.softwaree.entities.Requirement;
 import org.hbrs.se2.project.softwaree.entities.Skill;
 import org.hbrs.se2.project.softwaree.util.Globals;
+
 import java.time.LocalDate;
 import java.util.Locale;
 import java.util.Set;
@@ -82,6 +84,7 @@ public class JobOfferView extends Div {
 
         // Locale settings (for birthday picker):
         deadline.setLocale(germanLocale);
+
 
 
         // Placeholders for arrangement of form fields:
@@ -230,7 +233,6 @@ public class JobOfferView extends Div {
                 add(profileSettingsAccordion);
                 break;
             }
-
         }
     }
 }

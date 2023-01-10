@@ -46,7 +46,6 @@ public class ShowApplicationsBusiness extends Div  {
         // Auslesen alle abgespeicherten Autos aus der DB (über das Control)
         applicationList = applicationControl.readAllApplications(user.getId());
 
-
         // Titel überhalb der Tabelle
         add(this.createTitle());
 
@@ -56,7 +55,6 @@ public class ShowApplicationsBusiness extends Div  {
 
     private Component createGridTable() {
         Grid<org.hbrs.se2.project.softwaree.dtos.ApplicationDTO> grid = new Grid<>();
-
 
         ListDataProvider<org.hbrs.se2.project.softwaree.dtos.ApplicationDTO> dataProvider = new ListDataProvider<>(
                 applicationList);

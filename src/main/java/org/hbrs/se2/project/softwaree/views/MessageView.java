@@ -22,15 +22,12 @@ import java.util.Set;
 @Route(value = "messages", layout = NavBar.class)
 public class MessageView extends HorizontalLayout{
     MessageControl msg;
-
     private UserDTO user = (UserDTO) UI.getCurrent().getSession().getAttribute(Globals.CURRENT_USER);
     public MessageView(MessageControl msg) {
         this.msg = msg;
         add(createJobList());
         this.setPadding(true);
     }
-
-
 
     private Component createJobList(){
         HorizontalLayout layout = new HorizontalLayout();

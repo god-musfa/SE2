@@ -71,6 +71,9 @@ public class JobListDTO implements Serializable {
     public String getCompanyWebsite() {
         return this.company.getWebsite();
     }
+    public Integer getCompanyId() {
+        return this.company.getId();
+    }
 
     public Double get_avgcompanyrating() {
         return j_avgcompanyrating;
