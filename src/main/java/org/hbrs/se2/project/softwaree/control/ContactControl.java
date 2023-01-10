@@ -1,8 +1,11 @@
 package org.hbrs.se2.project.softwaree.control;
 
+import org.hbrs.se2.project.softwaree.control.factories.ApplicationFactory;
 import org.hbrs.se2.project.softwaree.control.factories.MessageFactory;
 import org.hbrs.se2.project.softwaree.control.factories.StudentFactory;
 import org.hbrs.se2.project.softwaree.dtos.*;
+import org.hbrs.se2.project.softwaree.entities.Application;
+import org.hbrs.se2.project.softwaree.entities.Job;
 import org.hbrs.se2.project.softwaree.entities.Message;
 import org.hbrs.se2.project.softwaree.entities.Student;
 import org.hbrs.se2.project.softwaree.repository.*;
@@ -83,8 +86,14 @@ public class ContactControl {
 
     @Autowired
     private MessageRepository repoMessage;
+    @Autowired
+    private ApplicationRepository repoApp;
     public void createContact(int studentid, int companyid, int jobid, MessageDTO message) {
         Message messageEntity = MessageFactory.createMessage(new Date(),message.getMessage(), studentid, companyid, jobid);
+        Student s = repoStudent.findById(studentid).get();
+        Job j = repoJob.findById(jobid).get();
+        Application app = ApplicationFactory.createApplication(s,j);
+        repoApp.save(app);
         repoMessage.save(messageEntity);
     }
     @Transactional
