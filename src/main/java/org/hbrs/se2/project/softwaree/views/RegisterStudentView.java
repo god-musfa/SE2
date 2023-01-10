@@ -42,14 +42,13 @@ public class RegisterStudentView extends VerticalLayout {
   public void initializeStreet() {
     street.setMaxLength(100);
     street.setRequired(true);
-    street.setPattern("([a-zA-Z]|[ß]|[ ])+, [0-9]+\n");
   }
 
   TextField number = new TextField("Hausnummer");
   public void initializeNumber() {
     number.setMaxLength(20);
     number.setRequired(true);
-    number.setPattern("([a-zA-Z]|[ß]|[ ])+, [0-9]+\n");
+    number.setPattern("^[0-9]{1,5}[a-z]?$");
   }
 
   TextField city = new TextField(("Stadt"));
@@ -61,7 +60,7 @@ public class RegisterStudentView extends VerticalLayout {
   public void initializePLZ() {
     postalCode.setMaxLength(20);
     postalCode.setRequired(true);
-    postalCode.setPattern("[0-9][0-9][0-9][0-9][0-9]");
+    postalCode.setPattern("^[0-9]{5}$");
   }
   // Abschluss - Textfeld
   Select<String> degree = new Select<>();
@@ -118,7 +117,6 @@ public class RegisterStudentView extends VerticalLayout {
     registerButton.addClickListener(e -> {
 
       registrationControl.save(userDTOBinder.getBean(), studentDTOBinder.getBean(), addressDTOBinder.getBean());
-      registrationControl.setDefaultProfilePicture(userDTOBinder.getBean());
       UI ui = this.getUI().get();
       ui.getSession().close();
       ui.getPage().setLocation("login");

@@ -48,7 +48,7 @@ public class RegistrationControl {
 
         Address address = AddressFactory.createAddress(addressDTO);
         addressRepository.save(address);
-
+        userDTO.setProfilePic(Globals.DEFAULT_PROFILE_PICTURE);
         User user = UserFactory.createUser(userDTO, address);
 
         // Hash user password before saving:
@@ -91,15 +91,6 @@ public class RegistrationControl {
         return userRepository.checkEmailExists(email);
     }
 
-    public void setDefaultProfilePicture(UserDTO targetUser) {
-        targetUser.setProfilePic(Globals.DEFAULT_PROFILE_PICTURE);
 
-        UserDTO userFromDB = userRepository.findUserByID(targetUser.getId());
-        Optional<Address> userAddress = addressRepository.findById(userFromDB.getAddressId());
-
-        if (userAddress.isPresent()) {
-            userRepository.save(UserFactory.createUser(targetUser, userAddress.get()));
-        }
-    }
 
 }

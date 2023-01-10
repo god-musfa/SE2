@@ -1,8 +1,12 @@
 package org.hbrs.se2.project.softwaree.views;
+import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.checkbox.Checkbox;
+import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Image;
+import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.EmailField;
@@ -21,12 +25,8 @@ import org.hbrs.se2.project.softwaree.util.Globals;
 @Route(value = "register")
 public class RegisterView extends VerticalLayout {
   //Benutzername - Textfeld
-  TextField un = new TextField("Benutzername");
   private final Image i = new Image("images/Softwaree_Logo.png", "Logo");
-  public void initializeUN() {
-    un.setMaxLength(20);
-    un.setRequired(true);
-  }
+
 
   //E-Mail - Textfeld
   EmailField email = new EmailField("E-Mail");
@@ -63,7 +63,7 @@ public class RegisterView extends VerticalLayout {
             "Mindestens ein Buchstabe\n" +
             "Mindestens eine Zahl");
     initializeEM();
-    initializeUN();
+
     //initializePW();
     //initializePW2();
     initializeKAT();
@@ -74,20 +74,34 @@ public class RegisterView extends VerticalLayout {
     setHorizontalComponentAlignment(Alignment.CENTER, layout);
     layout.add(i);
 
-    layout.add(email,un,password,pw2,agb,userType,registerButton);
+    layout.add(email,password,pw2,agb,userType,registerButton);
     add(layout);
 
     userDTOBinder.setBean(new UserDTO());
     userDTOBinder.bindInstanceFields(this);
 
-    registerButton.addClickListener(e -> {
-      UI.getCurrent().getSession().setAttribute( Globals.CURRENT_USER, userDTOBinder.getBean());
 
-      if (userType.getValue().equals("student")){
-        UI.getCurrent().navigate(Globals.Pages.REGISTER_STUDENT);
-      } else if (userType.getValue().equals("company")){
-        UI.getCurrent().navigate(Globals.Pages.REGISTER_COMPANY);
+    registerButton.addClickListener(e -> {
+      if(!email.getValue().equals("") && !password.getValue().equals("") && !pw2.getValue().equals("")) {
+        UI.getCurrent().getSession().setAttribute(Globals.CURRENT_USER, userDTOBinder.getBean());
+
+        if (userType.getValue().equals("student")) {
+          UI.getCurrent().navigate(Globals.Pages.REGISTER_STUDENT);
+        } else if (userType.getValue().equals("company")) {
+          UI.getCurrent().navigate(Globals.Pages.REGISTER_COMPANY);
+        }
       }
+      else {
+        Notification notification = new Notification();
+        notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+
+        Div text = new Div(new Text("Bitte alle Felder ausfüllen!"));
+        notification.add(text);
+        notification.setDuration(5000);
+        notification.open();
+
+      }
+
     });
   }
 

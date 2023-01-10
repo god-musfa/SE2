@@ -119,7 +119,7 @@ public class EditProfileView extends Div {
 
         // Patterns and rules for input validation:
         //v
-        number.setPattern("^[0-9]*[A-Za-z]{0,1}$");
+        number.setPattern("^[0-9]{1,5}[a-z]?$");
         number.setMaxLength(3);
         number.setErrorMessage("Diese Hausnummer ist ungültig!");
         postalCode.setRequired(true);
@@ -320,14 +320,45 @@ public class EditProfileView extends Div {
                 new FormLayout.ResponsiveStep(Globals.ScreenSizes.WORKSTATION, 8 )
         );
 
+
+        Div placeholder1 = new Div();
+        Div placeholder2 = new Div();
+        Div placeholder3 = new Div();
+        Div placeholder4 = new Div();
+        Div placeholder5 = new Div();
+        Div placeholder6 = new Div();
+        Div placeholder7 = new Div();
+
         // Add input components to form for public info:
         publicInfoForm.add(companyAvatar);
+        publicInfoForm.add(placeholder1);
         publicInfoForm.add(name);
+        publicInfoForm.add(placeholder2);
         publicInfoForm.add(street);
         publicInfoForm.add(number);
-        publicInfoForm.add(city);
+        publicInfoForm.add(placeholder3);
         publicInfoForm.add(postalCode);
+        publicInfoForm.add(city);
+        publicInfoForm.add(placeholder4);
         publicInfoForm.add(email);
+        publicInfoForm.add(placeholder5);
+
+
+
+        //Colspan
+        publicInfoForm.setColspan(companyAvatar,2);
+        publicInfoForm.setColspan(placeholder1, 7);
+        publicInfoForm.setColspan(name,2);
+        publicInfoForm.setColspan(placeholder2, 7);
+        publicInfoForm.setColspan(street,2);
+        publicInfoForm.setColspan(number,1);
+        publicInfoForm.setColspan(placeholder3, 5);
+        publicInfoForm.setColspan(postalCode,1);
+        publicInfoForm.setColspan(city,3);
+        publicInfoForm.setColspan(placeholder4, 4);
+        publicInfoForm.setColspan(email,2);
+        publicInfoForm.setColspan(placeholder5, 6);
+
 
         //Patterns
         contactPerson.setRequired(true);
@@ -341,9 +372,9 @@ public class EditProfileView extends Div {
         name.setReadOnly(true);
         companyAvatar.setSize("6rem");
         number.setMaxLength(3);
-        number.setPattern("^[0-9]{2}$");
+        number.setPattern("^[0-9]{1,5}[a-z]?$");
         postalCode.setMaxLength(5);
-        postalCode.setPattern("^(?!01000|99999)(0[1-9]\\d{3}|[1-9]\\d{4})$");
+        postalCode.setPattern("^[0-9]{5}$");
 
 
         field.setAllowCustomValue(true);
@@ -362,9 +393,21 @@ public class EditProfileView extends Div {
 
         publicInfoForm.add(contactPerson);
         publicInfoForm.add(field);
+        publicInfoForm.add(placeholder6);
         publicInfoForm.add(size);
+        publicInfoForm.add(placeholder7);
         publicInfoForm.add(website);
         publicInfoForm.add(phoneNumber);
+
+        //Colspan
+        publicInfoForm.setColspan(contactPerson,2);
+        publicInfoForm.setColspan(field,2);
+        publicInfoForm.setColspan(placeholder6, 4);
+        publicInfoForm.setColspan(size,2);
+        publicInfoForm.setColspan(placeholder7, 6);
+        publicInfoForm.setColspan(website,2);
+        publicInfoForm.setColspan(phoneNumber,2);
+
 
         // Container to implement padding
         VerticalLayout publicProfilePaddingContainer = new VerticalLayout();
