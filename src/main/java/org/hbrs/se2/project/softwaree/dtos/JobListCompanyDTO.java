@@ -7,6 +7,7 @@ import java.util.Objects;
 public class JobListCompanyDTO implements Serializable {
     static final String NAME_ALIAS = "c_name";
     static final String ID_ALIAS = "c_id";
+    static final String WEBSITE_ALIAS = "c_website";
 
     private Integer id;
     private String name;
@@ -14,6 +15,7 @@ public class JobListCompanyDTO implements Serializable {
     public JobListCompanyDTO(Object[] tuple, Map<String, Integer> aliasToIndexMap) {
         this.id = (Integer)(tuple[aliasToIndexMap.get(ID_ALIAS)]);
         this.name = (String) (tuple[aliasToIndexMap.get(NAME_ALIAS)]);
+        this.website = (String) (tuple[aliasToIndexMap.get(WEBSITE_ALIAS)]);
     }
 
     public String getWebsite() {

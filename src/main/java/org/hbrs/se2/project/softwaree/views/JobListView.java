@@ -25,6 +25,7 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.theme.lumo.LumoIcon;
 import org.hbrs.se2.project.softwaree.components.JobListFilter;
+import org.hbrs.se2.project.softwaree.control.JobOfferControl;
 import org.hbrs.se2.project.softwaree.control.ManageJobsControl;
 import org.hbrs.se2.project.softwaree.dtos.JobListDTO;
 import org.hbrs.se2.project.softwaree.dtos.UserDTO;
@@ -50,7 +51,7 @@ public class JobListView extends VerticalLayout {
     private ManageJobsControl jobControl;
     private List<JobListDTO> jobList;
 
-    public JobListView(ManageJobsControl jobsControl) {
+    public JobListView(ManageJobsControl jobsControl, JobOfferControl jobOfferControl) {
         addClassName("jobs");
         super.setSizeFull();
         UserDTO user = (UserDTO) UI.getCurrent().getSession().getAttribute(Globals.CURRENT_USER);
@@ -64,7 +65,7 @@ public class JobListView extends VerticalLayout {
             add(this.createJobButton(), this.jobGrid);
         }
         else {
-            this.filter = new JobListFilter(jobControl);
+            this.filter = new JobListFilter(jobsControl, jobOfferControl);
             this.filterUI = createFilterUI();
             this.filter.studentID = user.getId();
 
@@ -106,7 +107,7 @@ public class JobListView extends VerticalLayout {
         String companyName = job.getCompanyName();
         String location = job.getLocation();
         Double companyRating = job.get_avgcompanyrating();
-
+        String companyWebsite = job.getCompanyWebsite();
 
         String jobViews = job.getViewsAsString();
         LocalDate jobCreationDate = job.getCreation_date();//"2022-24-12";
@@ -152,6 +153,8 @@ public class JobListView extends VerticalLayout {
 
         /*          Company Name            */
         Button companyButton = new Button(companyName);
+        //companyButton.addClickListener(e-> UI.getCurrent().getPage().open(companyWebsite , "_blank"));
+        companyButton.addClickListener(e-> UI.getCurrent().navigate("/profile/" + job.getCompanyId()));
 
         /*      Rating          */
         HorizontalLayout ratingWrapper = new HorizontalLayout(createStarRating(companyRating), new Text(companyRating.toString()));

@@ -47,4 +47,5 @@ public class JobDetailControl {
         Blacklist entityBlacklist = BlacklistFactory.createMessage(studentID, companyID);
         blacklistRepo.save(entityBlacklist);
     }
+
 }

@@ -7,8 +7,10 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.dependency.CssImport;
+import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -19,6 +21,7 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.hbrs.se2.project.softwaree.components.LabelsComponent;
 import org.hbrs.se2.project.softwaree.control.JobOfferControl;
+import org.hbrs.se2.project.softwaree.control.ManageJobsControl;
 import org.hbrs.se2.project.softwaree.dtos.JobDTO;
 import org.hbrs.se2.project.softwaree.dtos.UserDTO;
 import org.hbrs.se2.project.softwaree.entities.Benefit;
@@ -47,6 +50,8 @@ public class JobOfferView extends Div {
     private final Button saveButton = new Button( "Speichern");
 
     private final Button backButton = new Button("Zurück");
+    private final Button deleteButton = new Button("Job löschen");
+
 
 
     // Form Layouts for splitting user settings into two parts (public information, personal information)
@@ -58,9 +63,10 @@ public class JobOfferView extends Div {
 
     UserDTO userDTO = (UserDTO) UI.getCurrent().getSession().getAttribute(Globals.CURRENT_USER);
     JobOfferControl jc;
+    ManageJobsControl jobsControl;
 
     private final Binder<JobDTO> binder2 = new Binder<>(JobDTO.class);
-
+    int jobID;
 
 
     // Methods to setup components:
@@ -70,7 +76,7 @@ public class JobOfferView extends Div {
      */
     private void setupJobOfferComponents() {
 
-        int jobID = ((UI.getCurrent().getSession().getAttribute( "jobID" ) != null) ? ((Integer) UI.getCurrent().getSession().getAttribute( "jobID" )) : -1);
+        this.jobID = ((UI.getCurrent().getSession().getAttribute( "jobID" ) != null) ? ((Integer) UI.getCurrent().getSession().getAttribute( "jobID" )) : -1);
 
         // Responsive layout specification:
         publicInfoForm.setResponsiveSteps(
@@ -156,18 +162,14 @@ public class JobOfferView extends Div {
         publicInfoForm.setColspan(benefitPlaceholder, 4);
 
 
-
-
         // Second outter container to implement padding - (padding is sexy!):
         VerticalLayout publicjobOfferPaddingContainer = new VerticalLayout();
         publicjobOfferPaddingContainer.add(publicInfoForm);
         publicjobOfferPaddingContainer.setPadding(true);
 
-
-
         // Button design
         saveButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        HorizontalLayout buttonLayout = new HorizontalLayout(saveButton, backButton);
+        HorizontalLayout buttonLayout = new HorizontalLayout(saveButton, backButton, deleteButton);
 
         profileSettingsAccordion.add("Stellenanzeige", publicjobOfferPaddingContainer);
         publicjobOfferPaddingContainer.add(buttonLayout);
@@ -180,6 +182,11 @@ public class JobOfferView extends Div {
         else {
             binder2.setBean(new JobDTO());
         }
+
+        Dialog confirmDialog = createConfirmDialog();
+        deleteButton.addClickListener(event -> {
+            confirmDialog.open();
+        });
 
         saveButton.addClickListener(e -> {
             UserDTO userDTO = (UserDTO) UI.getCurrent().getSession().getAttribute(Globals.CURRENT_USER);
@@ -220,8 +227,9 @@ public class JobOfferView extends Div {
         );
     }
 
-    public JobOfferView(JobOfferControl jc) {
+    public JobOfferView(JobOfferControl jc, ManageJobsControl jobsControl) {
         this.jc = jc;
+        this.jobsControl = jobsControl;
         addClassName("job-offer-view");
         UserDTO userdto = (UserDTO) UI.getCurrent().getSession().getAttribute(Globals.CURRENT_USER);
         String userType = userDTO.getUserType();
@@ -234,5 +242,25 @@ public class JobOfferView extends Div {
                 break;
             }
         }
+    }
+    private Dialog createConfirmDialog(){
+        Span s = new Span("Möchten Sie diese Stellenanzeige wirklich löschen?");
+        Dialog d = new Dialog(s);
+        HorizontalLayout h = new HorizontalLayout();
+        Button deleteDialogButton = new Button();
+        deleteDialogButton.setText("Stellenanzeige löschen");
+        deleteDialogButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        Button cancel = new Button();
+        cancel.setText("Abbrechen");
+        cancel.addThemeVariants(ButtonVariant.LUMO_ERROR);
+        h.add(cancel,deleteDialogButton);
+        d.add(h);
+        deleteDialogButton.addClickListener(event ->{
+            jobsControl.deleteJobById(jobID);
+            UI ui = this.getUI().get();
+            ui.getSession().setAttribute("jobID", -1);
+            ui.getPage().setLocation(Globals.Pages.SHOW_JOBS);});
+        cancel.addClickListener(event -> d.close());
+        return d;
     }
 }

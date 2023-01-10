@@ -1,13 +1,6 @@
 package org.hbrs.se2.project.softwaree.views;
 
 
-import java.awt.*;
-import java.io.File;
-import java.io.InputStream;
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Locale;
-import java.util.Set;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.accordion.Accordion;
@@ -20,6 +13,7 @@ import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -32,8 +26,6 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.server.VaadinService;
-import org.apache.catalina.webresources.FileResource;
 import org.hbrs.se2.project.softwaree.components.BlacklistComponent;
 import org.hbrs.se2.project.softwaree.components.SkillsComponent;
 import org.hbrs.se2.project.softwaree.components.SoftwareeAvatar;
@@ -42,9 +34,11 @@ import org.hbrs.se2.project.softwaree.dtos.*;
 import org.hbrs.se2.project.softwaree.entities.Company;
 import org.hbrs.se2.project.softwaree.entities.Skill;
 import org.hbrs.se2.project.softwaree.util.Globals;
-import com.vaadin.flow.component.notification.Notification;
-import org.hbrs.se2.project.softwaree.util.ProfilePictureService;
-import org.springframework.context.annotation.Profile;
+
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Locale;
+import java.util.Set;
 
 
 /**
@@ -452,7 +446,6 @@ public class EditProfileView extends Div {
         Button delete = createButton("Konto löschen");
         delete.addClickListener(event -> {
             d.open();
-
         });
 
         super.setSizeFull();

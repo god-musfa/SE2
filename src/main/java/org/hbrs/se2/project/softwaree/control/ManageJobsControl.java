@@ -53,4 +53,8 @@ public class ManageJobsControl {
     public List<JobListDTO> getJobListDTObyCompanyID(Integer id) {
         return custJPARepo.getJobByCompanyID(id);
     }
+    @Transactional
+    public void deleteJobById(int id) {
+        repository.deleteJob(id);
+    }
 }

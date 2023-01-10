@@ -48,7 +48,7 @@ public class JobListRepositoryImpl implements JobListRepository {
         String selectAvgRating = "(SELECT avg(cr.rating) FROM coll.company_rating cr WHERE c.id = cr.company_id) ";
 
         /*      SELECT      */
-        String selectString_fetch = "SELECT     j.id as j_id,   j.title as j_title,     SUBSTRING(j.description, 1, 300) as j_description,     j.location as j_location, j.views as j_views, j.creation_date as j_creation_date, " +
+        String selectString_fetch = "SELECT     j.id as j_id,   j.title as j_title,     SUBSTRING(j.description, 1, 400) as j_description,     j.location as j_location, j.views as j_views, j.creation_date as j_creation_date, " +
                         "            s.id as s_id,      s.description as s_description, \n" +
                         "            c.id as c_id,       c.name as c_name,       c.website as c_website, " + selectAvgRating + " as j_avgcompanyrating ";
 
@@ -120,7 +120,7 @@ public class JobListRepositoryImpl implements JobListRepository {
         String selectAvgRating = "(SELECT avg(cr.rating) FROM coll.company_rating cr WHERE c.id = cr.company_id) ";
 
         /*      SELECT      */
-        String selectString_fetch = "SELECT     j.id as j_id,   j.title as j_title,     SUBSTRING(j.description, 1, 300) as j_description,     j.location as j_location, j.views as j_views, j.creation_date as j_creation_date, " +
+        String selectString_fetch = "SELECT     j.id as j_id,   j.title as j_title,     SUBSTRING(j.description, 1, 400) as j_description,     j.location as j_location, j.views as j_views, j.creation_date as j_creation_date, " +
                 "            s.id as s_id,      s.description as s_description, \n" +
                 "            c.id as c_id,       c.name as c_name,       c.website as c_website, " + selectAvgRating + " as j_avgcompanyrating ";
 

@@ -50,4 +50,8 @@ public interface JobRepository extends JpaRepository<Job, Integer> {
     @Modifying
     @Query(value = "UPDATE Job j SET j.views=1 WHERE j.id=?1")
     void setViewsToOne(Integer id);
+
+    @Modifying
+    @Query("DELETE FROM Job j WHERE j.id = ?1")
+    void deleteJob(Integer id);
 }
