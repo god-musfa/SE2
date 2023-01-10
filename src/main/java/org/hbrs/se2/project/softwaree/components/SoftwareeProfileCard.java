@@ -142,10 +142,8 @@ public class SoftwareeProfileCard extends Div {
 
         // Build contact button if (company -> user OR user -> company)
         if (((UserDTO) UI.getCurrent().getSession().getAttribute(Globals.CURRENT_USER)).getUserType().equals("company") && !isCompany) {
-            addContactButton();
+
             addPdfButton();
-            buttonLayout.setPadding(true);
-            add(buttonLayout);
         }
     }
 
@@ -200,7 +198,7 @@ public class SoftwareeProfileCard extends Div {
             File file;
             try {
                 file = dataExtractionControl.createPDFFromStudent(studentId);
-                buttonLayout.add(addLinkToFile(file));
+                add(addLinkToFile(file));
             } catch (IOException e) {
                 System.out.println("Something went wrong!");
             }
@@ -255,7 +253,7 @@ public class SoftwareeProfileCard extends Div {
                 (int) file.length() / 1024));
         link.getElement().setAttribute("download", true);
         link.removeAll();
-        Button button = new Button("Pdf erstellen");
+        Button button = new Button("PDF erstellen");
         button.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_PRIMARY);
         link.add(button);
 
